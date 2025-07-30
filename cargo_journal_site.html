@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photography Journal</title>
+    
+    <!-- Font Imports -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+            background: #000;
+            color: #000;
+            overflow-x: hidden;
+        }
+        
+        /* Index/Header Section */
+        .index-section {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #f5f5f5 0%, #e5e5e5 50%, #1a1a1a 100%);
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .index-container {
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .site-header {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .index-list {
+            list-style: none;
+            font-size: 2.5rem;
+            line-height: 1.3;
+            font-weight: 300;
+        }
+        
+        .index-list li {
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .index-list li a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .index-list li:hover {
+            opacity: 0.6;
+        }
+        
+        /* Journal Book Sections */
+        .journal-content {
+            background: #1a1a1a;
+            padding: 4rem 0;
+        }
+        
+        .book-spread {
+            max-width: 1400px;
+            margin: 0 auto 8rem;
+            min-height: 80vh;
+            position: relative;
+            display: flex;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.8));
+        }
+        
+        /* Page styling */
+        .page-left, .page-right {
+            flex: 1;
+            background: #fafafa;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Book spine effect */
+        .page-left {
+            background: linear-gradient(to right, #fafafa 95%, #e8e8e8 100%);
+            border-radius: 10px 0 0 10px;
+        }
+        
+        .page-right {
+            background: linear-gradient(to left, #fafafa 95%, #e8e8e8 100%);
+            border-radius: 0 10px 10px 0;
+        }
+        
+        /* Center spine line */
+        .book-spine {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(0,0,0,0.3) 10%, 
+                rgba(0,0,0,0.5) 50%, 
+                rgba(0,0,0,0.3) 90%, 
+                transparent 100%);
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        
+        /* Images spanning across spine */
+        .spanning-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 60%;
+            z-index: 5;
+            display: flex;
+            filter: brightness(0.95);
+        }
+        
+        .spanning-image-left,
+        .spanning-image-right {
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .spanning-image-left img {
+            width: 200%;
+            height: 100%;
+            object-fit: cover;
+            transform: perspective(1000px) rotateY(3deg);
+            transform-origin: right center;
+        }
+        
+        .spanning-image-right img {
+            width: 200%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            right: 0;
+            transform: perspective(1000px) rotateY(-3deg);
+            transform-origin: left center;
+        }
+        
+        /* Book content */
+        .book-notes {
+            font-family: 'Amatic SC', cursive;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: #333;
+            position: relative;
+            z-index: 15;
+            margin: 2rem 0;
+        }
+        
+        .entry-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+            position: relative;
+            z-index: 15;
+        }
+        
+        .section-number {
+            font-family: 'Amatic SC', cursive;
+            font-size: 3rem;
+            position: absolute;
+            top: 2rem;
+            opacity: 0.3;
+            z-index: 15;
+        }
+        
+        .page-left .section-number {
+            left: 2rem;
+        }
+        
+        .page-right .section-number {
+            right: 2rem;
+        }
+        
+        /* Small images */
+        .corner-image {
+            width: 200px;
+            height: 150px;
+            position: absolute;
+            bottom: 3rem;
+            overflow: hidden;
+            z-index: 15;
+        }
+        
+        .corner-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .page-left .corner-image {
+            right: 3rem;
+        }
+        
+        .page-right .corner-image {
+            left: 3rem;
+        }
+        
+        /* Information Index label */
+        .info-label {
+            position: absolute;
+            top: 3rem;
+            right: 3rem;
+            background: #000;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            z-index: 20;
+        }
+        
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .book-spread {
+                flex-direction: column;
+            }
+            
+            .spanning-image {
+                display: none;
+            }
+            
+            .index-list {
+                font-size: 1.5rem;
+            }
+            
+            .book-spine {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Index Section -->
+    <section class="index-section">
+        <div class="index-container">
+            <h1 class="site-header">Cargo Demo Site<br>C.V.</h1>
+            <ul class="index-list">
+                <li><a href="#demo01">Demo 01—Dreeme Fotografers (Conclusio Fabacei)</a></li>
+                <li><a href="#demo02">Demo 02—Ubique</a></li>
+                <li><a href="#demo03">Demo 03—Delicta-Epsum™</a></li>
+                <li><a href="#demo04">Demo 04—Adamantes est The End</a></li>
+                <li><a href="#demo05">Demo 05—Sine Titulo</a></li>
+                <li><a href="#demo06">Demo 06—Ategire et Claudere™</a></li>
+                <li><a href="#demo07">Demo 07—Sine Titulo</a></li>
+                <li><a href="#demo08">Demo 08—Façad: Saccharum</a></li>
+                <li><a href="#demo09">Demo 09—Nos Sumus (spatium interius)</a></li>
+                <li><a href="#demo10">Demo 10—Micare</a></li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Journal Content -->
+    <div class="journal-content">
+        <!-- Demo 01 -->
+        <div class="book-spread" id="demo01">
+            <div class="page-left">
+                <span class="section-number">01</span>
+                <h2 class="entry-title">Dreeme Fotografers</h2>
+                <p class="book-notes">
+                    conclusio fabacei<br>
+                    shadows speak
+                </p>
+            </div>
+            <div class="page-right">
+                <div class="info-label">Information, Index</div>
+                <p class="book-notes" style="text-align: right; margin-top: 4rem;">
+                    found in corners<br>
+                    where dust settles
+                </p>
+                <div class="corner-image">
+                    <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=400" alt="Corner detail">
+                </div>
+            </div>
+            <div class="spanning-image">
+                <div class="spanning-image-left">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200" alt="Industrial space">
+                </div>
+                <div class="spanning-image-right">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200" alt="Industrial space">
+                </div>
+            </div>
+            <div class="book-spine"></div>
+        </div>
+        
+        <!-- Demo 02 -->
+        <div class="book-spread" id="demo02">
+            <div class="page-left">
+                <span class="section-number">02</span>
+                <div style="margin-top: 6rem;">
+                    <p class="book-notes">
+                        everywhere<br>
+                        nowhere<br>
+                        in between
+                    </p>
+                </div>
+            </div>
+            <div class="page-right">
+                <h2 class="entry-title">Ubique</h2>
+                <div class="corner-image" style="top: 3rem; bottom: auto;">
+                    <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=400" alt="Texture">
+                </div>
+            </div>
+            <div class="spanning-image" style="top: 60%;">
+                <div class="spanning-image-left">
+                    <img src="https://images.unsplash.com/photo-1481142889578-dda440dacfe1?w=1200" alt="Abstract">
+                </div>
+                <div class="spanning-image-right">
+                    <img src="https://images.unsplash.com/photo-1481142889578-dda440dacfe1?w=1200" alt="Abstract">
+                </div>
+            </div>
+            <div class="book-spine"></div>
+        </div>
+        
+        <!-- Demo 03 -->
+        <div class="book-spread" id="demo03">
+            <div class="page-left">
+                <span class="section-number">03</span>
+                <h2 class="entry-title">Delicta-Epsum™</h2>
+                <div style="position: absolute; bottom: 3rem;">
+                    <p class="book-notes">
+                        grain<br>
+                        pattern<br>
+                        memory
+                    </p>
+                </div>
+            </div>
+            <div class="page-right">
+                <p class="book-notes" style="margin-top: 8rem; text-align: center;">
+                    surfaces tell stories
+                </p>
+            </div>
+            <div class="spanning-image" style="height: 70%;">
+                <div class="spanning-image-left">
+                    <img src="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200" alt="Material study">
+                </div>
+                <div class="spanning-image-right">
+                    <img src="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200" alt="Material study">
+                </div>
+            </div>
+            <div class="book-spine"></div>
+        </div>
+        
+        <!-- Demo 04 -->
+        <div class="book-spread" id="demo04">
+            <div class="page-left">
+                <span class="section-number">04</span>
+                <p class="book-notes" style="margin-top: 12rem;">
+                    the end<br>
+                    is just<br>
+                    another beginning
+                </p>
+            </div>
+            <div class="page-right">
+                <h2 class="entry-title">Adamantes est The End</h2>
+                <div class="corner-image">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400" alt="End beginning">
+                </div>
+            </div>
+            <div class="book-spine"></div>
+        </div>
+        
+        <!-- Demo 05 -->
+        <div class="book-spread" id="demo05">
+            <div class="page-left">
+                <span class="section-number">05</span>
+                <h2 class="entry-title">Sine Titulo</h2>
+            </div>
+            <div class="page-right">
+                <p class="book-notes" style="text-align: center; margin-top: 10rem;">
+                    without title<br>
+                    without pretense<br>
+                    just moments
+                </p>
+            </div>
+            <div class="spanning-image" style="height: 50%; top: 30%;">
+                <div class="spanning-image-left">
+                    <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=1200" alt="Untitled">
+                </div>
+                <div class="spanning-image-right">
+                    <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=1200" alt="Untitled">
+                </div>
+            </div>
+            <div class="book-spine"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Parallax effect for book spreads
+        window.addEventListener('scroll', () => {
+            const spreads = document.querySelectorAll('.book-spread');
+            spreads.forEach(spread => {
+                const rect = spread.getBoundingClientRect();
+                const speed = 0.5;
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    const yPos = -(rect.top * speed);
+                    spread.style.transform = `translateY(${yPos * 0.1}px)`;
+                }
+            });
+        });
+        
+        // Fade in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.book-spread').forEach(spread => {
+            spread.style.opacity = '0';
+            spread.style.transform = 'translateY(50px)';
+            spread.style.transition = 'all 0.8s ease-out';
+            observer.observe(spread);
+        });
+    </script>
+</body>
+</html>
