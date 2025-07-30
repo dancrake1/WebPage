@@ -35,6 +35,8 @@
             padding: 3rem;
             display: flex;
             align-items: center;
+            position: relative;
+            z-index: 10;
         }
         
         .index-container {
@@ -71,107 +73,97 @@
             opacity: 0.6;
         }
         
-        /* Journal Book Sections */
-        .journal-content {
+        /* Journal Content - Continuous Flow */
+        .journal-wrapper {
             background: #1a1a1a;
-            padding: 2rem 0;
-        }
-        
-        .book-spread {
-            max-width: 1400px;
-            margin: 0 auto 4rem;
-            min-height: 90vh;
             position: relative;
-            background: #f8f8f8;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            padding: 4rem 0;
         }
         
-        /* Subtle center fold effect */
-        .book-spread::after {
+        .journal-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #f8f8f8;
+            position: relative;
+            box-shadow: 0 0 100px rgba(0,0,0,0.9);
+            min-height: 500vh; /* Tall continuous page */
+        }
+        
+        /* Continuous center fold that runs through entire journal */
+        .center-fold {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            transform: translateX(-50%);
+            z-index: 100;
+            background: linear-gradient(to right,
+                rgba(0,0,0,0.15) 0%,
+                rgba(0,0,0,0.3) 20%,
+                rgba(0,0,0,0.4) 50%,
+                rgba(0,0,0,0.3) 80%,
+                rgba(0,0,0,0.15) 100%);
+            box-shadow: 
+                -2px 0 4px rgba(0,0,0,0.1),
+                2px 0 4px rgba(0,0,0,0.1),
+                0 0 20px rgba(0,0,0,0.05);
+        }
+        
+        /* Page gradient effect */
+        .journal-content::before {
             content: '';
             position: absolute;
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, 
-                transparent 0%, 
-                rgba(0,0,0,0.05) 20%, 
-                rgba(0,0,0,0.08) 50%, 
-                rgba(0,0,0,0.05) 80%, 
-                transparent 100%);
+            width: 200px;
             transform: translateX(-50%);
-            z-index: 10;
-        }
-        
-        /* Content wrapper */
-        .spread-content {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            min-height: 90vh;
-            padding: 3rem;
+            background: linear-gradient(to right,
+                transparent 0%,
+                rgba(0,0,0,0.02) 40%,
+                rgba(0,0,0,0.03) 50%,
+                rgba(0,0,0,0.02) 60%,
+                transparent 100%);
+            z-index: 1;
         }
         
         /* Info label */
         .info-label {
-            position: absolute;
+            position: fixed;
             top: 0;
             right: 0;
             background: #000;
             color: #fff;
             padding: 1rem 2rem;
             font-size: 0.875rem;
-            z-index: 20;
+            z-index: 200;
+        }
+        
+        /* Content elements positioned absolutely */
+        .journal-item {
+            position: absolute;
+            z-index: 10;
         }
         
         /* Images */
-        .spread-image {
-            position: absolute;
+        .journal-image {
             overflow: hidden;
             filter: grayscale(10%);
             transition: filter 0.3s;
         }
         
-        .spread-image:hover {
+        .journal-image:hover {
             filter: grayscale(0%);
         }
         
-        .spread-image img {
+        .journal-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
         
-        /* Large central image */
-        .image-large {
-            width: 50%;
-            height: 60%;
-            top: 20%;
-            left: 25%;
-            z-index: 5;
-        }
-        
-        /* Medium images */
-        .image-medium {
-            width: 35%;
-            height: 40%;
-            z-index: 6;
-        }
-        
-        /* Small images */
-        .image-small {
-            width: 20%;
-            height: 25%;
-            z-index: 7;
-        }
-        
         /* Text elements */
-        .spread-text {
-            position: absolute;
-            z-index: 15;
-        }
-        
         .section-number {
             font-family: 'Amatic SC', cursive;
             font-size: 4rem;
@@ -184,7 +176,6 @@
             font-size: 1.8rem;
             font-weight: 300;
             letter-spacing: -0.02em;
-            margin-bottom: 0.5rem;
         }
         
         .book-notes {
@@ -195,153 +186,149 @@
             color: #333;
         }
         
-        /* Black extensions */
+        /* Black blocks */
         .black-block {
-            position: absolute;
             background: #1a1a1a;
-            z-index: 3;
         }
         
-        /* Specific spread layouts */
-        
-        /* Demo 01 */
-        #demo01 .image-large {
-            top: 15%;
-            left: 10%;
-            width: 60%;
-            height: 50%;
+        /* Positioned elements for Demo 01 */
+        #demo01 {
+            top: 100px;
+            left: 100px;
         }
         
-        #demo01 .image-small {
-            bottom: 10%;
-            right: 15%;
-            width: 25%;
-            height: 30%;
+        #img-01-1 {
+            top: 200px;
+            left: 150px;
+            width: 600px;
+            height: 400px;
         }
         
-        #demo01 .section-number {
-            top: 3rem;
-            left: 3rem;
+        #img-01-2 {
+            top: 450px;
+            right: 200px;
+            width: 300px;
+            height: 250px;
         }
         
-        #demo01 .book-notes {
-            bottom: 8rem;
-            left: 3rem;
+        #notes-01 {
+            top: 650px;
+            left: 200px;
         }
         
-        /* Demo 02 */
-        #demo02 .image-medium {
-            top: 10%;
-            right: 20%;
-            width: 40%;
-            height: 45%;
+        /* Demo 02 elements */
+        #demo02 {
+            top: 900px;
+            right: 150px;
         }
         
-        #demo02 .image-small {
-            bottom: 15%;
-            left: 10%;
-            width: 30%;
-            height: 25%;
+        #title-02 {
+            top: 1000px;
+            left: 200px;
         }
         
-        #demo02 .black-block {
-            bottom: 0;
-            left: 40%;
-            width: 20%;
-            height: 30%;
+        #img-02-1 {
+            top: 1100px;
+            right: 100px;
+            width: 500px;
+            height: 350px;
         }
         
-        #demo02 .section-number {
-            top: 3rem;
-            right: 3rem;
+        #img-02-2 {
+            top: 1300px;
+            left: 100px;
+            width: 350px;
+            height: 300px;
         }
         
-        #demo02 .entry-title {
-            top: 50%;
-            left: 15%;
+        #black-02 {
+            top: 1200px;
+            left: 45%;
+            width: 300px;
+            height: 200px;
         }
         
-        #demo02 .book-notes {
-            top: 20%;
-            left: 10%;
+        #notes-02 {
+            top: 1500px;
+            left: 300px;
         }
         
-        /* Demo 03 */
-        #demo03 .image-large {
-            top: 10%;
-            right: 5%;
-            width: 55%;
-            height: 70%;
+        /* Demo 03 elements */
+        #demo03 {
+            top: 1800px;
+            left: 100px;
         }
         
-        #demo03 .section-number {
-            bottom: 3rem;
-            left: 3rem;
+        #img-03-1 {
+            top: 1900px;
+            right: 50px;
+            width: 700px;
+            height: 500px;
         }
         
-        #demo03 .book-notes {
-            top: 40%;
-            left: 10%;
+        #notes-03 {
+            top: 2100px;
+            left: 150px;
             background: rgba(248,248,248,0.9);
             padding: 1rem;
         }
         
-        /* Demo 04 */
+        /* Demo 04 elements */
         #demo04 {
-            background: #f0f0f0;
-        }
-        
-        #demo04 .image-medium {
-            top: 20%;
-            left: 30%;
-            width: 40%;
-            height: 35%;
-        }
-        
-        #demo04 .image-small {
-            bottom: 20%;
-            right: 10%;
-        }
-        
-        #demo04 .black-block {
-            top: 0;
-            left: 0;
-            width: 25%;
-            height: 40%;
-        }
-        
-        #demo04 .section-number {
-            top: 3rem;
+            top: 2500px;
             left: 50%;
             transform: translateX(-50%);
         }
         
-        #demo04 .book-notes {
-            bottom: 3rem;
-            right: 3rem;
+        #img-04-1 {
+            top: 2600px;
+            left: 30%;
+            width: 450px;
+            height: 350px;
+        }
+        
+        #img-04-2 {
+            top: 2800px;
+            right: 150px;
+            width: 250px;
+            height: 200px;
+        }
+        
+        #black-04 {
+            top: 2550px;
+            left: 0;
+            width: 400px;
+            height: 300px;
+        }
+        
+        #notes-04 {
+            top: 3000px;
+            right: 200px;
             text-align: right;
         }
         
-        /* Demo 05 */
-        #demo05 .image-large {
-            top: 50%;
+        /* Demo 05 elements */
+        #demo05 {
+            top: 3300px;
+            left: 100px;
+        }
+        
+        #img-05-1 {
+            top: 3400px;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70%;
-            height: 40%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 400px;
         }
         
-        #demo05 .section-number {
-            top: 3rem;
-            left: 3rem;
-        }
-        
-        #demo05 .entry-title {
-            bottom: 5rem;
+        #title-05 {
+            top: 3850px;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
         }
+        
+        /* Continue pattern for more demos... */
         
         /* Mobile adjustments */
         @media (max-width: 768px) {
@@ -349,16 +336,21 @@
                 font-size: 1.5rem;
             }
             
-            .book-spread {
-                margin: 0 1rem 2rem;
+            .journal-content {
+                margin: 0 1rem;
             }
             
-            .spread-content {
-                padding: 2rem;
+            .center-fold {
+                width: 2px;
             }
             
-            .image-large {
-                width: 80% !important;
+            .journal-item {
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                transform: none !important;
+                margin: 2rem;
             }
         }
     </style>
@@ -383,104 +375,91 @@
         </div>
     </section>
     
-    <!-- Journal Content -->
-    <div class="journal-content">
-        <!-- Demo 01 -->
-        <div class="book-spread" id="demo01">
-            <div class="info-label">Information, Index</div>
-            <div class="spread-content">
-                <span class="section-number spread-text">01</span>
-                <div class="spread-image image-large">
-                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200" alt="Industrial space">
-                </div>
-                <div class="spread-image image-small">
-                    <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=600" alt="Detail">
-                </div>
-                <p class="book-notes spread-text">
-                    conclusio fabacei<br>
-                    shadows speak
-                </p>
-            </div>
-        </div>
+    <!-- Journal Wrapper -->
+    <div class="journal-wrapper">
+        <!-- Info Label -->
+        <div class="info-label">Information, Index</div>
         
-        <!-- Demo 02 -->
-        <div class="book-spread" id="demo02">
-            <div class="spread-content">
-                <span class="section-number spread-text">02</span>
-                <h2 class="entry-title spread-text">Ubique</h2>
-                <div class="spread-image image-medium">
-                    <img src="https://images.unsplash.com/photo-1481142889578-dda440dacfe1?w=800" alt="Abstract">
-                </div>
-                <div class="spread-image image-small">
-                    <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=600" alt="Texture">
-                </div>
-                <div class="black-block"></div>
-                <p class="book-notes spread-text">
-                    everywhere<br>
-                    nowhere
-                </p>
+        <!-- Continuous Journal Content -->
+        <div class="journal-content">
+            <!-- Center fold runs through entire content -->
+            <div class="center-fold"></div>
+            
+            <!-- Demo 01 -->
+            <span class="section-number journal-item" id="demo01">01</span>
+            <div class="journal-image journal-item" id="img-01-1">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200" alt="Industrial space">
             </div>
-        </div>
-        
-        <!-- Demo 03 -->
-        <div class="book-spread" id="demo03">
-            <div class="spread-content">
-                <span class="section-number spread-text">03</span>
-                <div class="spread-image image-large">
-                    <img src="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200" alt="Material study">
-                </div>
-                <p class="book-notes spread-text">
-                    grain<br>
-                    pattern<br>
-                    memory
-                </p>
+            <div class="journal-image journal-item" id="img-01-2">
+                <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=600" alt="Detail">
             </div>
-        </div>
-        
-        <!-- Demo 04 -->
-        <div class="book-spread" id="demo04">
-            <div class="spread-content">
-                <div class="black-block"></div>
-                <span class="section-number spread-text">04</span>
-                <div class="spread-image image-medium">
-                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800" alt="Composition">
-                </div>
-                <div class="spread-image image-small">
-                    <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=400" alt="Fragment">
-                </div>
-                <p class="book-notes spread-text">
-                    the end<br>
-                    begins again
-                </p>
+            <p class="book-notes journal-item" id="notes-01">
+                conclusio fabacei<br>
+                shadows speak
+            </p>
+            
+            <!-- Demo 02 -->
+            <span class="section-number journal-item" id="demo02">02</span>
+            <h2 class="entry-title journal-item" id="title-02">Ubique</h2>
+            <div class="journal-image journal-item" id="img-02-1">
+                <img src="https://images.unsplash.com/photo-1481142889578-dda440dacfe1?w=800" alt="Abstract">
             </div>
-        </div>
-        
-        <!-- Demo 05 -->
-        <div class="book-spread" id="demo05">
-            <div class="spread-content">
-                <span class="section-number spread-text">05</span>
-                <div class="spread-image image-large">
-                    <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=1200" alt="Untitled">
-                </div>
-                <h2 class="entry-title spread-text">Sine Titulo</h2>
+            <div class="journal-image journal-item" id="img-02-2">
+                <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=600" alt="Texture">
             </div>
+            <div class="black-block journal-item" id="black-02"></div>
+            <p class="book-notes journal-item" id="notes-02">
+                everywhere<br>
+                nowhere
+            </p>
+            
+            <!-- Demo 03 -->
+            <span class="section-number journal-item" id="demo03">03</span>
+            <div class="journal-image journal-item" id="img-03-1">
+                <img src="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200" alt="Material study">
+            </div>
+            <p class="book-notes journal-item" id="notes-03">
+                grain<br>
+                pattern<br>
+                memory
+            </p>
+            
+            <!-- Demo 04 -->
+            <span class="section-number journal-item" id="demo04">04</span>
+            <div class="black-block journal-item" id="black-04"></div>
+            <div class="journal-image journal-item" id="img-04-1">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800" alt="Composition">
+            </div>
+            <div class="journal-image journal-item" id="img-04-2">
+                <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=400" alt="Fragment">
+            </div>
+            <p class="book-notes journal-item" id="notes-04">
+                the end<br>
+                begins again
+            </p>
+            
+            <!-- Demo 05 -->
+            <span class="section-number journal-item" id="demo05">05</span>
+            <div class="journal-image journal-item" id="img-05-1">
+                <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=1200" alt="Untitled">
+            </div>
+            <h2 class="entry-title journal-item" id="title-05">Sine Titulo</h2>
         </div>
     </div>
     
     <script>
-        // Subtle parallax effect
+        // Parallax effect for elements
         window.addEventListener('scroll', () => {
-            const spreads = document.querySelectorAll('.book-spread');
-            spreads.forEach(spread => {
-                const rect = spread.getBoundingClientRect();
-                const speed = 0.3;
+            const scrolled = window.pageYOffset;
+            const items = document.querySelectorAll('.journal-item');
+            
+            items.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                const speed = item.classList.contains('journal-image') ? 0.5 : 0.3;
+                
                 if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    const images = spread.querySelectorAll('.spread-image');
-                    images.forEach((img, index) => {
-                        const imgSpeed = speed * (index + 1) * 0.5;
-                        const yPos = -(rect.top * imgSpeed);
-                        img.style.transform = `translateY(${yPos * 0.1}px)`;
-                    });
+                    const yPos = -(scrolled * speed * 0.1);
+                    item.style.transform = `translateY(${yPos}px)`;
                 }
             });
         });
@@ -490,16 +469,14 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
                 }
             });
         }, { threshold: 0.1 });
         
-        document.querySelectorAll('.book-spread').forEach(spread => {
-            spread.style.opacity = '0';
-            spread.style.transform = 'translateY(30px)';
-            spread.style.transition = 'all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1)';
-            observer.observe(spread);
+        document.querySelectorAll('.journal-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transition = 'opacity 1s ease-out';
+            observer.observe(item);
         });
     </script>
 </body>
