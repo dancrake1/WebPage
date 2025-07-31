@@ -208,34 +208,38 @@
         z-index: 10;
     }
     
-    /* Helper classes for easy image positioning */
+    /* Helper classes for easy image positioning - FIXED for 48-52% spine zone */
     .left-page {
         left: 5% !important;
+        width: 35% !important;  /* 5-40% safe zone */
     }
     
     .left-near-spine {
-        left: 35% !important;
+        left: 42% !important;
+        width: 8% !important;   /* 42-50% touches spine */
     }
     
     .center-spine-image {
-        left: 40% !important;
-        width: 20% !important;
+        left: 48% !important;
+        width: 4% !important;   /* 48-52% exactly in spine zone */
     }
     
     .cross-spine {
-        left: 30% !important;
-        width: 40% !important;
+        left: 46% !important;
+        width: 8% !important;   /* 46-54% crosses center */
     }
     
     .right-near-spine {
-        left: 60% !important;
+        left: 50% !important;
+        width: 8% !important;   /* 50-58% touches spine */
     }
     
     .right-page {
-        left: 75% !important;
+        left: 60% !important;
+        width: 35% !important;  /* 60-95% safe zone */
     }
     
-    /* Visual guide for positioning (optional - can be removed) */
+    /* Visual guide for positioning - FIXED for 48-52% spine zone */
     .positioning-guide {
         position: absolute;
         top: 10px;
@@ -244,13 +248,13 @@
         height: 2px;
         background: linear-gradient(to right,
             rgba(255,0,0,0.3) 0%,     /* Far left */
-            rgba(255,0,0,0.3) 25%,    /* Left page */
-            rgba(255,255,0,0.3) 35%,  /* Left near spine */
-            rgba(0,255,0,0.3) 45%,    /* Spine zone start */
+            rgba(255,0,0,0.3) 40%,    /* Left safe zone */
+            rgba(255,255,0,0.3) 42%,  /* Left near spine */
+            rgba(0,255,0,0.3) 48%,    /* Spine zone start */
             rgba(0,255,0,0.8) 50%,    /* Center spine */
-            rgba(0,255,0,0.3) 55%,    /* Spine zone end */
-            rgba(255,255,0,0.3) 65%,  /* Right near spine */
-            rgba(255,0,0,0.3) 75%,    /* Right page */
+            rgba(0,255,0,0.3) 52%,    /* Spine zone end */
+            rgba(255,255,0,0.3) 58%,  /* Right near spine */
+            rgba(255,0,0,0.3) 60%,    /* Right safe zone */
             rgba(255,0,0,0.3) 100%    /* Far right */
         );
         z-index: 1000;
@@ -262,6 +266,7 @@
     .book-spread:hover .positioning-guide {
         opacity: 1;
     }
+    
     .book-image {
         overflow: hidden;
         filter: grayscale(10%) contrast(1.05);
@@ -292,98 +297,10 @@
         box-shadow: 0 8px 30px rgba(0,0,0,0.6);
     }
     
-    /* Improved Spanning Images - More Natural Book Effect */
-    .spanning-image {
-        position: absolute;
-        z-index: 90;
-        display: flex;
-        cursor: pointer;
-        filter: grayscale(10%);
-        transition: filter 0.3s;
-        background: #000;
-    }
-    
-    .spanning-image:hover {
-        filter: grayscale(0%);
-    }
-    
-    .spanning-left,
-    .spanning-right {
-        width: 50%;
-        height: 100%;
-        overflow: hidden;
-        position: relative;
-        background: #000;
-    }
-    
-    /* Simplified left page curvature */
-    .spanning-left {
-        transform-origin: right center;
-        transform: perspective(2000px) rotateY(2deg);
-        padding-right: 2px; /* Account for spine gap */
-    }
-    
-    /* Simplified right page curvature */
-    .spanning-right {
-        transform-origin: left center;
-        transform: perspective(2000px) rotateY(-2deg);
-        padding-left: 2px; /* Account for spine gap */
-    }
-    
-    /* Simplified image display - no complex clipping */
-    .spanning-left img {
-        width: calc(200% + 4px);
-        height: 100%;
-        object-fit: cover;
-        object-position: left center;
-        transform: translateX(-2px);
-    }
-    
-    .spanning-right img {
-        width: calc(200% + 4px);
-        height: 100%;
-        object-fit: cover;
-        object-position: right center;
-        position: absolute;
-        right: -2px;
-        top: 0;
-    }
-    
-    /* Subtle spine shadow on spanning images */
-    .spanning-left::after {
-        content: '';
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        width: 15px;
-        background: linear-gradient(to left,
-            rgba(0,0,0,0.4) 0%,
-            rgba(0,0,0,0.2) 50%,
-            transparent 100%);
-        z-index: 5;
-        pointer-events: none;
-    }
-    
-    .spanning-right::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 15px;
-        background: linear-gradient(to right,
-            rgba(0,0,0,0.4) 0%,
-            rgba(0,0,0,0.2) 50%,
-            transparent 100%);
-        z-index: 5;
-        pointer-events: none;
-    }
-    
     /* Text elements */
     .section-number {
         font-family: 'Amatic SC', cursive;
-        font-size: 3rem;
+        font-size: 4rem;
         font-weight: 700;
         opacity: 0.3;
         color: #f5f5f5;
@@ -481,29 +398,6 @@
         .center-spine {
             display: none;
         }
-        
-        .spanning-image {
-            position: relative !important;
-            display: block !important;
-            width: 100% !important;
-            margin: 1rem 0;
-        }
-        
-        .spanning-left,
-        .spanning-right {
-            width: 100% !important;
-            transform: none !important;
-        }
-        
-        .spanning-left img,
-        .spanning-right img {
-            width: 100% !important;
-            position: static !important;
-        }
-        
-        .spanning-right {
-            display: none;
-        }
     }
 </style>
 </head>
@@ -511,13 +405,13 @@
     <!-- Index Section -->
     <section class="index-section">
         <div class="index-container">
-            <h1 class="site-header">Cargo Demo Site<br>C.V.</h1>
+            <h1 class="site-header">Photography Portfolio<br>C.V.</h1>
             <ul class="index-list">
-                <li><a href="#spread-1">Demo 01—Dreeme Fotografers (Conclusio Fabacei)</a></li>
-                <li><a href="#spread-2">Demo 02—Ubique</a></li>
-                <li><a href="#spread-3">Demo 03—Delicta-Epsum™</a></li>
-                <li><a href="#spread-4">Demo 04—Adamantes est The End</a></li>
-                <li><a href="#spread-5">Demo 05—Sine Titulo</a></li>
+                <li><a href="#spread-1">Portfolio 01—Hills & Landscapes</a></li>
+                <li><a href="#spread-2">Portfolio 02—Testing Zone</a></li>
+                <li><a href="#spread-3">Portfolio 03—Compositions</a></li>
+                <li><a href="#spread-4">Portfolio 04—Mixed Media</a></li>
+                <li><a href="#spread-5">Portfolio 05—Final Works</a></li>
             </ul>
         </div>
     </section>
@@ -525,98 +419,94 @@
     <!-- Journal Book Wrapper -->
     <div class="journal-wrapper">
         <!-- Info Label -->
-        <div class="info-label">Information, Index</div>
+        <div class="info-label">Portfolio, Index</div>
         
         <!-- Journal Content -->
         <div class="journal-content">
             
-            <!-- Book Spread 1 -->
+            <!-- Book Spread 1 - Your Images -->
             <div class="book-spread" id="spread-1">
                 <div class="center-spine"></div>
                 
-                <!-- Spanning image across both pages -->
-                <div class="spanning-image" style="top: 15%; left: 20%; width: 60%; height: 50%;" data-img="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200">
-                    <div class="spanning-left">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200" alt="Industrial space">
-                    </div>
-                    <div class="spanning-right">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200" alt="Industrial space">
-                    </div>
+                <span class="section-number book-element" style="top: 20px; left: 40px;">01</span>
+                
+                <!-- Your hills image - left side (2-47% = no spine effects) -->
+                <div class="book-image book-element" style="position: absolute; top: 0%; left: 0%; width: 50%; height: 100%;" data-img="images/hills.jpg">
+                    <img src="images/hills.jpg" alt="Hills landscape">
                 </div>
-                
-                <span class="section-number book-element" style="top: 40px; left: 40px;">01</span>
-                
-                <div class="book-image book-element" style="position: absolute; bottom: 20%; right: 15%; width: 25%; height: 30%;" data-img="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=600">
-                    <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=600" alt="Detail">
+
+                <!-- Your boat image - right side (75-100% = no spine effects) -->
+                <div class="book-image book-element" style="position: absolute; top: 50%; left: 50%; width: 40%; height: 40%;" data-img="images/boat.jpg">
+                    <img src="images/boat.jpg" alt="Boat detail">
                 </div>
                 
                 <p class="book-notes book-element" style="position: absolute; bottom: 60px; left: 60px;">
-                    conclusio fabacei<br>
-                    shadows speak
+                    landscapes<br>
+                    and details
                 </p>
             </div>
             
-            <!-- Book Spread 2 - Examples of all positioning types -->
+            <!-- Book Spread 2 - Testing the Helper Classes -->
             <div class="book-spread" id="spread-2">
                 <div class="center-spine"></div>
-                <!-- Optional positioning guide (remove if you don't want it) -->
+                <!-- Positioning guide (hover to see zones) -->
                 <div class="positioning-guide"></div>
                 
                 <span class="section-number book-element" style="top: 40px; right: 60px;">02</span>
-                <h2 class="entry-title book-element" style="top: 100px; left: 60px;">Auto-Blending Examples</h2>
+                <h2 class="entry-title book-element" style="top: 100px; left: 60px;">Spine Zone Testing</h2>
                 
-                <!-- Far left page - no spine effects -->
-                <div class="book-image book-element left-page" style="top: 15%; width: 20%; height: 25%;" data-img="https://images.unsplash.com/photo-1481142889578-dda440dacfe1?w=800">
-                    <img src="https://images.unsplash.com/photo-1481142889578-dda440dacfe1?w=800" alt="Far left - no blending">
+                <!-- Far left page - no spine effects (5-40%) -->
+                <div class="book-image book-element left-page" style="top: 15%; height: 25%;" data-img="images/hills.jpg">
+                    <img src="images/hills.jpg" alt="Far left - no blending">
                 </div>
                 
-                <!-- Left near spine - automatic left-side blending -->
-                <div class="book-image book-element left-near-spine" style="top: 45%; width: 20%; height: 30%;" data-img="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=600">
-                    <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=600" alt="Left near spine - auto blend">
+                <!-- Left near spine - automatic left-side blending (42-50%) -->
+                <div class="book-image book-element left-near-spine" style="top: 45%; height: 30%;" data-img="images/boat.jpg">
+                    <img src="images/boat.jpg" alt="Left near spine - auto blend">
                 </div>
                 
-                <!-- Cross spine - automatic cross-page blending -->
-                <div class="book-image book-element cross-spine" style="top: 20%; height: 35%;" data-img="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200">
-                    <img src="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200" alt="Crosses spine - auto blend">
+                <!-- Cross spine - automatic cross-page blending (46-54%) -->
+                <div class="book-image book-element cross-spine" style="top: 20%; height: 35%;" data-img="images/hills.jpg">
+                    <img src="images/hills.jpg" alt="Crosses spine - auto blend">
                 </div>
                 
-                <!-- Right near spine - automatic right-side blending -->
-                <div class="book-image book-element right-near-spine" style="top: 60%; width: 18%; height: 25%;" data-img="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600">
-                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600" alt="Right near spine - auto blend">
+                <!-- Right near spine - automatic right-side blending (50-58%) -->
+                <div class="book-image book-element right-near-spine" style="top: 60%; height: 25%;" data-img="images/boat.jpg">
+                    <img src="images/boat.jpg" alt="Right near spine - auto blend">
                 </div>
                 
-                <!-- Far right page - no spine effects -->
-                <div class="book-image book-element right-page" style="top: 25%; width: 18%; height: 30%;" data-img="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=600">
-                    <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=600" alt="Far right - no blending">
+                <!-- Far right page - no spine effects (60-95%) -->
+                <div class="book-image book-element right-page" style="top: 25%; height: 30%;" data-img="images/hills.jpg">
+                    <img src="images/hills.jpg" alt="Far right - no blending">
                 </div>
                 
                 <p class="book-notes book-element" style="position: absolute; bottom: 10%; left: 10%; font-size: 1.4rem; opacity: 0.7;">
-                    All spine blending<br>
-                    happens automatically<br>
-                    based on position
+                    Spine zone: 48-52%<br>
+                    Only 4% width<br>
+                    Very precise!
                 </p>
             </div>
             
-            <!-- Book Spread 3 -->
+            <!-- Book Spread 3 - Regular Images Only -->
             <div class="book-spread" id="spread-3">
                 <div class="center-spine"></div>
                 
                 <span class="section-number book-element" style="top: 40px; left: 40px;">03</span>
                 
-                <!-- Large spanning image -->
-                <div class="spanning-image" style="top: 20%; left: 15%; width: 70%; height: 60%;" data-img="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200">
-                    <div class="spanning-left">
-                        <img src="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200" alt="Material study">
-                    </div>
-                    <div class="spanning-right">
-                        <img src="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200" alt="Material study">
-                    </div>
+                <!-- Large left image -->
+                <div class="book-image book-element" style="position: absolute; top: 20%; left: 5%; width: 40%; height: 60%;" data-img="images/hills.jpg">
+                    <img src="images/hills.jpg" alt="Large landscape">
+                </div>
+                
+                <!-- Right side image -->
+                <div class="book-image book-element" style="position: absolute; top: 25%; right: 10%; width: 30%; height: 45%;" data-img="images/boat.jpg">
+                    <img src="images/boat.jpg" alt="Boat composition">
                 </div>
                 
                 <p class="book-notes book-element" style="position: absolute; bottom: 15%; left: 20%; background: rgba(40,40,40,0.9); padding: 1rem 1.5rem;">
-                    grain<br>
-                    pattern<br>
-                    memory
+                    composition<br>
+                    and framing<br>
+                    studies
                 </p>
             </div>
             
@@ -628,17 +518,18 @@
                 
                 <div class="black-block book-element" style="position: absolute; top: 20%; left: 0; width: 40%; height: 35%;"></div>
                 
-                <div class="book-image book-element" style="position: absolute; top: 30%; left: 25%; width: 40%; height: 45%;" data-img="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800">
-                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800" alt="Composition">
+                <!-- Cross spine image to test blending -->
+                <div class="book-image book-element" style="position: absolute; top: 30%; left: 46%; width: 8%; height: 45%;" data-img="images/hills.jpg">
+                    <img src="images/hills.jpg" alt="Cross spine test">
                 </div>
                 
-                <div class="book-image book-element" style="position: absolute; bottom: 25%; right: 15%; width: 20%; height: 25%;" data-img="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=400">
-                    <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=400" alt="Fragment">
+                <div class="book-image book-element" style="position: absolute; bottom: 25%; right: 15%; width: 20%; height: 25%;" data-img="images/boat.jpg">
+                    <img src="images/boat.jpg" alt="Right side detail">
                 </div>
                 
                 <p class="book-notes book-element" style="position: absolute; bottom: 15%; right: 10%; text-align: right;">
-                    the end<br>
-                    begins again
+                    mixed<br>
+                    compositions
                 </p>
             </div>
             
@@ -648,18 +539,18 @@
                 
                 <span class="section-number book-element" style="top: 40px; left: 40px;">05</span>
                 
-                <!-- Spanning image -->
-                <div class="spanning-image" style="top: 25%; left: 10%; width: 80%; height: 50%;" data-img="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=1200">
-                    <div class="spanning-left">
-                        <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=1200" alt="Untitled">
-                    </div>
-                    <div class="spanning-right">
-                        <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=1200" alt="Untitled">
-                    </div>
+                <!-- Large image covering most of left page -->
+                <div class="book-image book-element" style="position: absolute; top: 10%; left: 5%; width: 42%; height: 70%;" data-img="images/hills.jpg">
+                    <img src="images/hills.jpg" alt="Final landscape">
+                </div>
+                
+                <!-- Small right side detail -->
+                <div class="book-image book-element" style="position: absolute; top: 60%; right: 15%; width: 25%; height: 25%;" data-img="images/boat.jpg">
+                    <img src="images/boat.jpg" alt="Final detail">
                 </div>
                 
                 <h2 class="entry-title book-element" style="position: absolute; bottom: 15%; right: 20%; text-align: center;">
-                    Sine Titulo
+                    Final Portfolio
                 </h2>
             </div>
             
@@ -675,84 +566,39 @@
     </div>
     
     <script>
-        // Automatic spine blending for images near the center
+        // FIXED: Automatic spine blending - Ultra-tight detection
         function applySpineBlending() {
             document.querySelectorAll('.book-spread').forEach(spread => {
-                const spreadRect = spread.getBoundingClientRect();
-                const spreadWidth = spreadRect.width;
-                const centerX = spreadWidth / 2;
-                
                 // Check all images in this spread
                 spread.querySelectorAll('.book-image').forEach(image => {
-                    const imageRect = image.getBoundingClientRect();
-                    const spreadOffset = image.getBoundingClientRect().left - spread.getBoundingClientRect().left;
-                    const imageLeft = spreadOffset;
-                    const imageRight = spreadOffset + imageRect.width;
-                    const imageCenter = imageLeft + (imageRect.width / 2);
+                    // Get the left position as percentage
+                    const leftStyle = image.style.left || '0%';
+                    const leftPercent = parseFloat(leftStyle.replace('%', ''));
                     
-                    // Define spine zone (15% of spread width on each side of center)
-                    const spineZone = spreadWidth * 0.15;
-                    const spineLeft = centerX - spineZone;
-                    const spineRight = centerX + spineZone;
+                    // Get the width as percentage
+                    const widthStyle = image.style.width || '20%';
+                    const widthPercent = parseFloat(widthStyle.replace('%', ''));
+                    
+                    const rightPercent = leftPercent + widthPercent;
+                    
+                    // FIXED: Define spine zone - extremely tight: 48-52% (only 4% around center)
+                    const spineZoneLeft = 48;
+                    const spineZoneRight = 52;
+                    
+                    // Remove any existing spine effects first
+                    image.classList.remove('spine-adjacent', 'spine-spanning');
+                    image.style.transform = '';
+                    image.style.transformOrigin = '';
+                    image.querySelectorAll('.spine-shadow').forEach(shadow => shadow.remove());
                     
                     // Check if image intersects with spine zone
-                    if (imageRight > spineLeft && imageLeft < spineRight) {
+                    if (rightPercent > spineZoneLeft && leftPercent < spineZoneRight) {
                         // Apply spine blending effect
                         image.classList.add('spine-adjacent');
                         
-                        // Determine which side of spine the image is primarily on
-                        if (imageCenter < centerX) {
-                            // Left side of spine
-                            image.style.transformOrigin = 'right center';
-                            image.style.transform = 'perspective(2000px) rotateY(1.5deg)';
-                            
-                            // Add shadow on right edge (toward spine)
-                            const shadow = document.createElement('div');
-                            shadow.className = 'spine-shadow spine-shadow-right';
-                            shadow.style.cssText = `
-                                position: absolute;
-                                right: 0;
-                                top: 0;
-                                bottom: 0;
-                                width: 20px;
-                                background: linear-gradient(to left,
-                                    rgba(0,0,0,0.4) 0%,
-                                    rgba(0,0,0,0.2) 50%,
-                                    transparent 100%);
-                                pointer-events: none;
-                                z-index: 5;
-                            `;
-                            if (!image.querySelector('.spine-shadow-right')) {
-                                image.appendChild(shadow);
-                            }
-                        } else {
-                            // Right side of spine
-                            image.style.transformOrigin = 'left center';
-                            image.style.transform = 'perspective(2000px) rotateY(-1.5deg)';
-                            
-                            // Add shadow on left edge (toward spine)
-                            const shadow = document.createElement('div');
-                            shadow.className = 'spine-shadow spine-shadow-left';
-                            shadow.style.cssText = `
-                                position: absolute;
-                                left: 0;
-                                top: 0;
-                                bottom: 0;
-                                width: 20px;
-                                background: linear-gradient(to right,
-                                    rgba(0,0,0,0.4) 0%,
-                                    rgba(0,0,0,0.2) 50%,
-                                    transparent 100%);
-                                pointer-events: none;
-                                z-index: 5;
-                            `;
-                            if (!image.querySelector('.spine-shadow-left')) {
-                                image.appendChild(shadow);
-                            }
-                        }
-                        
-                        // If image spans across center, apply stronger effect
-                        if (imageLeft < centerX && imageRight > centerX) {
+                        // Check if image spans across the exact center (50%)
+                        if (leftPercent < 50 && rightPercent > 50) {
+                            // Image crosses the spine
                             image.classList.add('spine-spanning');
                             image.style.transform = 'perspective(2000px) rotateX(0.5deg)';
                             
@@ -774,16 +620,57 @@
                                 pointer-events: none;
                                 z-index: 5;
                             `;
-                            if (!image.querySelector('.spine-shadow-center')) {
-                                image.appendChild(centerShadow);
+                            image.appendChild(centerShadow);
+                        } else {
+                            // Determine which side of spine the image is primarily on
+                            const imageCenter = leftPercent + (widthPercent / 2);
+                            
+                            if (imageCenter < 50) {
+                                // Left side of spine
+                                image.style.transformOrigin = 'right center';
+                                image.style.transform = 'perspective(2000px) rotateY(1.5deg)';
+                                
+                                // Add shadow on right edge (toward spine)
+                                const shadow = document.createElement('div');
+                                shadow.className = 'spine-shadow spine-shadow-right';
+                                shadow.style.cssText = `
+                                    position: absolute;
+                                    right: 0;
+                                    top: 0;
+                                    bottom: 0;
+                                    width: 20px;
+                                    background: linear-gradient(to left,
+                                        rgba(0,0,0,0.4) 0%,
+                                        rgba(0,0,0,0.2) 50%,
+                                        transparent 100%);
+                                    pointer-events: none;
+                                    z-index: 5;
+                                `;
+                                image.appendChild(shadow);
+                            } else {
+                                // Right side of spine
+                                image.style.transformOrigin = 'left center';
+                                image.style.transform = 'perspective(2000px) rotateY(-1.5deg)';
+                                
+                                // Add shadow on left edge (toward spine)
+                                const shadow = document.createElement('div');
+                                shadow.className = 'spine-shadow spine-shadow-left';
+                                shadow.style.cssText = `
+                                    position: absolute;
+                                    left: 0;
+                                    top: 0;
+                                    bottom: 0;
+                                    width: 20px;
+                                    background: linear-gradient(to right,
+                                        rgba(0,0,0,0.4) 0%,
+                                        rgba(0,0,0,0.2) 50%,
+                                        transparent 100%);
+                                    pointer-events: none;
+                                    z-index: 5;
+                                `;
+                                image.appendChild(shadow);
                             }
                         }
-                    } else {
-                        // Remove spine effects if image is not near spine
-                        image.classList.remove('spine-adjacent', 'spine-spanning');
-                        image.style.transform = '';
-                        image.style.transformOrigin = '';
-                        image.querySelectorAll('.spine-shadow').forEach(shadow => shadow.remove());
                     }
                 });
             });
@@ -812,7 +699,7 @@
         const lightboxImg = lightbox.querySelector('img');
         
         // Add click handlers to all images
-        document.querySelectorAll('.book-image, .spanning-image').forEach(image => {
+        document.querySelectorAll('.book-image').forEach(image => {
             image.addEventListener('click', function() {
                 const imgSrc = this.getAttribute('data-img') || this.querySelector('img').src;
                 lightboxImg.src = imgSrc;
@@ -866,7 +753,7 @@
             });
         }, { threshold: 0.1 });
         
-        document.querySelectorAll('.book-element, .spanning-image').forEach(element => {
+        document.querySelectorAll('.book-element').forEach(element => {
             element.style.opacity = '0';
             element.style.transition = 'opacity 0.8s ease-out';
             observer.observe(element);
