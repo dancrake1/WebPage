@@ -1,418 +1,511 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photography Journal</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photography Journal</title>
+
+  <!-- Font Imports -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Amatic+SC:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      background: #f5f5f5;
+      color: #000;
+      overflow-x: hidden;
+    }
+        
+    /* Index/Header Section */
+    .index-section {
+        min-height: 100vh;
+        background: linear-gradient(180deg, #f5f5f5 0%, #e5e5e5 50%, #ffffff 100%);
+        padding: 3rem;
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 10;
+    }
     
-    <!-- Font Imports -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+    .index-container {
+        max-width: 800px;
+        width: 100%;
+    }
     
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-            background: #f5f5f5;
-            color: #000;
-            overflow-x: hidden;
-        }
-        
-        /* Index/Header Section */
-        .index-section {
-            min-height: 100vh;
-            background: linear-gradient(180deg, #f5f5f5 0%, #e5e5e5 50%, #ffffff 100%);
-            padding: 3rem;
-            display: flex;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-        }
-        
-        .index-container {
-            max-width: 800px;
-            width: 100%;
-        }
-        
-        .site-header {
-            font-size: 3rem;
-            font-weight: 300;
-            margin-bottom: 3rem;
-            letter-spacing: -0.02em;
-        }
-        
+    .site-header {
+        font-size: 3rem;
+        font-weight: 300;
+        margin-bottom: 3rem;
+        letter-spacing: -0.02em;
+    }
+    
+    .index-list {
+        list-style: none;
+        font-size: 2.5rem;
+        line-height: 1.3;
+        font-weight: 300;
+    }
+    
+    .index-list li {
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+    
+    .index-list li a {
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .index-list li:hover {
+        opacity: 0.6;
+    }
+    
+    /* Journal Book Layout */
+    .journal-wrapper {
+        background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 20%, #e5e5e5 40%, #d0d0d0 60%, #b0b0b0 80%, #8a8a8a 100%);
+        position: relative;
+        padding: 4rem 0;
+    }
+    
+    .journal-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: #1a1a1a;
+        position: relative;
+        box-shadow: 
+            0 0 100px rgba(0,0,0,0.9), 
+            0 0 200px rgba(0,0,0,0.5),
+            inset 0 0 50px rgba(255,255,255,0.02);
+        transform: perspective(2000px) rotateX(1deg);
+    }
+    
+    /* Book Spread Container */
+    .book-spread {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        min-height: 800px;
+        display: flex;
+        background: #1a1a1a;
+        overflow: hidden;
+    }
+    
+    /* Center Spine - Balanced thickness */
+    .center-spine {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        transform: translateX(-50%);
+        z-index: 100;
+        background: linear-gradient(to right,
+            #0a0a0a 0%,
+            #1a1a1a 20%,
+            #2a2a2a 50%,
+            #1a1a1a 80%,
+            #0a0a0a 100%);
+        box-shadow: 
+            -1px 0 3px rgba(0,0,0,0.8),
+            1px 0 3px rgba(0,0,0,0.8),
+            inset 0 0 1px rgba(255,255,255,0.1);
+    }
+    
+    /* Spine binding detail */
+    .center-spine::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 5%;
+        bottom: 5%;
+        width: 1px;
+        transform: translateX(-50%);
+        background: rgba(255,255,255,0.05);
+    }
+    
+    /* Left and Right Pages */
+    .page-left,
+    .page-right {
+        width: 50%;
+        height: 100%;
+        position: relative;
+        padding: 60px;
+        overflow: hidden;
+        transform-style: preserve-3d;
+    }
+    
+    /* Subtle page curvature - less dramatic than before */
+    .page-left {
+        transform: perspective(3000px) rotateY(0.5deg);
+        transform-origin: right center;
+        padding-right: 64px; /* Extra padding near spine */
+    }
+    
+    .page-right {
+        transform: perspective(3000px) rotateY(-0.5deg);
+        transform-origin: left center;
+        padding-left: 64px; /* Extra padding near spine */
+    }
+    
+    /* Page shadows - simplified */
+    .page-left::before {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 20px;
+        background: linear-gradient(to left, 
+            rgba(0,0,0,0.3) 0%, 
+            rgba(0,0,0,0.1) 50%,
+            transparent 100%);
+        z-index: 50;
+    }
+    
+    .page-right::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 20px;
+        background: linear-gradient(to right, 
+            rgba(0,0,0,0.3) 0%, 
+            rgba(0,0,0,0.1) 50%,
+            transparent 100%);
+        z-index: 50;
+    }
+    
+    .info-label {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #f5f5f5;
+        color: #1a1a1a;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        z-index: 200;
+    }
+    
+    .book-element {
+        position: absolute;
+        z-index: 10;
+    }
+    
+    /* Helper classes for easy image positioning */
+    .left-page {
+        left: 5% !important;
+    }
+    
+    .left-near-spine {
+        left: 35% !important;
+    }
+    
+    .center-spine-image {
+        left: 40% !important;
+        width: 20% !important;
+    }
+    
+    .cross-spine {
+        left: 30% !important;
+        width: 40% !important;
+    }
+    
+    .right-near-spine {
+        left: 60% !important;
+    }
+    
+    .right-page {
+        left: 75% !important;
+    }
+    
+    /* Visual guide for positioning (optional - can be removed) */
+    .positioning-guide {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(to right,
+            rgba(255,0,0,0.3) 0%,     /* Far left */
+            rgba(255,0,0,0.3) 25%,    /* Left page */
+            rgba(255,255,0,0.3) 35%,  /* Left near spine */
+            rgba(0,255,0,0.3) 45%,    /* Spine zone start */
+            rgba(0,255,0,0.8) 50%,    /* Center spine */
+            rgba(0,255,0,0.3) 55%,    /* Spine zone end */
+            rgba(255,255,0,0.3) 65%,  /* Right near spine */
+            rgba(255,0,0,0.3) 75%,    /* Right page */
+            rgba(255,0,0,0.3) 100%    /* Far right */
+        );
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    
+    /* Show guide on hover over spread */
+    .book-spread:hover .positioning-guide {
+        opacity: 1;
+    }
+    .book-image {
+        overflow: hidden;
+        filter: grayscale(10%) contrast(1.05);
+        transition: filter 0.3s, transform 0.3s ease-out;
+        background: #000;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        position: relative;
+    }
+    
+    .book-image:hover {
+        filter: grayscale(0%) contrast(1.05);
+    }
+    
+    .book-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    
+    /* Spine-adjacent images get enhanced styling */
+    .book-image.spine-adjacent {
+        box-shadow: 0 6px 25px rgba(0,0,0,0.5);
+    }
+    
+    .book-image.spine-spanning {
+        box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    }
+    
+    /* Improved Spanning Images - More Natural Book Effect */
+    .spanning-image {
+        position: absolute;
+        z-index: 90;
+        display: flex;
+        cursor: pointer;
+        filter: grayscale(10%);
+        transition: filter 0.3s;
+        background: #000;
+    }
+    
+    .spanning-image:hover {
+        filter: grayscale(0%);
+    }
+    
+    .spanning-left,
+    .spanning-right {
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        background: #000;
+    }
+    
+    /* Simplified left page curvature */
+    .spanning-left {
+        transform-origin: right center;
+        transform: perspective(2000px) rotateY(2deg);
+        padding-right: 2px; /* Account for spine gap */
+    }
+    
+    /* Simplified right page curvature */
+    .spanning-right {
+        transform-origin: left center;
+        transform: perspective(2000px) rotateY(-2deg);
+        padding-left: 2px; /* Account for spine gap */
+    }
+    
+    /* Simplified image display - no complex clipping */
+    .spanning-left img {
+        width: calc(200% + 4px);
+        height: 100%;
+        object-fit: cover;
+        object-position: left center;
+        transform: translateX(-2px);
+    }
+    
+    .spanning-right img {
+        width: calc(200% + 4px);
+        height: 100%;
+        object-fit: cover;
+        object-position: right center;
+        position: absolute;
+        right: -2px;
+        top: 0;
+    }
+    
+    /* Subtle spine shadow on spanning images */
+    .spanning-left::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 15px;
+        background: linear-gradient(to left,
+            rgba(0,0,0,0.4) 0%,
+            rgba(0,0,0,0.2) 50%,
+            transparent 100%);
+        z-index: 5;
+        pointer-events: none;
+    }
+    
+    .spanning-right::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 15px;
+        background: linear-gradient(to right,
+            rgba(0,0,0,0.4) 0%,
+            rgba(0,0,0,0.2) 50%,
+            transparent 100%);
+        z-index: 5;
+        pointer-events: none;
+    }
+    
+    /* Text elements */
+    .section-number {
+        font-family: 'Amatic SC', cursive;
+        font-size: 3rem;
+        font-weight: 700;
+        opacity: 0.3;
+        color: #f5f5f5;
+        z-index: 70;
+    }
+    
+    .entry-title {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 300;
+        letter-spacing: -0.02em;
+        color: #f5f5f5;
+        z-index: 70;
+    }
+    
+    .book-notes {
+        font-family: 'Amatic SC', cursive;
+        font-size: 1.8rem;
+        font-weight: 700;
+        line-height: 1.3;
+        color: #e5e5e5;
+        z-index: 70;
+    }
+    
+    .black-block {
+        background: #2a2a2a;
+    }
+    
+    /* Lightbox */
+    .lightbox {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 1000;
+        padding: 2rem;
+        cursor: pointer;
+    }
+    
+    .lightbox.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .lightbox-content {
+        max-width: 90vw;
+        max-height: 90vh;
+        position: relative;
+    }
+    
+    .lightbox-content img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    
+    .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        color: #fff;
+        font-size: 40px;
+        font-weight: 300;
+        cursor: pointer;
+        z-index: 1001;
+    }
+    
+    .lightbox-close:hover {
+        opacity: 0.7;
+    }
+    
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
         .index-list {
-            list-style: none;
-            font-size: 2.5rem;
-            line-height: 1.3;
-            font-weight: 300;
+            font-size: 1.5rem;
         }
         
-        .index-list li {
-            margin-bottom: 0.5rem;
-            cursor: pointer;
-            transition: opacity 0.2s;
+        .book-spread {
+            flex-direction: column;
+            height: auto;
         }
         
-        .index-list li a {
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .index-list li:hover {
-            opacity: 0.6;
-        }
-        
-        /* Journal Content - Continuous Flow */
-        .journal-wrapper {
-            background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 20%, #e5e5e5 40%, #d0d0d0 60%, #b0b0b0 80%, #8a8a8a 100%);
-            position: relative;
-            padding: 4rem 0;
-        }
-        
-        .journal-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: #1a1a1a;
-            position: relative;
-            box-shadow: 
-                0 0 100px rgba(0,0,0,0.9), 
-                0 0 200px rgba(0,0,0,0.5),
-                inset 0 0 50px rgba(255,255,255,0.05);
-            min-height: 500vh; /* Tall continuous page */
-            border-left: 1px solid rgba(255,255,255,0.1);
-            border-right: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        /* Continuous center fold that runs through entire journal */
-        .center-fold {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            transform: translateX(-50%);
-            z-index: 4; /* Below spanning images */
-            background: linear-gradient(to right,
-                rgba(255,255,255,0.1) 0%,
-                rgba(255,255,255,0.2) 20%,
-                rgba(255,255,255,0.3) 50%,
-                rgba(255,255,255,0.2) 80%,
-                rgba(255,255,255,0.1) 100%);
-            box-shadow: 
-                -2px 0 6px rgba(255,255,255,0.1),
-                2px 0 6px rgba(255,255,255,0.1),
-                0 0 30px rgba(255,255,255,0.05);
-            pointer-events: none; /* Allow clicking through */
-        }
-        
-        /* Page gradient effect */
-        .journal-content::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 200px;
-            transform: translateX(-50%);
-            background: linear-gradient(to right,
-                transparent 0%,
-                rgba(255,255,255,0.02) 40%,
-                rgba(255,255,255,0.03) 50%,
-                rgba(255,255,255,0.02) 60%,
-                transparent 100%);
-            z-index: 3; /* Below center fold */
-        }
-        
-        /* Info label */
-        .info-label {
-            position: fixed;
-            top: 0;
-            right: 0;
-            background: #f5f5f5;
-            color: #1a1a1a;
-            padding: 1rem 2rem;
-            font-size: 0.875rem;
-            z-index: 200;
-        }
-        
-        /* Content elements positioned absolutely */
-        .journal-item {
-            position: absolute;
-            z-index: 10;
-        }
-        
-        /* Images */
-        .journal-image {
-            overflow: hidden;
-            filter: grayscale(10%);
-            transition: filter 0.3s;
-            z-index: 7;
-        }
-        
-        .journal-image:hover {
-            filter: grayscale(0%);
-        }
-        
-        .journal-image img {
+        .page-left,
+        .page-right {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            padding: 30px;
+            min-height: 100vh;
+            transform: none;
         }
         
-        /* Images that span across the center fold */
+        .center-spine {
+            display: none;
+        }
+        
         .spanning-image {
-            position: absolute;
-            z-index: 5;
-            display: flex;
+            position: relative !important;
+            display: block !important;
+            width: 100% !important;
+            margin: 1rem 0;
         }
         
         .spanning-left,
         .spanning-right {
-            width: 50.5%; /* Slight overlap to hide seam */
-            height: 100%;
-            overflow: hidden;
-            position: relative;
+            width: 100% !important;
+            transform: none !important;
         }
         
-        .spanning-left {
-            transform-origin: right center;
-            transform: perspective(2000px) rotateY(5deg);
-            z-index: 6;
-            position: relative;
-        }
-        
-        .spanning-left::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 20px;
-            background: linear-gradient(to left, rgba(0,0,0,0.3), transparent);
-            pointer-events: none;
+        .spanning-left img,
+        .spanning-right img {
+            width: 100% !important;
+            position: static !important;
         }
         
         .spanning-right {
-            transform-origin: left center;
-            transform: perspective(2000px) rotateY(-5deg);
-            margin-left: -1%; /* Overlap to hide seam */
-            z-index: 5;
-            position: relative;
+            display: none;
         }
-        
-        .spanning-right::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            width: 20px;
-            background: linear-gradient(to right, rgba(0,0,0,0.3), transparent);
-            pointer-events: none;
-        }
-        
-        .spanning-left img {
-            width: 200%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.9);
-        }
-        
-        .spanning-right img {
-            width: 200%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            right: 0;
-            filter: brightness(0.85);
-        }
-        
-        /* Text elements */
-        .section-number {
-            font-family: 'Amatic SC', cursive;
-            font-size: 4rem;
-            font-weight: 700;
-            opacity: 0.3;
-            color: #f5f5f5;
-            z-index: 8;
-        }
-        
-        .entry-title {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 300;
-            letter-spacing: -0.02em;
-            color: #f5f5f5;
-            z-index: 8;
-        }
-        
-        .book-notes {
-            font-family: 'Amatic SC', cursive;
-            font-size: 2rem;
-            font-weight: 700;
-            line-height: 1.3;
-            color: #e5e5e5;
-            z-index: 8;
-        }
-        
-        /* Black blocks */
-        .black-block {
-            background: #3a3a3a;
-            z-index: 3;
-        }
-        
-        /* Positioned elements for Demo 01 */
-        #demo01 {
-            top: 100px;
-            left: 100px;
-        }
-        
-        #img-01-2 {
-            top: 450px;
-            right: 200px;
-            width: 300px;
-            height: 250px;
-        }
-        
-        #notes-01 {
-            top: 650px;
-            left: 200px;
-        }
-        
-        /* Demo 02 elements */
-        #demo02 {
-            top: 900px;
-            right: 150px;
-        }
-        
-        #title-02 {
-            top: 1000px;
-            left: 200px;
-        }
-        
-        #img-02-1 {
-            top: 1100px;
-            right: 100px;
-            width: 500px;
-            height: 350px;
-        }
-        
-        #img-02-2 {
-            top: 1300px;
-            left: 100px;
-            width: 350px;
-            height: 300px;
-        }
-        
-        #black-02 {
-            top: 1200px;
-            left: 47%; /* Adjusted to not overlap fold */
-            width: 250px;
-            height: 200px;
-        }
-        
-        #notes-02 {
-            top: 1500px;
-            left: 300px;
-        }
-        
-        /* Demo 03 elements */
-        #demo03 {
-            top: 1800px;
-            left: 100px;
-        }
-        
-        #notes-03 {
-            top: 2100px;
-            left: 150px;
-            background: rgba(40,40,40,0.9);
-            padding: 1rem;
-        }
-        
-        /* Demo 04 elements */
-        #demo04 {
-            top: 2500px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        #img-04-1 {
-            top: 2600px;
-            left: 30%;
-            width: 450px;
-            height: 350px;
-        }
-        
-        #img-04-2 {
-            top: 2800px;
-            right: 150px;
-            width: 250px;
-            height: 200px;
-        }
-        
-        #black-04 {
-            top: 2550px;
-            left: 0;
-            width: 400px;
-            height: 300px;
-        }
-        
-        #notes-04 {
-            top: 3000px;
-            right: 200px;
-            text-align: right;
-        }
-        
-        /* Demo 05 elements */
-        #demo05 {
-            top: 3300px;
-            left: 100px;
-        }
-        
-        #title-05 {
-            top: 3850px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-        }
-        
-        /* Continue pattern for more demos... */
-        
-        /* Mobile adjustments */
-        @media (max-width: 768px) {
-            .index-list {
-                font-size: 1.5rem;
-            }
-            
-            .journal-content {
-                margin: 0 1rem;
-            }
-            
-            .center-fold {
-                width: 2px;
-            }
-            
-            .journal-item {
-                position: relative !important;
-                top: auto !important;
-                left: auto !important;
-                right: auto !important;
-                transform: none !important;
-                margin: 2rem;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <!-- Index Section -->
@@ -420,127 +513,346 @@
         <div class="index-container">
             <h1 class="site-header">Cargo Demo Site<br>C.V.</h1>
             <ul class="index-list">
-                <li><a href="#demo01">Demo 01—Dreeme Fotografers (Conclusio Fabacei)</a></li>
-                <li><a href="#demo02">Demo 02—Ubique</a></li>
-                <li><a href="#demo03">Demo 03—Delicta-Epsum™</a></li>
-                <li><a href="#demo04">Demo 04—Adamantes est The End</a></li>
-                <li><a href="#demo05">Demo 05—Sine Titulo</a></li>
-                <li><a href="#demo06">Demo 06—Ategire et Claudere™</a></li>
-                <li><a href="#demo07">Demo 07—Sine Titulo</a></li>
-                <li><a href="#demo08">Demo 08—Façad: Saccharum</a></li>
-                <li><a href="#demo09">Demo 09—Nos Sumus (spatium interius)</a></li>
-                <li><a href="#demo10">Demo 10—Micare</a></li>
+                <li><a href="#spread-1">Demo 01—Dreeme Fotografers (Conclusio Fabacei)</a></li>
+                <li><a href="#spread-2">Demo 02—Ubique</a></li>
+                <li><a href="#spread-3">Demo 03—Delicta-Epsum™</a></li>
+                <li><a href="#spread-4">Demo 04—Adamantes est The End</a></li>
+                <li><a href="#spread-5">Demo 05—Sine Titulo</a></li>
             </ul>
         </div>
     </section>
     
-    <!-- Journal Wrapper -->
+    <!-- Journal Book Wrapper -->
     <div class="journal-wrapper">
         <!-- Info Label -->
         <div class="info-label">Information, Index</div>
         
-        <!-- Continuous Journal Content -->
+        <!-- Journal Content -->
         <div class="journal-content">
-            <!-- Center fold runs through entire content -->
-            <div class="center-fold"></div>
-            <div class="center-fold-shadow"></div>
             
-            <!-- Demo 01 -->
-            <span class="section-number journal-item" id="demo01">01</span>
-            <!-- For your local image, change to: style="top: 100px; left: 5%; width: 60%; height: 400px;" -->
-            <!-- And use forward slashes: src="images/boat.jpg" not "images\boat.jpg" -->
-            <div class="spanning-image journal-item" id="img-01-1" style="top: 100px; left: 10%; width: 50%; height: 400px;">
-                <div class="spanning-left">
-                    <img src="images/boat.jpg" alt="Industrial space">
+            <!-- Book Spread 1 -->
+            <div class="book-spread" id="spread-1">
+                <div class="center-spine"></div>
+                
+                <!-- Spanning image across both pages -->
+                <div class="spanning-image" style="top: 15%; left: 20%; width: 60%; height: 50%;" data-img="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200">
+                    <div class="spanning-left">
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200" alt="Industrial space">
+                    </div>
+                    <div class="spanning-right">
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200" alt="Industrial space">
+                    </div>
                 </div>
-                <div class="spanning-right">
-                    <img src="images/boat.jpg" alt="Industrial space">
+                
+                <span class="section-number book-element" style="top: 40px; left: 40px;">01</span>
+                
+                <div class="book-image book-element" style="position: absolute; bottom: 20%; right: 15%; width: 25%; height: 30%;" data-img="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=600">
+                    <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=600" alt="Detail">
                 </div>
+                
+                <p class="book-notes book-element" style="position: absolute; bottom: 60px; left: 60px;">
+                    conclusio fabacei<br>
+                    shadows speak
+                </p>
             </div>
-            <div class="journal-image journal-item" id="img-01-2">
-                <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=600" alt="Detail">
-            </div>
-            <p class="book-notes journal-item" id="notes-01">
-                conclusio fabacei<br>
-                shadows speak
-            </p>
             
-            <!-- Demo 02 -->
-            <span class="section-number journal-item" id="demo02">02</span>
-            <h2 class="entry-title journal-item" id="title-02">Ubique</h2>
-            <div class="journal-image journal-item" id="img-02-1">
-                <img src="https://images.unsplash.com/photo-1481142889578-dda440dacfe1?w=800" alt="Abstract">
+            <!-- Book Spread 2 - Examples of all positioning types -->
+            <div class="book-spread" id="spread-2">
+                <div class="center-spine"></div>
+                <!-- Optional positioning guide (remove if you don't want it) -->
+                <div class="positioning-guide"></div>
+                
+                <span class="section-number book-element" style="top: 40px; right: 60px;">02</span>
+                <h2 class="entry-title book-element" style="top: 100px; left: 60px;">Auto-Blending Examples</h2>
+                
+                <!-- Far left page - no spine effects -->
+                <div class="book-image book-element left-page" style="top: 15%; width: 20%; height: 25%;" data-img="https://images.unsplash.com/photo-1481142889578-dda440dacfe1?w=800">
+                    <img src="https://images.unsplash.com/photo-1481142889578-dda440dacfe1?w=800" alt="Far left - no blending">
+                </div>
+                
+                <!-- Left near spine - automatic left-side blending -->
+                <div class="book-image book-element left-near-spine" style="top: 45%; width: 20%; height: 30%;" data-img="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=600">
+                    <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=600" alt="Left near spine - auto blend">
+                </div>
+                
+                <!-- Cross spine - automatic cross-page blending -->
+                <div class="book-image book-element cross-spine" style="top: 20%; height: 35%;" data-img="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200">
+                    <img src="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200" alt="Crosses spine - auto blend">
+                </div>
+                
+                <!-- Right near spine - automatic right-side blending -->
+                <div class="book-image book-element right-near-spine" style="top: 60%; width: 18%; height: 25%;" data-img="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600" alt="Right near spine - auto blend">
+                </div>
+                
+                <!-- Far right page - no spine effects -->
+                <div class="book-image book-element right-page" style="top: 25%; width: 18%; height: 30%;" data-img="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=600">
+                    <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=600" alt="Far right - no blending">
+                </div>
+                
+                <p class="book-notes book-element" style="position: absolute; bottom: 10%; left: 10%; font-size: 1.4rem; opacity: 0.7;">
+                    All spine blending<br>
+                    happens automatically<br>
+                    based on position
+                </p>
             </div>
-            <div class="journal-image journal-item" id="img-02-2">
-                <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=600" alt="Texture">
-            </div>
-            <div class="black-block journal-item" id="black-02"></div>
-            <p class="book-notes journal-item" id="notes-02">
-                everywhere<br>
-                nowhere
-            </p>
             
-            <!-- Demo 03 -->
-            <span class="section-number journal-item" id="demo03">03</span>
-            <div class="spanning-image journal-item" id="img-03-1" style="top: 1900px; left: 15%; width: 70%; height: 500px;">
-                <div class="spanning-left">
-                    <img src="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200" alt="Material study">
+            <!-- Book Spread 3 -->
+            <div class="book-spread" id="spread-3">
+                <div class="center-spine"></div>
+                
+                <span class="section-number book-element" style="top: 40px; left: 40px;">03</span>
+                
+                <!-- Large spanning image -->
+                <div class="spanning-image" style="top: 20%; left: 15%; width: 70%; height: 60%;" data-img="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200">
+                    <div class="spanning-left">
+                        <img src="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200" alt="Material study">
+                    </div>
+                    <div class="spanning-right">
+                        <img src="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200" alt="Material study">
+                    </div>
                 </div>
-                <div class="spanning-right">
-                    <img src="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?w=1200" alt="Material study">
-                </div>
+                
+                <p class="book-notes book-element" style="position: absolute; bottom: 15%; left: 20%; background: rgba(40,40,40,0.9); padding: 1rem 1.5rem;">
+                    grain<br>
+                    pattern<br>
+                    memory
+                </p>
             </div>
-            <p class="book-notes journal-item" id="notes-03">
-                grain<br>
-                pattern<br>
-                memory
-            </p>
             
-            <!-- Demo 04 -->
-            <span class="section-number journal-item" id="demo04">04</span>
-            <div class="black-block journal-item" id="black-04"></div>
-            <div class="journal-image journal-item" id="img-04-1">
-                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800" alt="Composition">
+            <!-- Book Spread 4 -->
+            <div class="book-spread" id="spread-4">
+                <div class="center-spine"></div>
+                
+                <span class="section-number book-element" style="top: 40px; left: 40px;">04</span>
+                
+                <div class="black-block book-element" style="position: absolute; top: 20%; left: 0; width: 40%; height: 35%;"></div>
+                
+                <div class="book-image book-element" style="position: absolute; top: 30%; left: 25%; width: 40%; height: 45%;" data-img="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800" alt="Composition">
+                </div>
+                
+                <div class="book-image book-element" style="position: absolute; bottom: 25%; right: 15%; width: 20%; height: 25%;" data-img="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=400">
+                    <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=400" alt="Fragment">
+                </div>
+                
+                <p class="book-notes book-element" style="position: absolute; bottom: 15%; right: 10%; text-align: right;">
+                    the end<br>
+                    begins again
+                </p>
             </div>
-            <div class="journal-image journal-item" id="img-04-2">
-                <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=400" alt="Fragment">
-            </div>
-            <p class="book-notes journal-item" id="notes-04">
-                the end<br>
-                begins again
-            </p>
             
-            <!-- Demo 05 -->
-            <span class="section-number journal-item" id="demo05">05</span>
-            <div class="spanning-image journal-item" id="img-05-1" style="top: 3400px; left: 10%; width: 80%; height: 400px;">
-                <div class="spanning-left">
-                    <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=1200" alt="Untitled">
+            <!-- Book Spread 5 -->
+            <div class="book-spread" id="spread-5">
+                <div class="center-spine"></div>
+                
+                <span class="section-number book-element" style="top: 40px; left: 40px;">05</span>
+                
+                <!-- Spanning image -->
+                <div class="spanning-image" style="top: 25%; left: 10%; width: 80%; height: 50%;" data-img="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=1200">
+                    <div class="spanning-left">
+                        <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=1200" alt="Untitled">
+                    </div>
+                    <div class="spanning-right">
+                        <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=1200" alt="Untitled">
+                    </div>
                 </div>
-                <div class="spanning-right">
-                    <img src="https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?w=1200" alt="Untitled">
-                </div>
+                
+                <h2 class="entry-title book-element" style="position: absolute; bottom: 15%; right: 20%; text-align: center;">
+                    Sine Titulo
+                </h2>
             </div>
-            <h2 class="entry-title journal-item" id="title-05">Sine Titulo</h2>
+            
+        </div>
+    </div>
+    
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <div class="lightbox-content">
+            <img src="" alt="Full view">
         </div>
     </div>
     
     <script>
-        // NOTE: For local images, use forward slashes: src="images/boat.jpg" not backslashes
+        // Automatic spine blending for images near the center
+        function applySpineBlending() {
+            document.querySelectorAll('.book-spread').forEach(spread => {
+                const spreadRect = spread.getBoundingClientRect();
+                const spreadWidth = spreadRect.width;
+                const centerX = spreadWidth / 2;
+                
+                // Check all images in this spread
+                spread.querySelectorAll('.book-image').forEach(image => {
+                    const imageRect = image.getBoundingClientRect();
+                    const spreadOffset = image.getBoundingClientRect().left - spread.getBoundingClientRect().left;
+                    const imageLeft = spreadOffset;
+                    const imageRight = spreadOffset + imageRect.width;
+                    const imageCenter = imageLeft + (imageRect.width / 2);
+                    
+                    // Define spine zone (15% of spread width on each side of center)
+                    const spineZone = spreadWidth * 0.15;
+                    const spineLeft = centerX - spineZone;
+                    const spineRight = centerX + spineZone;
+                    
+                    // Check if image intersects with spine zone
+                    if (imageRight > spineLeft && imageLeft < spineRight) {
+                        // Apply spine blending effect
+                        image.classList.add('spine-adjacent');
+                        
+                        // Determine which side of spine the image is primarily on
+                        if (imageCenter < centerX) {
+                            // Left side of spine
+                            image.style.transformOrigin = 'right center';
+                            image.style.transform = 'perspective(2000px) rotateY(1.5deg)';
+                            
+                            // Add shadow on right edge (toward spine)
+                            const shadow = document.createElement('div');
+                            shadow.className = 'spine-shadow spine-shadow-right';
+                            shadow.style.cssText = `
+                                position: absolute;
+                                right: 0;
+                                top: 0;
+                                bottom: 0;
+                                width: 20px;
+                                background: linear-gradient(to left,
+                                    rgba(0,0,0,0.4) 0%,
+                                    rgba(0,0,0,0.2) 50%,
+                                    transparent 100%);
+                                pointer-events: none;
+                                z-index: 5;
+                            `;
+                            if (!image.querySelector('.spine-shadow-right')) {
+                                image.appendChild(shadow);
+                            }
+                        } else {
+                            // Right side of spine
+                            image.style.transformOrigin = 'left center';
+                            image.style.transform = 'perspective(2000px) rotateY(-1.5deg)';
+                            
+                            // Add shadow on left edge (toward spine)
+                            const shadow = document.createElement('div');
+                            shadow.className = 'spine-shadow spine-shadow-left';
+                            shadow.style.cssText = `
+                                position: absolute;
+                                left: 0;
+                                top: 0;
+                                bottom: 0;
+                                width: 20px;
+                                background: linear-gradient(to right,
+                                    rgba(0,0,0,0.4) 0%,
+                                    rgba(0,0,0,0.2) 50%,
+                                    transparent 100%);
+                                pointer-events: none;
+                                z-index: 5;
+                            `;
+                            if (!image.querySelector('.spine-shadow-left')) {
+                                image.appendChild(shadow);
+                            }
+                        }
+                        
+                        // If image spans across center, apply stronger effect
+                        if (imageLeft < centerX && imageRight > centerX) {
+                            image.classList.add('spine-spanning');
+                            image.style.transform = 'perspective(2000px) rotateX(0.5deg)';
+                            
+                            // Add center shadow overlay
+                            const centerShadow = document.createElement('div');
+                            centerShadow.className = 'spine-shadow spine-shadow-center';
+                            centerShadow.style.cssText = `
+                                position: absolute;
+                                left: 45%;
+                                right: 45%;
+                                top: 0;
+                                bottom: 0;
+                                background: linear-gradient(to right,
+                                    transparent 0%,
+                                    rgba(0,0,0,0.3) 30%,
+                                    rgba(0,0,0,0.5) 50%,
+                                    rgba(0,0,0,0.3) 70%,
+                                    transparent 100%);
+                                pointer-events: none;
+                                z-index: 5;
+                            `;
+                            if (!image.querySelector('.spine-shadow-center')) {
+                                image.appendChild(centerShadow);
+                            }
+                        }
+                    } else {
+                        // Remove spine effects if image is not near spine
+                        image.classList.remove('spine-adjacent', 'spine-spanning');
+                        image.style.transform = '';
+                        image.style.transformOrigin = '';
+                        image.querySelectorAll('.spine-shadow').forEach(shadow => shadow.remove());
+                    }
+                });
+            });
+        }
         
-        // Parallax effect for elements
+        // Apply spine blending on load and resize
+        document.addEventListener('DOMContentLoaded', applySpineBlending);
+        window.addEventListener('resize', applySpineBlending);
+        
+        // Smooth scroll behavior for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        
+        // Add click handlers to all images
+        document.querySelectorAll('.book-image, .spanning-image').forEach(image => {
+            image.addEventListener('click', function() {
+                const imgSrc = this.getAttribute('data-img') || this.querySelector('img').src;
+                lightboxImg.src = imgSrc;
+                lightbox.classList.add('active');
+            });
+        });
+        
+        // Close lightbox
+        lightbox.addEventListener('click', function() {
+            this.classList.remove('active');
+        });
+        
+        // Modified parallax effect - preserve spine transforms
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
-            const items = document.querySelectorAll('.journal-item');
+            const spreads = document.querySelectorAll('.book-spread');
             
-            items.forEach(item => {
-                const rect = item.getBoundingClientRect();
-                const speed = item.classList.contains('journal-image') || item.classList.contains('spanning-image') ? 0.5 : 0.3;
+            spreads.forEach(spread => {
+                const rect = spread.getBoundingClientRect();
+                const images = spread.querySelectorAll('.book-image');
                 
                 if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    const yPos = -(scrolled * speed * 0.1);
-                    if (!item.classList.contains('spanning-image')) {
-                        item.style.transform = `translateY(${yPos}px)`;
-                    }
+                    images.forEach(image => {
+                        const speed = 0.05;
+                        const yPos = -(scrolled * speed);
+                        
+                        // Preserve existing transforms from spine blending
+                        let existingTransform = '';
+                        if (image.classList.contains('spine-adjacent')) {
+                            if (image.classList.contains('spine-spanning')) {
+                                existingTransform = 'perspective(2000px) rotateX(0.5deg)';
+                            } else if (image.style.transform.includes('rotateY(1.5deg)')) {
+                                existingTransform = 'perspective(2000px) rotateY(1.5deg)';
+                            } else if (image.style.transform.includes('rotateY(-1.5deg)')) {
+                                existingTransform = 'perspective(2000px) rotateY(-1.5deg)';
+                            }
+                        }
+                        
+                        image.style.transform = `${existingTransform} translateY(${yPos}px)`;
+                    });
                 }
             });
         });
@@ -554,11 +866,14 @@
             });
         }, { threshold: 0.1 });
         
-        document.querySelectorAll('.journal-item').forEach(item => {
-            item.style.opacity = '0';
-            item.style.transition = 'opacity 1s ease-out';
-            observer.observe(item);
+        document.querySelectorAll('.book-element, .spanning-image').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transition = 'opacity 0.8s ease-out';
+            observer.observe(element);
         });
+        
+        // Re-apply spine blending after fade-in animations
+        setTimeout(applySpineBlending, 100);
     </script>
 </body>
 </html>
