@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Amatic+SC:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Amatic+SC:wght@400;700&family=Zilla+Slab:wght@300;400;500;600;700&display=swap"
     rel="stylesheet"
   />
 
@@ -34,13 +34,31 @@
     /* Index/Header Section */
     .index-section {
         min-height: 100vh;
-        background: linear-gradient(180deg, #f5f5f5 0%, #e5e5e5 50%, #ffffff 100%);
-        padding: 3rem;
+        background: #f5f5f5;
+        padding: 10rem;
         display: flex;
         align-items: center;
         position: relative;
         z-index: 10;
     }
+    
+    /* Right-side positioned hero image */
+    /* .hero-image {
+        position: absolute;
+        top: 12%;
+        right: 12%;
+        width: 500px;
+        height: 780px;
+        background: url('images/balls.jpg') center/cover;
+        border-radius: 6px;
+        opacity: 0.7;
+        z-index: 1;
+        transition: opacity 0.3s ease;
+    } */
+    
+    /* .hero-image:hover {
+        opacity: 0.4;
+    } */
     
     .index-container {
         max-width: 800px;
@@ -48,13 +66,15 @@
     }
     
     .site-header {
+        font-family: 'Zilla Slab', serif;
         font-size: 3rem;
-        font-weight: 300;
+        font-weight: 400;
         margin-bottom: 3rem;
         letter-spacing: -0.02em;
     }
     
     .index-list {
+        font-family: 'Zilla Slab', serif;
         list-style: none;
         font-size: 2.5rem;
         line-height: 1.3;
@@ -78,21 +98,20 @@
     
     /* Journal Book Layout */
     .journal-wrapper {
-        background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 20%, #e5e5e5 40%, #d0d0d0 60%, #b0b0b0 80%, #8a8a8a 100%);
+        background: #f5f5f5;
         position: relative;
         padding: 4rem 0;
     }
     
     .journal-content {
-        max-width: 1400px;
+        max-width: 1600px;
         margin: 0 auto;
         background: #1a1a1a;
         position: relative;
-        box-shadow: 
-            0 0 100px rgba(0,0,0,0.9), 
-            0 0 200px rgba(0,0,0,0.5),
-            inset 0 0 50px rgba(255,255,255,0.02);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         transform: perspective(2000px) rotateX(1deg);
+        overflow: hidden;
     }
     
     /* Book Spread Container */
@@ -100,7 +119,7 @@
         position: relative;
         width: 100%;
         height: 100vh;
-        min-height: 800px;
+        min-height: 1400px;
         display: flex;
         background: #1a1a1a;
         overflow: hidden;
@@ -272,7 +291,7 @@
         filter: grayscale(10%) contrast(1.05);
         transition: filter 0.3s, transform 0.3s ease-out;
         background: #000;
-        cursor: pointer;
+        cursor: zoom-in;
         box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         position: relative;
     }
@@ -318,7 +337,7 @@
     
     .book-notes {
         font-family: 'Amatic SC', cursive;
-        font-size: 1.8rem;
+        font-size: 2.2rem;
         font-weight: 700;
         line-height: 1.3;
         color: #e5e5e5;
@@ -337,39 +356,51 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.95);
+        background: rgba(255, 255, 255, 0.95);
         z-index: 1000;
         padding: 2rem;
-        cursor: pointer;
+        cursor: zoom-out;
+        opacity: 0;
+        transition: opacity 0.4s ease-out;
     }
     
     .lightbox.active {
         display: flex;
         align-items: center;
         justify-content: center;
+        opacity: 1;
     }
     
     .lightbox-content {
-        max-width: 90vw;
-        max-height: 90vh;
+        width: 95vw;
+        height: 95vh;
         position: relative;
+        transform: scale(0.8);
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .lightbox.active .lightbox-content {
+        transform: scale(1);
     }
     
     .lightbox-content img {
         width: 100%;
         height: 100%;
         object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     }
     
     .lightbox-close {
         position: absolute;
         top: 20px;
         right: 40px;
-        color: #fff;
+        color: #333;
         font-size: 40px;
         font-weight: 300;
         cursor: pointer;
         z-index: 1001;
+        transition: opacity 0.2s;
     }
     
     .lightbox-close:hover {
@@ -378,6 +409,14 @@
     
     /* Mobile adjustments */
     @media (max-width: 768px) {
+        .hero-image {
+            width: 200px;
+            height: 300px;
+            right: 5%;
+            top: 15%;
+            opacity: 0.2;
+        }
+        
         .index-list {
             font-size: 1.5rem;
         }
@@ -404,14 +443,17 @@
 <body>
     <!-- Index Section -->
     <section class="index-section">
+        <!-- Right-side positioned hero image -->
+        <div class="hero-image"></div>
+        
         <div class="index-container">
-            <h1 class="site-header">Photography Portfolio<br>C.V.</h1>
+            <h1 class="site-header">places, faces and databases...<br>fotos</h1>
             <ul class="index-list">
-                <li><a href="#spread-1">Portfolio 01—Hills & Landscapes</a></li>
-                <li><a href="#spread-2">Portfolio 02—Testing Zone</a></li>
-                <li><a href="#spread-3">Portfolio 03—Compositions</a></li>
-                <li><a href="#spread-4">Portfolio 04—Mixed Media</a></li>
-                <li><a href="#spread-5">Portfolio 05—Final Works</a></li>
+                <li><a href="#spread-1">01 - a sunny day at the beach</a></li>
+                <li><a href="#spread-2">02 - india adjacent</a></li>
+                <li><a href="#spread-3">03</a></li>
+                <li><a href="#spread-4">04</a></li>
+                <li><a href="#spread-5">05</a></li>
             </ul>
         </div>
     </section>
@@ -419,9 +461,9 @@
     <!-- Journal Book Wrapper -->
     <div class="journal-wrapper">
         <!-- Info Label -->
-        <div class="info-label">Portfolio, Index</div>
+        <!-- <div class="info-label">Portfolio, Index</div> -->
         
-        <!-- Journal Content -->
+        <!-- Journal Content - ALL SPREADS INSIDE HERE -->
         <div class="journal-content">
             
             <!-- Book Spread 1 - Your Images -->
@@ -434,56 +476,57 @@
                 <div class="book-image book-element" style="position: absolute; top: 0%; left: 0%; width: 50%; height: 100%;" data-img="images/hills.jpg">
                     <img src="images/hills.jpg" alt="Hills landscape">
                 </div>
+                <p class="book-notes book-element" style="position: absolute; bottom: 120px; left: 40px;">
+                    fortunately not tottenham...<br>
+                </p>
+                <!-- Three portrait images side by side on right, above boat -->
+                <p class="book-notes book-element" style="position: absolute; top: 600px; right: 160px;">
+                    a pathetic falacy<br>
+                </p>
 
-                <!-- Your boat image - right side (75-100% = no spine effects) -->
-                <div class="book-image book-element" style="position: absolute; top: 50%; left: 50%; width: 40%; height: 40%;" data-img="images/boat.jpg">
-                    <img src="images/boat.jpg" alt="Boat detail">
+                <div class="book-image book-element" style="position: absolute; top: 20%; left: 50%; width: 16%; height: 28%;" data-img="images\horse.jpg">
+                    <img src="images\horse.jpg" alt="Portrait 1">
                 </div>
                 
-                <p class="book-notes book-element" style="position: absolute; bottom: 60px; left: 60px;">
-                    landscapes<br>
-                    and details
+                <div class="book-image book-element" style="position: absolute; top: 20%; left: 66.5%; width: 16%; height: 28%;" data-img="images\beems.jpg">
+                    <img src="images\beems.jpg" alt="Portrait 2">
+                </div>
+                
+                <div class="book-image book-element" style="position: absolute; top: 20%; left: 83%; width: 16.3%; height: 28%;" data-img="images\van.jpg">
+                    <img src="images\van.jpg" alt="Portrait 3">
+                </div>
+
+                <!-- Your boat image - right side (75-100% = no spine effects) -->
+                <div class="book-image book-element" style="position: absolute; top: 60%; left: 50%; width: 40%; height: 30%;" data-img="images/boat.jpg">
+                    <img src="images/boat.jpg" alt="Boat detail">
+                </div>
+                <p class="book-notes book-element" style="position: absolute; bottom: 175px; right: 200px;">
+                    stop the boats!!!<br>
                 </p>
             </div>
             
             <!-- Book Spread 2 - Testing the Helper Classes -->
             <div class="book-spread" id="spread-2">
                 <div class="center-spine"></div>
-                <!-- Positioning guide (hover to see zones) -->
-                <div class="positioning-guide"></div>
                 
-                <span class="section-number book-element" style="top: 40px; right: 60px;">02</span>
-                <h2 class="entry-title book-element" style="top: 100px; left: 60px;">Spine Zone Testing</h2>
+                <span class="section-number book-element" style="top: 40px; left: 60px;">02</span>
                 
-                <!-- Far left page - no spine effects (5-40%) -->
-                <div class="book-image book-element left-page" style="top: 15%; height: 25%;" data-img="images/hills.jpg">
-                    <img src="images/hills.jpg" alt="Far left - no blending">
+                <div class="book-image book-element" style="position: absolute; top: 0%; left: 50%; width: 50%; height: 50%;" data-img="images\train_bleak.jpg">
+                    <img src="images\train_bleak.jpg" alt="Bleak Train">
                 </div>
                 
-                <!-- Left near spine - automatic left-side blending (42-50%) -->
-                <div class="book-image book-element left-near-spine" style="top: 45%; height: 30%;" data-img="images/boat.jpg">
-                    <img src="images/boat.jpg" alt="Left near spine - auto blend">
+                <div class="book-image book-element" style="position: absolute; top: 20%; left: 10%; width: 40%; height: 70%;" data-img="images\tree_light.jpg">
+                    <img src="images\tree_light.jpg" alt="Tree Light">
                 </div>
-                
-                <!-- Cross spine - automatic cross-page blending (46-54%) -->
-                <div class="book-image book-element cross-spine" style="top: 20%; height: 35%;" data-img="images/hills.jpg">
-                    <img src="images/hills.jpg" alt="Crosses spine - auto blend">
+                <div class="book-image book-element" style="position: absolute; top: 60%; left: 50%; width: 20%; height: 30%;" data-img="images\lotta.jpg">
+                    <img src="images\lotta.jpg" alt="Lotta">
                 </div>
+
                 
-                <!-- Right near spine - automatic right-side blending (50-58%) -->
-                <div class="book-image book-element right-near-spine" style="top: 60%; height: 25%;" data-img="images/boat.jpg">
-                    <img src="images/boat.jpg" alt="Right near spine - auto blend">
-                </div>
-                
-                <!-- Far right page - no spine effects (60-95%) -->
-                <div class="book-image book-element right-page" style="top: 25%; height: 30%;" data-img="images/hills.jpg">
-                    <img src="images/hills.jpg" alt="Far right - no blending">
-                </div>
-                
-                <p class="book-notes book-element" style="position: absolute; bottom: 10%; left: 10%; font-size: 1.4rem; opacity: 0.7;">
+                <!-- <p class="book-notes book-element" style="position: absolute; bottom: 10%; left: 10%; font-size: 1.4rem; opacity: 0.7;">
                     Spine zone: 48-52%<br>
                     Only 4% width<br>
-                    Very precise!
+                    Very precise! -->
                 </p>
             </div>
             
@@ -694,7 +737,7 @@
             });
         });
         
-        // Lightbox functionality
+        // Lightbox functionality with smooth transitions
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = lightbox.querySelector('img');
         
@@ -703,16 +746,30 @@
             image.addEventListener('click', function() {
                 const imgSrc = this.getAttribute('data-img') || this.querySelector('img').src;
                 lightboxImg.src = imgSrc;
-                lightbox.classList.add('active');
+                
+                // Show lightbox with smooth transition
+                lightbox.style.display = 'flex';
+                
+                // Force reflow then add active class for smooth transition
+                requestAnimationFrame(() => {
+                    lightbox.classList.add('active');
+                });
             });
         });
         
-        // Close lightbox
+        // Close lightbox with smooth transition
         lightbox.addEventListener('click', function() {
             this.classList.remove('active');
+            
+            // Hide after transition completes
+            setTimeout(() => {
+                if (!this.classList.contains('active')) {
+                    this.style.display = 'none';
+                }
+            }, 400);
         });
         
-        // Modified parallax effect - preserve spine transforms
+        // Subtle parallax effect - very minimal movement
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const spreads = document.querySelectorAll('.book-spread');
@@ -720,10 +777,12 @@
             spreads.forEach(spread => {
                 const rect = spread.getBoundingClientRect();
                 const images = spread.querySelectorAll('.book-image');
+                const textElements = spread.querySelectorAll('.book-notes, .section-number, .entry-title');
                 
                 if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    // Very subtle parallax for images
                     images.forEach(image => {
-                        const speed = 0.05;
+                        const speed = 0.01; // Much more subtle movement
                         const yPos = -(scrolled * speed);
                         
                         // Preserve existing transforms from spine blending
@@ -739,6 +798,13 @@
                         }
                         
                         image.style.transform = `${existingTransform} translateY(${yPos}px)`;
+                    });
+                    
+                    // Even more subtle movement for text elements (barely noticeable)
+                    textElements.forEach(text => {
+                        const textSpeed = 0.005; // Extremely subtle for text
+                        const textYPos = -(scrolled * textSpeed);
+                        text.style.transform = `translateY(${textYPos}px)`;
                     });
                 }
             });
