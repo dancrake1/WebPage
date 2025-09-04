@@ -8,6 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap'rel="stylesheet">
 
   <style>
     :root{
@@ -27,6 +30,20 @@
       
       /* Text overlay variables - darker red to compensate for normal blend mode */
       --text-overlay-color: rgba(180,25,35,1);
+    }
+    @font-face {
+    font-family: 'Futura Bold';
+    src: url('../fonts/FuturaBold.woff2') format('woff2'),      /* Best compression */
+         url('../fonts/FuturaBold.woff') format('woff'),        /* Good fallback */
+         url('../fonts/FuturaBold.otf') format('opentype');     /* Your OTF file */
+    font-weight: bold;
+    font-display: swap; /* Better loading performance */
+    }
+
+    @font-face {
+        font-family: 'CMM';
+        src: url('fonts/CMM Coda/CMMCoda-MonoSans.woff') format('woff2');     /* Best compression */
+        font-display: swap; /* Better loading performance */
     }
 
     *{margin:0;padding:0;box-sizing:border-box}
@@ -278,32 +295,50 @@
     /* Optional: if you ever have a global blend on .book-image, neutralize it here */
     .book-image .image-spot { mix-blend-mode: unset; }
 
-    /* Large text overlay system */
-    .text-overlay {
-      position: absolute;
-      z-index: 50;
-      pointer-events: none;
-      font-family: 'Gotham Black', 'Arial Black', 'Helvetica Neue', Arial, sans-serif;
-      font-weight: 900;
-      font-size: 5rem;
-      line-height: 0.7;
-      color: var(--blob-color);
-      text-transform: lowercase;
-      mix-blend-mode: multiply;
-      opacity: 0.6;
-      transform-origin: left top;
-      letter-spacing: -0.03em;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.08);
+    /* Clipper that matches the journal boundary. Place inside .journal-content */
+    .title-clip {
+    position: absolute;
+    inset: 0;                /* fills the book */
+    overflow: hidden;        /* trims the title at book edges */
+    pointer-events: none;
+    z-index: 69;             /* below images with z>69, above page bg */
     }
+
+    /* Display title: sharper grotesk, tighter rows */
+    .display-title {
+    position: absolute;
+    z-index: 70;
+    pointer-events: none;
     
-    /* Multi-line text overlay with proper spacing */
-    .text-overlay.multi-line {
-      white-space: pre-line;
-      text-align: left;
-      width: auto;
-      height: auto;
-      overflow: visible;
+    /* Updated font stack */
+    /* font-family: 'Oswald', 'Bebas Neue', 'Barlow Condensed', sans-serif; */
+    font-family: 'Futura Bold', sans-serif;
+    font-weight: bold; 
+    /* font-family: 'CMM', sans-serif; */
+    font-weight: 1000;                /* Black weight */
+    font-stretch: condensed;         /* Make it more condensed */
+    font-size: clamp(3rem, 9vw, 10rem);
+    line-height: 0.9;              /* Even tighter */
+    letter-spacing: -0.025em;        /* Tighter spacing like the image */
+    
+    color: rgb(255, 74, 58, 0.85);
+    mix-blend-mode: multiply;
+    filter: url(#textGrain);
+}
+
+    /* Per-line control (for the stair-step indents) */
+    .display-title .line{
+    display: block;
+    transform: translateX(var(--indent,0ch));
     }
+    .display-title .line + .line { margin-top: var(--row-gap); }
+
+    /* Optional: a hairline stroke to keep edges crisp on pale areas */
+    .display-title.crisp {
+    -webkit-text-stroke: 0.02em rgba(0,0,0,0.06);
+            text-stroke: 0.02em rgba(0,0,0,0.06);
+    }
+
 
     /* Mobile */
     @media (max-width: 768px) {
@@ -351,19 +386,11 @@
       <!-- SPREAD 1 -->
       <div class="book-spread" id="spread-1">
         <div class="center-spine"></div>
-
-        <div class="lorem-block book-element" style="top: 80px; left: 60px; width: 35%; opacity: 0.4;">
-          Proin facilisis sapien et libero dapibus interdum. In mollis lorem eu diam malesuada, ut tempus ante convallis. Sed egestas facilisis quam, sit amet.
-        </div>
         <span class="section-number book-element" style="top: 20px; left: 40px;">01</span>
 
         <div class="book-image book-element" style="top:0%; left:0%; width:50%; height:100%;" data-img="images/severn_sisters/hills.jpg">
           <img src="images/severn_sisters/hills.jpg" alt="Hills landscape">
         </div>
-
-        <p class="book-notes book-element" style="bottom: 120px; left: 40px;">fortunately not tottenham...<br></p>
-        <p class="book-notes book-element" style="top: 600px; right: 160px;">a pathetic falacy<br></p>
-
         <div class="book-image book-element" style="top: 25%; left: 50%; width: 16%; height: 28%;" data-img="images/severn_sisters/horse.jpg">
           <img src="images/severn_sisters/horse.jpg" alt="Portrait 1">
         </div>
@@ -373,20 +400,27 @@
         <div class="book-image book-element" style="top: 25%; left: 83%; width: 16.3%; height: 28%;" data-img="images/severn_sisters/van.jpg">
           <img src="images/severn_sisters/van.jpg" alt="Portrait 3">
         </div>
-        
-<div class="book-image book-element" 
-     style="top: 63%; left: 50%; width: 40%; height: 30%;" 
-     data-img="images/severn_sisters/boat.jpg"
-     data-blob="size:1,seed:11,rotation:-6,x:750,y:560, bleed:y">
-  <img src="images/severn_sisters/boat.jpg" alt="Boat composition">
-</div>
+        <div class="book-image book-element" 
+            style="top: 63%; left: 50%; width: 40%; height: 30%;" 
+            data-img="images/severn_sisters/boat.jpg"
+            data-blob="size:1,seed:11,rotation:-6,x:750,y:560, bleed:y">
+        <img src="images/severn_sisters/boat.jpg" alt="Boat composition">
+        </div>
 
-        <p class="book-notes book-element" style="bottom: 175px; right: 190px;">the boats!!!<br></p>
 
-        <!-- Large text overlay -->
-        <div class="text-overlay multi-line book-element" style="top: 2%; right: 0%; transform: rotate(-0deg);">sev
-        ern sis
-  ters</div>
+        <!-- Text -->
+
+        <div class="display-title narrow crisp book-element"
+        style="top: 2%; right: 0%; width: 25%;">
+            <span class="line" style="--indent: 0ch">Sev</span>
+            <span class="line" style="--indent: 1ch">ern</span>
+            <span class="line" style="--indent: 0.5ch">Sis</span>
+            <span class="line" style="--indent: 1.2ch">ters</span>
+        </div>
+        <div class="lorem-block book-element" style="top: 770px; left: 700px; width: 35%; opacity: 0.4;">
+            the usual january walk taken post the over-endulgance of christmas and attempts to reach a month sober - this day was the day it ended.
+          </div>
+        <span class="attribution book-element" style="top: 100px; left: 700px;">the annual sobriety stroll ©late jan 2025</span>
 
       </div>
 
@@ -659,7 +693,7 @@
       spreads.forEach(spread => {
         const rect = spread.getBoundingClientRect();
         const images = spread.querySelectorAll('.book-image');
-        const textElements = spread.querySelectorAll('.book-notes, .section-number, .entry-title');
+        const textElements = spread.querySelectorAll('.book-notes, .section-number, .entry-title, .display-title');
 
         if (rect.top < window.innerHeight && rect.bottom > 0) {
           images.forEach(image => {
