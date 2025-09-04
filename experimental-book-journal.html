@@ -16,6 +16,14 @@
 
       /* Warmer, lighter paper base (less grey) */
       --paper: #faeed9;  /* try #f8edd6 or #f9ecd7 for tiny shifts */
+      
+      /* Blob style variables - reuse the exact style you like */
+      --blob-color: rgba(224,31,45,0.98);
+      --blob-hue-opacity: 0.40;
+      --blob-density-opacity: 0.60; 
+      --blob-burn-opacity: 0.18;
+      --blob-grain-opacity: 0.24;
+      --blob-grain2-opacity: 0.12;
     }
 
     *{margin:0;padding:0;box-sizing:border-box}
@@ -312,61 +320,12 @@
           <img src="images/severn_sisters/van.jpg" alt="Portrait 3">
         </div>
         
-<div class="book-image book-element has-spot"
-     style="position: absolute; top: 60%; left: 50%; width: 40%; height: 30%;"
-     data-img="images/severn_sisters/boat.jpg">
+<div class="book-image book-element" 
+     style="top: 60%; left: 50%; width: 40%; height: 30%;" 
+     data-img="images/severn_sisters/boat.jpg"
+     data-blob="size:2.5,seed:11,rotation:-6,x:750,y:560, bleed:y">
   <img src="images/severn_sisters/boat.jpg" alt="Boat composition">
-
-  <div class="image-spot image-spot--contained">
-    <svg viewBox="0 0 1000 1000" aria-hidden="true">
-      <defs>
-        <filter id="grain" x="-20%" y="-20%" width="140%" height="140%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="2" seed="3"/>
-          <feColorMatrix type="saturate" values="0" />
-          <feComponentTransfer>
-            <feFuncA type="linear" slope="0.45"/>
-          </feComponentTransfer>
-        </filter>
-        <filter id="grainCoarse" x="-20%" y="-20%" width="140%" height="140%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.22" numOctaves="2" seed="9"/>
-          <feColorMatrix type="saturate" values="0" />
-          <feComponentTransfer>
-            <feFuncA type="linear" slope="0.28"/>
-          </feComponentTransfer>
-        </filter>
-        <filter id="roughen" x="-30%" y="-30%" width="160%" height="160%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="8" result="turb"/>
-          <feDisplacementMap in="SourceGraphic" in2="turb" scale="9" xChannelSelector="R" yChannelSelector="G"/>
-          <feGaussianBlur stdDeviation="0.9" />
-        </filter>
-        <linearGradient id="fadeY" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"  stop-color="rgba(224,31,45,0.55)"/>
-          <stop offset="55%" stop-color="rgba(224,31,45,0.45)"/>
-          <stop offset="78%" stop-color="rgba(224,31,45,0.28)"/>
-          <stop offset="100%" stop-color="rgba(224,31,45,0.00)"/>
-        </linearGradient>
-        <radialGradient id="roundFade" cx="50%" cy="50%" r="65%">
-          <stop offset="0%"  stop-color="rgba(224,31,45,0.45)"/>
-          <stop offset="70%" stop-color="rgba(224,31,45,0.22)"/>
-          <stop offset="100%" stop-color="rgba(224,31,45,0.00)"/>
-        </radialGradient>
-        <path id="blobPath" d="M758 338c58 8 116 42 156 90 41 49 56 102 32 150-24 48-87 88-160 110-73 22-156 26-212-5-56-31-86-100-78-158 7-58 54-105 110-138 56-34 94-57 152-49z"/>
-        <clipPath id="blobClip">
-          <use href="#blobPath" />
-        </clipPath>
-      </defs>
-      <g transform="rotate(-6 760 560)">
-        <use href="#blobPath" class="hue-layer" fill="rgba(224,31,45,0.98)" filter="url(#roughen)" />
-        <use href="#blobPath" class="density-layer" fill="url(#roundFade)" filter="url(#roughen)" />
-        <use href="#blobPath" class="burn-layer" fill="rgba(224,31,45,0.62)" filter="url(#roughen)" />
-        <g clip-path="url(#blobClip)">
-          <use href="#blobPath" class="grain" fill="#000" filter="url(#grain)" />
-          <use href="#blobPath" class="grain2" fill="#000" filter="url(#grainCoarse)" />
-        </g>
-      </g>
-    </svg>
-  </div>
-    </div>
+</div>
 
         <p class="book-notes book-element" style="bottom: 175px; right: 190px;">the boats!!!<br></p>
 
@@ -674,6 +633,160 @@
     });
 
     setTimeout(applySpineBlending, 100);
+
+    // Blob generation system
+    //  - size: 1.2 = 20% bigger, 0.8 = 20% smaller
+    //  - seed: Different numbers = different organic shapes (same number = same shape)
+    //  - rotation: -6 = slightly counter-clockwise, 45 = 45° clockwise
+    //  - x,y: Position within the image (500,500 = center, 300,200 = upper-left area)
+    //  - bleed: y/yes/true = blob can extend beyond image boundaries into journal
+
+    function generateBlobPath(size = 1, seed = 1) {
+      const random = (seed) => {
+        let x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
+      };
+      
+      // Natural blob parameters with variation
+      const baseSize = 200 * size;
+      const points = 8;
+      const roughness = 0.3;
+      const cx = 500, cy = 500;
+      
+      let path = 'M';
+      const angles = [];
+      
+      for (let i = 0; i < points; i++) {
+        const angle = (i / points) * 2 * Math.PI;
+        const radiusVariation = 1 + (random(seed + i * 7) - 0.5) * roughness;
+        const angleOffset = (random(seed + i * 11) - 0.5) * 0.3;
+        
+        const radius = baseSize * radiusVariation;
+        const actualAngle = angle + angleOffset;
+        
+        const x = cx + Math.cos(actualAngle) * radius;
+        const y = cy + Math.sin(actualAngle) * radius;
+        
+        angles.push({ x, y, angle: actualAngle });
+      }
+      
+      // Create smooth curves between points
+      for (let i = 0; i < points; i++) {
+        const curr = angles[i];
+        const next = angles[(i + 1) % points];
+        const prev = angles[i === 0 ? points - 1 : i - 1];
+        
+        if (i === 0) path += `${curr.x} ${curr.y}`;
+        
+        // Control points for smooth curves
+        const cp1x = curr.x + Math.cos(curr.angle + Math.PI/2) * baseSize * 0.2;
+        const cp1y = curr.y + Math.sin(curr.angle + Math.PI/2) * baseSize * 0.2;
+        const cp2x = next.x - Math.cos(next.angle + Math.PI/2) * baseSize * 0.2;
+        const cp2y = next.y - Math.sin(next.angle + Math.PI/2) * baseSize * 0.2;
+        
+        path += ` C${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${next.x} ${next.y}`;
+      }
+      path += 'z';
+      
+      return path;
+    }
+
+    function addBlobToImage(imageElement, options = {}) {
+      const {
+        size = 1,
+        seed = Math.random() * 1000,
+        rotation = Math.random() * 360,
+        position = { x: Math.random() * 400 + 300, y: Math.random() * 400 + 300 },
+        bleed = false
+      } = options;
+      
+      if (!imageElement.classList.contains('has-spot')) {
+        imageElement.classList.add('has-spot');
+      }
+      
+      const blobPath = generateBlobPath(size, seed);
+      const uniqueId = `blob-${Math.floor(Math.random() * 10000)}`;
+      
+      const spotDiv = document.createElement('div');
+      spotDiv.className = bleed ? 'image-spot image-spot--bleed' : 'image-spot image-spot--contained';
+      spotDiv.innerHTML = `
+        <svg viewBox="0 0 1000 1000" aria-hidden="true">
+          <defs>
+            <filter id="grain-${uniqueId}" x="-20%" y="-20%" width="140%" height="140%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="2" seed="${seed}"/>
+              <feColorMatrix type="saturate" values="0" />
+              <feComponentTransfer>
+                <feFuncA type="linear" slope="0.45"/>
+              </feComponentTransfer>
+            </filter>
+            <filter id="grainCoarse-${uniqueId}" x="-20%" y="-20%" width="140%" height="140%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.22" numOctaves="2" seed="${seed + 100}"/>
+              <feColorMatrix type="saturate" values="0" />
+              <feComponentTransfer>
+                <feFuncA type="linear" slope="0.28"/>
+              </feComponentTransfer>
+            </filter>
+            <filter id="roughen-${uniqueId}" x="-30%" y="-30%" width="160%" height="160%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="${seed + 200}" result="turb"/>
+              <feDisplacementMap in="SourceGraphic" in2="turb" scale="9" xChannelSelector="R" yChannelSelector="G"/>
+              <feGaussianBlur stdDeviation="0.9" />
+            </filter>
+            <radialGradient id="roundFade-${uniqueId}" cx="50%" cy="50%" r="65%">
+              <stop offset="0%" stop-color="var(--blob-color)" stop-opacity="0.45"/>
+              <stop offset="70%" stop-color="var(--blob-color)" stop-opacity="0.22"/>
+              <stop offset="100%" stop-color="var(--blob-color)" stop-opacity="0.00"/>
+            </radialGradient>
+            <path id="blobPath-${uniqueId}" d="${blobPath}"/>
+            <clipPath id="blobClip-${uniqueId}">
+              <use href="#blobPath-${uniqueId}" />
+            </clipPath>
+          </defs>
+          <g transform="translate(${position.x - 500}, ${position.y - 500}) rotate(${rotation} 500 500)">
+            <use href="#blobPath-${uniqueId}" class="hue-layer" fill="var(--blob-color)" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-hue-opacity)" />
+            <use href="#blobPath-${uniqueId}" class="density-layer" fill="url(#roundFade-${uniqueId})" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-density-opacity)" />
+            <use href="#blobPath-${uniqueId}" class="burn-layer" fill="var(--blob-color)" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-burn-opacity)" />
+            <g clip-path="url(#blobClip-${uniqueId})">
+              <use href="#blobPath-${uniqueId}" class="grain" fill="#000" filter="url(#grain-${uniqueId})" style="opacity: var(--blob-grain-opacity)" />
+              <use href="#blobPath-${uniqueId}" class="grain2" fill="#000" filter="url(#grainCoarse-${uniqueId})" style="opacity: var(--blob-grain2-opacity)" />
+            </g>
+          </g>
+        </svg>
+      `;
+      
+      imageElement.appendChild(spotDiv);
+      return spotDiv;
+    }
+
+    // Auto-initialize blobs from HTML attributes
+    function initializeBlobs() {
+      document.querySelectorAll('.book-image[data-blob]').forEach(image => {
+        const blobData = image.getAttribute('data-blob');
+        if (blobData === 'true' || blobData === '') {
+          // Simple blob with defaults
+          addBlobToImage(image);
+        } else {
+          // Parse blob parameters
+          const params = {};
+          blobData.split(',').forEach(param => {
+            const [key, value] = param.split(':');
+            if (key && value) {
+              if (key === 'size') params.size = parseFloat(value);
+              else if (key === 'seed') params.seed = parseInt(value);
+              else if (key === 'rotation') params.rotation = parseFloat(value);
+              else if (key === 'bleed') params.bleed = value === 'y' || value === 'yes' || value === 'true';
+              else if (key === 'x' || key === 'y') {
+                if (!params.position) params.position = {};
+                params.position[key] = parseFloat(value);
+              }
+            }
+          });
+          addBlobToImage(image, params);
+        }
+      });
+    }
+
+    // Initialize blobs after DOM loads
+    document.addEventListener('DOMContentLoaded', initializeBlobs);
   </script>
 </body>
 </html>
