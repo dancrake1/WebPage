@@ -191,12 +191,13 @@
       position: absolute;
       z-index: 2;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      filter: brightness(.96) contrast(.96);
       mix-blend-mode: multiply;              /* printed look */
       transition: filter .25s ease, box-shadow .25s ease, mix-blend-mode .25s ease, transform .25s ease;
       background: transparent;
     }
-    .book-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* When an image hosts a colored spot, avoid double-multiplying (which dulls color) */
+    .book-image.has-spot { mix-blend-mode: normal; }
+    .book-image img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(.96) contrast(.96); }
     .book-image:hover {
       filter: brightness(1) contrast(1);
       mix-blend-mode: normal;                /* rise from page */
@@ -244,9 +245,10 @@
     height: 100%;
     }
 
-    /* Two-layer recipe matching the reference */
-    .image-spot .hue-layer     { mix-blend-mode: color;    opacity: 0.66; }
-    .image-spot .density-layer { mix-blend-mode: multiply; opacity: 0.38; }
+    /* Two-layer recipe matching the reference (stronger background interaction) */
+    .image-spot .hue-layer     { mix-blend-mode: color;      opacity: 0.30; }
+    .image-spot .density-layer { mix-blend-mode: overlay;    opacity: 0.55; }
+    .image-spot .burn-layer    { mix-blend-mode: color-burn; opacity: 0.14; }
 
     /* Add some paper-like grain inside the spot (very subtle) */
     .image-spot .grain {
@@ -255,8 +257,7 @@
     }
 
     /* Optional: if you ever have a global blend on .book-image, neutralize it here */
-    .book-image .image-spot,
-    .book-image .image-spot * { mix-blend-mode: unset; }
+    .book-image .image-spot { mix-blend-mode: unset; }
 
     /* Mobile */
     @media (max-width: 768px) {
@@ -313,7 +314,7 @@
           <img src="images/severn_sisters/van.jpg" alt="Portrait 3">
         </div>
         
-<div class="book-image book-element"
+<div class="book-image book-element has-spot"
      style="position: absolute; top: 60%; left: 50%; width: 40%; height: 30%;"
      data-img="images/severn_sisters/boat.jpg">
   <img src="images/severn_sisters/boat.jpg" alt="Boat composition">
@@ -322,10 +323,10 @@
   <div class="image-spot image-spot--contained">
     <svg viewBox="0 0 1000 1000" aria-hidden="true">
       <defs>
-        <!-- Soft feather -->
-        <filter id="feather6" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="6" />  <!-- 4–6 = crisp; 8–12 = soft -->
-          </filter>
+        <!-- Crisper edge with very light feather -->
+        <filter id="feather1" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="1.2" />
+        </filter>
 
         <!-- Subtle grain texture (inside the spot) -->
         <filter id="grain" x="-20%" y="-20%" width="140%" height="140%">
@@ -334,6 +335,12 @@
           <feComponentTransfer>
             <feFuncA type="linear" slope="0.35"/>
           </feComponentTransfer>
+        </filter>
+
+        <!-- Gentle edge roughening so it feels hand-cut/not too round -->
+        <filter id="roughen" x="-30%" y="-30%" width="160%" height="160%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" seed="8" result="turb"/>
+          <feDisplacementMap in="SourceGraphic" in2="turb" scale="6" xChannelSelector="R" yChannelSelector="G"/>
         </filter>
 
         <!-- Vertical fade so the top is lighter, bottom denser -->
@@ -345,38 +352,39 @@
         </linearGradient>
       </defs>
 
-      <!-- Natural hand-cut blob path (anchored bottom-right in viewBox space).
-           Nudge points to taste. -->
-           <g transform="translate(0,0)">
-            <!-- POSITION: adjust cx/cy; SIZE: rx/ry; ANGLE: rotate(...) around cx,cy -->
-            <!-- Hue lock (crisper red) -->
-            <ellipse class="hue-layer"
-                     cx="760" cy="560" rx="260" ry="210"
-                     fill="rgba(255, 74, 58, 0.92)" 
-                     filter="url(#feather6)"
-                     transform="rotate(-6 760 560)"/>
-          
-            <!-- Density layer (gentler than before so it doesn’t dirty the hue) -->
-            <defs>
-              <radialGradient id="roundFade" cx="50%" cy="50%" r="65%">
-                <stop offset="0%"  stop-color="rgba(255,74,58,0.35)"/>
-                <stop offset="70%" stop-color="rgba(255,74,58,0.18)"/>
-                <stop offset="100%" stop-color="rgba(255,74,58,0.00)"/>
-              </radialGradient>
-            </defs>
-            <ellipse class="density-layer"
-                     cx="760" cy="560" rx="260" ry="210"
-                     fill="url(#roundFade)"
-                     filter="url(#feather6)"
-                     transform="rotate(-6 760 560)"/>
-          
-            <!-- Grain (lighter so the red stays clean) -->
-            <ellipse class="grain"
-                     cx="760" cy="560" rx="260" ry="210"
-                     fill="#000"
-                     filter="url(#grain) url(#feather6)"
-                     transform="rotate(-6 760 560)"/>
-          </g>
+      <!-- Organic blob using ellipse + edge roughening -->
+      <defs>
+        <radialGradient id="roundFade" cx="50%" cy="50%" r="65%">
+          <stop offset="0%"  stop-color="rgba(255,74,58,0.42)"/>
+          <stop offset="70%" stop-color="rgba(255,74,58,0.20)"/>
+          <stop offset="100%" stop-color="rgba(255,74,58,0.00)"/>
+        </radialGradient>
+      </defs>
+      <g transform="translate(0,0)">
+        <ellipse class="hue-layer"
+                 cx="760" cy="560" rx="260" ry="210"
+                 fill="rgba(255, 74, 58, 0.95)"
+                 filter="url(#feather1) url(#roughen)"
+                 transform="rotate(-6 760 560)"/>
+
+        <ellipse class="density-layer"
+                 cx="760" cy="560" rx="260" ry="210"
+                 fill="url(#roundFade)"
+                 filter="url(#feather1) url(#roughen)"
+                 transform="rotate(-6 760 560)"/>
+
+        <ellipse class="burn-layer"
+                 cx="760" cy="560" rx="260" ry="210"
+                 fill="rgba(255,74,58,0.6)"
+                 filter="url(#feather1) url(#roughen)"
+                 transform="rotate(-6 760 560)"/>
+
+        <ellipse class="grain"
+                 cx="760" cy="560" rx="260" ry="210"
+                 fill="#000"
+                 filter="url(#grain) url(#feather1) url(#roughen)"
+                 transform="rotate(-6 760 560)"/>
+      </g>
     </svg>
   </div>
     </div>
