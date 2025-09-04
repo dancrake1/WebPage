@@ -24,6 +24,9 @@
       --blob-burn-opacity: 0.18;
       --blob-grain-opacity: 0.24;
       --blob-grain2-opacity: 0.12;
+      
+      /* Text overlay variables - darker red to compensate for normal blend mode */
+      --text-overlay-color: rgba(180,25,35,1);
     }
 
     *{margin:0;padding:0;box-sizing:border-box}
@@ -203,6 +206,10 @@
       transition: filter .25s ease, box-shadow .25s ease, mix-blend-mode .25s ease, transform .25s ease;
       background: transparent;
     }
+    /* Allow bleeding images to overflow */
+    .book-image.has-spot-bleed {
+      overflow: visible;
+    }
     /* When an image hosts a colored spot, avoid double-multiplying only on hover */
     .book-image.has-spot:hover { mix-blend-mode: normal; }
     .book-image img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(.96) contrast(.96); }
@@ -243,7 +250,13 @@
 
     /* Contained vs. bleed */
     .book-image .image-spot--contained svg { overflow: hidden; }
-    .book-image .image-spot--bleed     svg { overflow: visible; }
+    .book-image .image-spot--bleed { 
+      overflow: visible; 
+      position: absolute;
+      inset: -50px; /* Extend beyond image boundaries */
+      pointer-events: none;
+    }
+    .book-image .image-spot--bleed svg { overflow: visible; }
 
     /* Size/placement of the SVG over the image (tweak the translate if needed) */
     .book-image .image-spot svg {
@@ -265,6 +278,33 @@
     /* Optional: if you ever have a global blend on .book-image, neutralize it here */
     .book-image .image-spot { mix-blend-mode: unset; }
 
+    /* Large text overlay system */
+    .text-overlay {
+      position: absolute;
+      z-index: 50;
+      pointer-events: none;
+      font-family: 'Gotham Black', 'Arial Black', 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 900;
+      font-size: 5rem;
+      line-height: 0.7;
+      color: var(--blob-color);
+      text-transform: lowercase;
+      mix-blend-mode: multiply;
+      opacity: 0.6;
+      transform-origin: left top;
+      letter-spacing: -0.03em;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.08);
+    }
+    
+    /* Multi-line text overlay with proper spacing */
+    .text-overlay.multi-line {
+      white-space: pre-line;
+      text-align: left;
+      width: auto;
+      height: auto;
+      overflow: visible;
+    }
+
     /* Mobile */
     @media (max-width: 768px) {
       .hero-image { width: 200px; height: 300px; right: 5%; top: 15%; opacity: .2; }
@@ -276,6 +316,20 @@
   </style>
 </head>
 <body>
+  <!-- SVG Filters for text grain effect -->
+  <svg width="0" height="0" style="position: absolute;">
+    <defs>
+      <filter id="textGrain" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.45" numOctaves="1" seed="42"/>
+        <feColorMatrix type="saturate" values="0" />
+        <feComponentTransfer>
+          <feFuncA type="linear" slope="0.08"/>
+        </feComponentTransfer>
+        <feComposite operator="screen" in2="SourceGraphic"/>
+      </filter>
+    </defs>
+  </svg>
+
   <!-- Index Section -->
   <section class="index-section">
     <div class="hero-image"></div>
@@ -310,24 +364,29 @@
         <p class="book-notes book-element" style="bottom: 120px; left: 40px;">fortunately not tottenham...<br></p>
         <p class="book-notes book-element" style="top: 600px; right: 160px;">a pathetic falacy<br></p>
 
-        <div class="book-image book-element" style="top: 20%; left: 50%; width: 16%; height: 28%;" data-img="images/severn_sisters/horse.jpg">
+        <div class="book-image book-element" style="top: 25%; left: 50%; width: 16%; height: 28%;" data-img="images/severn_sisters/horse.jpg">
           <img src="images/severn_sisters/horse.jpg" alt="Portrait 1">
         </div>
-        <div class="book-image book-element" style="top: 20%; left: 66.5%; width: 16%; height: 28%;" data-img="images/severn_sisters/beems.jpg">
+        <div class="book-image book-element" style="top: 25%; left: 66.5%; width: 16%; height: 28%;" data-img="images/severn_sisters/beems.jpg">
           <img src="images/severn_sisters/beems.jpg" alt="Portrait 2">
         </div>
-        <div class="book-image book-element" style="top: 20%; left: 83%; width: 16.3%; height: 28%;" data-img="images/severn_sisters/van.jpg">
+        <div class="book-image book-element" style="top: 25%; left: 83%; width: 16.3%; height: 28%;" data-img="images/severn_sisters/van.jpg">
           <img src="images/severn_sisters/van.jpg" alt="Portrait 3">
         </div>
         
 <div class="book-image book-element" 
-     style="top: 60%; left: 50%; width: 40%; height: 30%;" 
+     style="top: 63%; left: 50%; width: 40%; height: 30%;" 
      data-img="images/severn_sisters/boat.jpg"
-     data-blob="size:2.5,seed:11,rotation:-6,x:750,y:560, bleed:y">
+     data-blob="size:1,seed:11,rotation:-6,x:750,y:560, bleed:y">
   <img src="images/severn_sisters/boat.jpg" alt="Boat composition">
 </div>
 
         <p class="book-notes book-element" style="bottom: 175px; right: 190px;">the boats!!!<br></p>
+
+        <!-- Large text overlay -->
+        <div class="text-overlay multi-line book-element" style="top: 2%; right: 0%; transform: rotate(-0deg);">sev
+        ern sis
+  ters</div>
 
       </div>
 
@@ -352,7 +411,10 @@
 
         <p class="book-notes book-element" style="top: 564px; left: 450px;">500 rupee tuk<br></p>
 
-        <div class="book-image book-element" style="top: 24%; left: 50%; width: 25%; height: 15%;" data-img="images/srilanka/fruit.JPG">
+        <div class="book-image book-element" 
+             style="top: 24%; left: 65%; width: 20%; height: 12%;" 
+             data-img="images/srilanka/fruit.JPG"
+             data-blob="shape:square,size:1.5,seed:42,rotation:0,x:850,y:850,bleed:y">
           <img src="images/srilanka/fruit.JPG" alt="Fruit">
         </div>
 
@@ -640,6 +702,7 @@
     //  - rotation: -6 = slightly counter-clockwise, 45 = 45° clockwise
     //  - x,y: Position within the image (500,500 = center, 300,200 = upper-left area)
     //  - bleed: y/yes/true = blob can extend beyond image boundaries into journal
+    //  - shape: 'blob' (default) or 'square' for rectangular shapes
 
     function generateBlobPath(size = 1, seed = 1) {
       const random = (seed) => {
@@ -691,20 +754,61 @@
       return path;
     }
 
+    function generateSquarePath(size = 1, imageElement = null) {
+      // Get image element dimensions to match rectangle to image aspect ratio
+      let width = 400, height = 400; // default square
+      
+      if (imageElement) {
+        const imgRect = imageElement.getBoundingClientRect();
+        const aspectRatio = imgRect.width / imgRect.height;
+        
+        if (aspectRatio > 1) {
+          // Landscape: keep width, adjust height
+          width = 400 * size;
+          height = (400 / aspectRatio) * size;
+        } else {
+          // Portrait: keep height, adjust width  
+          height = 400 * size;
+          width = (400 * aspectRatio) * size;
+        }
+      } else {
+        // Square when no image reference
+        width = height = 400 * size;
+      }
+      
+      const cx = 500, cy = 500;
+      const left = cx - width/2;
+      const right = cx + width/2;
+      const top = cy - height/2;
+      const bottom = cy + height/2;
+      
+      // Perfect rectangle - no rounded corners or irregularities
+      return `M${left} ${top}
+              L${right} ${top}
+              L${right} ${bottom}
+              L${left} ${bottom}
+              z`;
+    }
+
     function addBlobToImage(imageElement, options = {}) {
       const {
         size = 1,
         seed = Math.random() * 1000,
         rotation = Math.random() * 360,
         position = { x: Math.random() * 400 + 300, y: Math.random() * 400 + 300 },
-        bleed = false
+        bleed = false,
+        shape = 'blob'
       } = options;
       
       if (!imageElement.classList.contains('has-spot')) {
         imageElement.classList.add('has-spot');
       }
       
-      const blobPath = generateBlobPath(size, seed);
+      if (bleed) {
+        imageElement.classList.add('has-spot-bleed');
+      }
+      
+      const shapePath = shape === 'square' ? generateSquarePath(size, imageElement) : generateBlobPath(size, seed);
       const uniqueId = `blob-${Math.floor(Math.random() * 10000)}`;
       
       const spotDiv = document.createElement('div');
@@ -736,18 +840,18 @@
               <stop offset="70%" stop-color="var(--blob-color)" stop-opacity="0.22"/>
               <stop offset="100%" stop-color="var(--blob-color)" stop-opacity="0.00"/>
             </radialGradient>
-            <path id="blobPath-${uniqueId}" d="${blobPath}"/>
-            <clipPath id="blobClip-${uniqueId}">
-              <use href="#blobPath-${uniqueId}" />
+            <path id="shapePath-${uniqueId}" d="${shapePath}"/>
+            <clipPath id="shapeClip-${uniqueId}">
+              <use href="#shapePath-${uniqueId}" />
             </clipPath>
           </defs>
           <g transform="translate(${position.x - 500}, ${position.y - 500}) rotate(${rotation} 500 500)">
-            <use href="#blobPath-${uniqueId}" class="hue-layer" fill="var(--blob-color)" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-hue-opacity)" />
-            <use href="#blobPath-${uniqueId}" class="density-layer" fill="url(#roundFade-${uniqueId})" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-density-opacity)" />
-            <use href="#blobPath-${uniqueId}" class="burn-layer" fill="var(--blob-color)" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-burn-opacity)" />
-            <g clip-path="url(#blobClip-${uniqueId})">
-              <use href="#blobPath-${uniqueId}" class="grain" fill="#000" filter="url(#grain-${uniqueId})" style="opacity: var(--blob-grain-opacity)" />
-              <use href="#blobPath-${uniqueId}" class="grain2" fill="#000" filter="url(#grainCoarse-${uniqueId})" style="opacity: var(--blob-grain2-opacity)" />
+            <use href="#shapePath-${uniqueId}" class="hue-layer" fill="var(--blob-color)" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-hue-opacity)" />
+            <use href="#shapePath-${uniqueId}" class="density-layer" fill="url(#roundFade-${uniqueId})" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-density-opacity)" />
+            <use href="#shapePath-${uniqueId}" class="burn-layer" fill="var(--blob-color)" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-burn-opacity)" />
+            <g clip-path="url(#shapeClip-${uniqueId})">
+              <use href="#shapePath-${uniqueId}" class="grain" fill="#000" filter="url(#grain-${uniqueId})" style="opacity: var(--blob-grain-opacity)" />
+              <use href="#shapePath-${uniqueId}" class="grain2" fill="#000" filter="url(#grainCoarse-${uniqueId})" style="opacity: var(--blob-grain2-opacity)" />
             </g>
           </g>
         </svg>
@@ -768,12 +872,13 @@
           // Parse blob parameters
           const params = {};
           blobData.split(',').forEach(param => {
-            const [key, value] = param.split(':');
+            const [key, value] = param.split(':').map(s => s.trim());
             if (key && value) {
               if (key === 'size') params.size = parseFloat(value);
               else if (key === 'seed') params.seed = parseInt(value);
               else if (key === 'rotation') params.rotation = parseFloat(value);
               else if (key === 'bleed') params.bleed = value === 'y' || value === 'yes' || value === 'true';
+              else if (key === 'shape') params.shape = value;
               else if (key === 'x' || key === 'y') {
                 if (!params.position) params.position = {};
                 params.position[key] = parseFloat(value);
