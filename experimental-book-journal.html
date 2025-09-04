@@ -74,6 +74,23 @@
       background:url('images/IMG_6354.JPG') center/cover;
       border-radius:6px; opacity:.65; z-index:1;
     }
+    
+    /* Hero image with blob support */
+    .hero-image-blob {
+      position:absolute; top:22%; right:6%;
+      width:500px; height:600px;
+      border-radius:6px; opacity:.65; z-index:1;
+      overflow:hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      mix-blend-mode: multiply;
+      transition: filter .25s ease, box-shadow .25s ease, mix-blend-mode .25s ease, transform .25s ease;
+    }
+    .hero-image-blob img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(.96) contrast(.96); }
+    /* No hover effects for hero image */
+    /* Allow bleeding hero blobs to overflow */
+    .hero-image-blob.has-spot-bleed {
+      overflow: visible;
+    }
     .index-container{max-width:800px;width:100%;position:relative;z-index:2}
     .site-header{font-size:1.1rem;margin-bottom:3rem;color:#2a2a2a}
     .index-list{list-style:none;font-size:1.3rem;line-height:1.5;letter-spacing:.02em;color:#111}
@@ -151,7 +168,7 @@
       bottom: 0;
       width: 4px;
       transform: translateX(-50%);
-      z-index: 100;
+      z-index: 50; /* Lower than blob overlays */
       background: linear-gradient(to right,
         rgba(0,0,0,0.09) 0%,
         rgba(0,0,0,0.05) 20%,
@@ -188,7 +205,7 @@
       font-size: 13px;
       line-height: 1.75;
       color: #2a2a2a;
-      text-align: left;
+      text-align: justify;
       column-count: 2;
       column-gap: 20px;
       opacity: 0.9;
@@ -272,8 +289,14 @@
       position: absolute;
       inset: -50px; /* Extend beyond image boundaries */
       pointer-events: none;
+      z-index: 101; /* Above center spine */
     }
     .book-image .image-spot--bleed svg { overflow: visible; }
+    
+    /* Ensure blob overlays render above spine effects */
+    .book-image .image-spot {
+      z-index: 60; /* Above center spine which is now z-index 50 */
+    }
 
     /* Size/placement of the SVG over the image (tweak the translate if needed) */
     .book-image .image-spot svg {
@@ -367,7 +390,11 @@
 
   <!-- Index Section -->
   <section class="index-section">
-    <div class="hero-image"></div>
+    <div class="hero-image-blob book-image" 
+         data-img="images/IMG_6354.JPG"
+         data-blob="shape:square,size:0,x:800,y:800,bleed:y,seed:42,rotation:0">
+      <img src="images/IMG_6354.JPG" alt="Hero image">
+    </div>
     <div class="index-container">
         <h1 class="site-header">places, faces and databases...<br>fotos</h1>
       <ul class="index-list">
@@ -407,7 +434,6 @@
         <img src="images/severn_sisters/boat.jpg" alt="Boat composition">
         </div>
 
-
         <!-- Text -->
 
         <div class="display-title narrow crisp book-element"
@@ -417,10 +443,10 @@
             <span class="line" style="--indent: 0.5ch">Sis</span>
             <span class="line" style="--indent: 1.2ch">ters</span>
         </div>
-        <div class="lorem-block book-element" style="top: 770px; left: 700px; width: 35%; opacity: 0.4;">
+        <div class="lorem-block book-element" style="top: 785px; left: 700px; width: 35%; opacity: 0.4;">
             the usual january walk taken post the over-endulgance of christmas and attempts to reach a month sober - this day was the day it ended.
           </div>
-        <span class="attribution book-element" style="top: 100px; left: 700px;">the annual sobriety stroll ©late jan 2025</span>
+        <span class="attribution book-element" style="top: 250px; left: 680px;">The Annual Sobriety Stroll ©late jan 2025</span>
 
       </div>
 
@@ -428,12 +454,7 @@
       <div class="book-spread" id="spread-2" style="min-height: 3465px;">
         <div class="center-spine"></div>
 
-        <div class="lorem-block book-element" style="top: 100px; left: 60px; width: 38%; height: 400px; opacity: 0.3;">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel mauris vitae lectus tincidunt fermentum. Duis cursus tortor sed dolor.
-        </div>
-
-        <span class="section-number book-element" style="top: 40px; left: 60px;">02</span>
-        <span class="attribution book-element" style="top: 65px; left: 60px;">Dora Lazarevic ©2019</span>
+        <span class="section-number book-element" style="top: 40px; right: 60px;">02</span>
 
         <div class="book-image book-element" style="top: 0%; left: 50%; width: 50%; height: 20%;" data-img="images/srilanka/train_bleak.jpg">
           <img src="images/srilanka/train_bleak.jpg" alt="Bleak Train">
@@ -443,8 +464,6 @@
           <img src="images/srilanka/tree_light.jpg" alt="Tree Light">
         </div>
 
-        <p class="book-notes book-element" style="top: 564px; left: 450px;">500 rupee tuk<br></p>
-
         <div class="book-image book-element" 
              style="top: 24%; left: 65%; width: 20%; height: 12%;" 
              data-img="images/srilanka/fruit.JPG"
@@ -452,15 +471,23 @@
           <img src="images/srilanka/fruit.JPG" alt="Fruit">
         </div>
 
-        <div class="book-image book-element" style="top: 41%; left: 40%; width: 45%; height: 25%;" data-img="images/srilanka/train_blur.JPG">
+        <div class="book-image book-element" style="top: 41%; left: 50%; width: 45%; height: 25%;" data-img="images/srilanka/train_blur.JPG">
           <img src="images/srilanka/train_blur.JPG" alt="Train Blur">
         </div>
-
-        <div class="book-image book-element" style="top: 43%; left: 8%; width: 22%; height: 12%;" data-img="images/srilanka/woman.JPG">
+        <div class="book-image book-element" style="top: 43%; left: 14%; width: 18%; height: 10%;" data-img="images/srilanka/woman.JPG">
           <img src="images/srilanka/woman.JPG" alt="Woman">
         </div>
+        <div class="book-image book-element" style="top: 42%; left: 14%; width: 18%; height: 11%;" 
+            data-img="images/srilanka/woman.JPG"
+            data-blob="size:2,seed:45,rotation:-6,x:750,y:860, bleed:y">
+            <img src="images/srilanka/woman.JPG" alt="Woman">
+          </div>
+          <div class="book-image book-element" style="top: 54%; left: 14%; width: 18%; height: 11%;" 
+          data-img="images/srilanka/tracks.jpg">
+          <img src="images/srilanka/tracks.jpg" alt="Tracks">
+        </div>
 
-        <div class="book-image book-element" style="top: 68%; left: 0%; width: 50%; height: 25%;" data-img="images/srilanka/beach.jpg">
+        <div class="book-image book-element" style="top: 75%; left: 0%; width: 50%; height: 25%;" data-img="images/srilanka/beach.jpg">
           <img src="images/srilanka/beach.jpg" alt="Beach">
         </div>
 
@@ -468,7 +495,20 @@
           <img src="images/srilanka/boat_shadow.JPG" alt="Surfboard">
         </div>
 
-        <h2 class="bold-interruption book-element" style="bottom: 35%; right: 15%;">India<br>Adjacent</h2>
+        <!-- <h2 class="bold-interruption book-element" style="bottom: 35%; right: 15%;">India<br>Adjacent</h2> -->
+
+        <!-- Text -->
+
+        <div class="display-title narrow crisp book-element"
+        style="top: 1%; left: 0%; width: 20%;">
+            <span class="line" style="--indent: 0ch">Sri</span>
+            <span class="line" style="--indent: 1ch">Lan</span>
+            <span class="line" style="--indent: 0.5ch">Ka</span>
+        </div>
+
+        <div class="lorem-block book-element" style="top: 320px; left: 300px; width: 23%; height: 400px; opacity: 0.3;">
+            on a winters night in the usual early hours of the morning with uni friends, a conversation was had. surprisingly, flights to sri lanka were booked the next morning.
+          </div>
 
         <div class="metadata-stamp book-element" style="bottom: 25%; right: 15%;">
           Sri Lanka<br>12/16/19<br>3:14 PM
@@ -685,37 +725,37 @@
       setTimeout(() => { if (!this.classList.contains('active')) this.style.display = 'none'; }, 400);
     });
 
-    // Parallax (very subtle)
-    window.addEventListener('scroll', () => {
-      const scrolled = window.pageYOffset;
-      const spreads = document.querySelectorAll('.book-spread');
+    // Parallax disabled to keep elements in perfect relative position
+    // window.addEventListener('scroll', () => {
+    //   const scrolled = window.pageYOffset;
+    //   const spreads = document.querySelectorAll('.book-spread');
 
-      spreads.forEach(spread => {
-        const rect = spread.getBoundingClientRect();
-        const images = spread.querySelectorAll('.book-image');
-        const textElements = spread.querySelectorAll('.book-notes, .section-number, .entry-title, .display-title');
+    //   spreads.forEach(spread => {
+    //     const rect = spread.getBoundingClientRect();
+    //     const images = spread.querySelectorAll('.book-image');
+    //     const textElements = spread.querySelectorAll('.book-notes, .section-number, .entry-title, .display-title');
 
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          images.forEach(image => {
-            const speed = 0.01;
-            const yPos = -(scrolled * speed);
-            let existingTransform = '';
-            if (image.classList.contains('spine-adjacent')) {
-              if (image.classList.contains('spine-spanning')) existingTransform = 'perspective(2000px) rotateX(0.5deg)';
-              else if (image.style.transform.includes('rotateY(1.5deg)')) existingTransform = 'perspective(2000px) rotateY(1.5deg)';
-              else if (image.style.transform.includes('rotateY(-1.5deg)')) existingTransform = 'perspective(2000px) rotateY(-1.5deg)';
-            }
-            image.style.transform = `${existingTransform} translateY(${yPos}px)`;
-          });
+    //     if (rect.top < window.innerHeight && rect.bottom > 0) {
+    //       images.forEach(image => {
+    //         const speed = 0.01;
+    //         const yPos = -(scrolled * speed);
+    //         let existingTransform = '';
+    //         if (image.classList.contains('spine-adjacent')) {
+    //           if (image.classList.contains('spine-spanning')) existingTransform = 'perspective(2000px) rotateX(0.5deg)';
+    //           else if (image.style.transform.includes('rotateY(1.5deg)')) existingTransform = 'perspective(2000px) rotateY(1.5deg)';
+    //           else if (image.style.transform.includes('rotateY(-1.5deg)')) existingTransform = 'perspective(2000px) rotateY(-1.5deg)';
+    //         }
+    //         image.style.transform = `${existingTransform} translateY(${yPos}px)`;
+    //       });
 
-          textElements.forEach(text => {
-            const textSpeed = 0.005;
-            const textYPos = -(scrolled * textSpeed);
-            text.style.transform = `translateY(${textYPos}px)`;
-          });
-        }
-      });
-    });
+    //       textElements.forEach(text => {
+    //         const textSpeed = 0.01;
+    //         const textYPos = -(scrolled * textSpeed);
+    //         text.style.transform = `translateY(${textYPos}px)`;
+    //       });
+    //     }
+    //   });
+    // });
 
     // Fade-in
     const observer = new IntersectionObserver((entries) => {
