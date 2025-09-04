@@ -195,8 +195,8 @@
       transition: filter .25s ease, box-shadow .25s ease, mix-blend-mode .25s ease, transform .25s ease;
       background: transparent;
     }
-    /* When an image hosts a colored spot, avoid double-multiplying (which dulls color) */
-    .book-image.has-spot { mix-blend-mode: normal; }
+    /* When an image hosts a colored spot, avoid double-multiplying only on hover */
+    .book-image.has-spot:hover { mix-blend-mode: normal; }
     .book-image img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(.96) contrast(.96); }
     .book-image:hover {
       filter: brightness(1) contrast(1);
