@@ -1057,24 +1057,24 @@
         const openness = parseFloat(getComputedStyle(el).getPropertyValue('--seam-curve')) || 0.65;
 
         // Build an SVG mask as a data-URL:
-        // White = keep, black = cut out (our seam)
+        // White = keep, black = cut out (our seam) - but inverted
         const svg = `
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
         <defs>
             <filter id="blur"><feGaussianBlur stdDeviation="${softness || 10}"/></filter>
             <mask id="m">
-            <rect width="100%" height="100%" fill="white"/>
+            <rect width="100%" height="100%" fill="black"/>
             <!-- Single curved seam (cubic) -->
             <g filter="url(#blur)">
                 <path d="
                 M 0 ${300 + 200*(1-openness)}
                 C ${250} ${250*openness}, ${750} ${750*(2-openness)-400}, 1000 ${700 - 200*(1-openness)}
-                " stroke="black" stroke-width="100" stroke-linecap="round" fill="none"/>
+                " stroke="white" stroke-width="40" stroke-linecap="round" fill="none"/>
             </g>
             </mask>
         </defs>
-        <!-- Render black where we want to erase -->
-        <rect width="100%" height="100%" fill="black" mask="url(#m)"/>
+        <!-- Render white where we want to show text -->
+        <rect width="100%" height="100%" fill="white" mask="url(#m)"/>
         </svg>`.trim();
 
         const dataUrl = `url('data:image/svg+xml;utf8,${encodeURIComponent(svg)}')`;
