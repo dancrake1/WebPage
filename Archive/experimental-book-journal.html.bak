@@ -368,10 +368,11 @@
     .ball-copy{
     --diameter: 34ch;              /* overall ball size (in ch to match mono) */
     --indent-side: left;           /* put it on 'left' or 'right' */
-    --seam-width: 1.2ch;           /* thickness of the "white" line */
+    --seam-width: 1.2ch;           /* thickness of the “white” line */
     --seam-soften: 10px;           /* blur/softness of edges */
-    --seam-curve: 0.65;            /* 0..1: how "open" the parabola feels */
-    width: 350px;                  /* paragraph width in pixels for consistency */
+    --seam-curve: 0.65;            /* 0..1: how “open” the parabola feels */
+    position: relative;
+    width: 42ch;                   /* paragraph width */
     line-height: 0.95;             /* tighten rows */
     font-family: "Courier Prime", monospace;
     font-size: 12px;
@@ -412,8 +413,8 @@
             mask: var(--seam-mask);
     }
 
-    /* helpful utility if you want the indent on the right for a mirrored layout */
-    .ball-copy.right { --indent-side: right; }
+/* helpful utility if you want the indent on the right for a mirrored layout */
+.ball-copy.right { --indent-side: right; }
 
     /* Mobile */
     @media (max-width: 768px) {
@@ -607,24 +608,24 @@
             <span class="line" style="--indent: 1ch">bledon</span>
             <span class="line" style="--indent: 0.5ch"></span>
         </div>
-        <!-- WIMBLEDON TEXT BLOCK -->
-        <div class="ball-copy book-element" style="top: 14%; right: 8%;">
+    <!-- WIMBLEDON TEXT BLOCK -->
+    <div class="ball-copy book-element" style="top: 14%; right: 10%;">
         <p>
-            tennis is a sport demanding precision and split-second timing as players
-            track the bright yellow ball flying across the net with incredible speed
-            while maintaining perfect form and concentration throughout each intense
-            rally where every serve and return requires flawless execution and mental
-            fortitude as competitors push their physical limits while reading their
-            opponent's strategy and anticipating every bounce and spin that could
-            determine the outcome of crucial points in this beautiful game of angles
-            and athleticism that has captivated audiences worldwide with its
-            combination of power grace and tactical brilliance on every court
+        tennis is a sport demanding precision and split-second timing as players
+        track the bright yellow ball flying across the net with incredible speed
+        while maintaining perfect form and concentration throughout each intense
+        rally where every serve and return requires flawless execution and mental
+        fortitude as competitors push their physical limits while reading their
+        opponent's strategy and anticipating every bounce and spin that could
+        determine the outcome of crucial points in this beautiful game of angles
+        and athleticism that has captivated audiences worldwide with its
+        combination of power grace and tactical brilliance on every court
         </p>
-
+    
         <!-- the seam lives above the text and “erases” along a smooth curve -->
         <div class="ball-seam"></div>
-        </div>
     </div>
+
       <!-- SPREAD 4 -->
       <div class="book-spread" id="spread-4">
         <div class="center-spine"></div>
@@ -1048,8 +1049,7 @@
         }
       });
     }
-
-    function initBallSeam(){
+    (function initBallSeam(){
     document.querySelectorAll('.ball-copy').forEach(el=>{
         const d = getComputedStyle(el).getPropertyValue('--diameter');
         const seamWidth = getComputedStyle(el).getPropertyValue('--seam-width');
@@ -1080,13 +1080,10 @@
         const dataUrl = `url('data:image/svg+xml;utf8,${encodeURIComponent(svg)}')`;
         el.style.setProperty('--seam-mask', dataUrl);
     });
-    };
+    })();
 
     // Initialize blobs after DOM loads
-    document.addEventListener('DOMContentLoaded', () => {
-      initializeBlobs();
-      initBallSeam();
-    });
+    document.addEventListener('DOMContentLoaded', initializeBlobs);
   </script>
 </body>
 </html>
