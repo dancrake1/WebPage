@@ -364,6 +364,57 @@
             text-stroke: 0.02em rgba(0,0,0,0.06);
     }
 
+    /* 1) Ball indent: the float that text wraps around */
+    .ball-copy{
+    --diameter: 34ch;              /* overall ball size (in ch to match mono) */
+    --indent-side: left;           /* put it on 'left' or 'right' */
+    --seam-width: 1.2ch;           /* thickness of the “white” line */
+    --seam-soften: 10px;           /* blur/softness of edges */
+    --seam-curve: 0.65;            /* 0..1: how “open” the parabola feels */
+    position: relative;
+    width: 42ch;                   /* paragraph width */
+    line-height: 0.95;             /* tighten rows */
+    font-family: "Courier Prime", monospace;
+    font-size: 12px;
+    color: #2a2a2a;
+    }
+
+    /* invisible float that creates the true round indent */
+    .ball-copy::before{
+    content:"";
+    float: var(--indent-side);
+    width: var(--diameter);
+    height: var(--diameter);
+    shape-outside: circle(50% at 100% 50%);   /* center at the inner edge */
+    /* keep it invisible */
+    shape-margin: 0; 
+    }
+
+    /* the paragraph itself */
+    .ball-copy p{
+    text-align: justify;
+    margin: 0;
+    }
+
+    /* 2) Seam “eraser” that matches your paper background so it feels natural */
+    .ball-seam {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* Mimic your journal paper so the erased line looks printed-out */
+    background-color: var(--paper);
+    background-image:
+        linear-gradient(rgba(214,168,111,0.10), rgba(214,168,111,0.10)),
+        url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
+        url('https://www.transparenttextures.com/patterns/paper.png');
+    background-blend-mode: multiply, normal, normal;
+    /* We’ll clip this with an SVG path via mask */
+    -webkit-mask: var(--seam-mask);
+            mask: var(--seam-mask);
+    }
+
+/* helpful utility if you want the indent on the right for a mirrored layout */
+.ball-copy.right { --indent-side: right; }
 
     /* Mobile */
     @media (max-width: 768px) {
@@ -540,29 +591,40 @@
       </div>
 
       <!-- SPREAD 3 -->
-      <div class="book-spread" id="spread-3">
+      <div class="book-spread" id="spread-3" style="min-height: 2800px;">
         <div class="center-spine"></div>
 
-        <span class="section-number book-element" style="top: 40px; left: 40px;">03</span>
+        <span class="section-number book-element" style="top: 180px; left: 40px;">03</span>
 
-        <div class="lorem-block book-element single-column" style="top: 100px; right: 80px; width: 35%; opacity: 0.3;">
-          Cras cursus hendrerit tellus, vel laoreet eros luctus aliquam. Donec erat libero, sagittis non libero et.
+        <div class="book-image book-element" style="top: 5%; left: 0%; width: 50%; height: 35%;" data-img="images/wimbledon/241DCA62-6E63-4354-98FB-4E981518D43F_1_201_a.jpeg">
+            <img src="images/wimbledon/241DCA62-6E63-4354-98FB-4E981518D43F_1_201_a.jpeg" alt="court1">
         </div>
 
-        <div class="book-image book-element" style="top: 20%; left: 5%; width: 40%; height: 60%;" data-img="images/severn_sisters/hills.jpg">
-          <img src="images/severn_sisters/hills.jpg" alt="Large landscape">
+        <!-- Curved ball text -->
+
+        <div class="display-title narrow crisp book-element"
+        style="top: 5%; right: 14%; width: 25%;">
+            <span class="line" style="--indent: 0ch">Wim</span>
+            <span class="line" style="--indent: 1ch">bledon</span>
+            <span class="line" style="--indent: 0.5ch"></span>
         </div>
-
-        <div class="book-image book-element" style="top: 25%; right: 10%; width: 30%; height: 45%;" data-img="images/severn_sisters/boat.jpg">
-          <img src="images/severn_sisters/boat.jpg" alt="Boat composition">
-        </div>
-
-        <p class="book-notes book-element" style="bottom: 15%; left: 20%;">composition<br>and framing<br>studies</p>
-
-        <h2 class="bold-interruption book-element" style="top: 40%; right: 15%; font-size: 2rem;">
-          A Great British<br>Strawberry
-        </h2>
-      </div>
+    <!-- WIMBLEDON TEXT BLOCK -->
+    <div class="ball-copy book-element" style="top: 14%; right: 10%;">
+        <p>
+        tennis is a sport demanding precision and split-second timing as players
+        track the bright yellow ball flying across the net with incredible speed
+        while maintaining perfect form and concentration throughout each intense
+        rally where every serve and return requires flawless execution and mental
+        fortitude as competitors push their physical limits while reading their
+        opponent's strategy and anticipating every bounce and spin that could
+        determine the outcome of crucial points in this beautiful game of angles
+        and athleticism that has captivated audiences worldwide with its
+        combination of power grace and tactical brilliance on every court
+        </p>
+    
+        <!-- the seam lives above the text and “erases” along a smooth curve -->
+        <div class="ball-seam"></div>
+    </div>
 
       <!-- SPREAD 4 -->
       <div class="book-spread" id="spread-4">
@@ -987,6 +1049,38 @@
         }
       });
     }
+    (function initBallSeam(){
+    document.querySelectorAll('.ball-copy').forEach(el=>{
+        const d = getComputedStyle(el).getPropertyValue('--diameter');
+        const seamWidth = getComputedStyle(el).getPropertyValue('--seam-width');
+        const softness = getComputedStyle(el).getPropertyValue('--seam-soften');
+        const openness = parseFloat(getComputedStyle(el).getPropertyValue('--seam-curve')) || 0.65;
+
+        // Build an SVG mask as a data-URL:
+        // White = keep, black = cut out (our seam)
+        const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+        <defs>
+            <filter id="blur"><feGaussianBlur stdDeviation="${softness || 10}"/></filter>
+            <mask id="m">
+            <rect width="100%" height="100%" fill="white"/>
+            <!-- Single curved seam (cubic) -->
+            <g filter="url(#blur)">
+                <path d="
+                M 0 ${300 + 200*(1-openness)}
+                C ${250} ${250*openness}, ${750} ${750*(2-openness)-400}, 1000 ${700 - 200*(1-openness)}
+                " stroke="black" stroke-width="100" stroke-linecap="round" fill="none"/>
+            </g>
+            </mask>
+        </defs>
+        <!-- Render black where we want to erase -->
+        <rect width="100%" height="100%" fill="black" mask="url(#m)"/>
+        </svg>`.trim();
+
+        const dataUrl = `url('data:image/svg+xml;utf8,${encodeURIComponent(svg)}')`;
+        el.style.setProperty('--seam-mask', dataUrl);
+    });
+    })();
 
     // Initialize blobs after DOM loads
     document.addEventListener('DOMContentLoaded', initializeBlobs);
