@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- p5.js from the official CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/[email protected]/lib/p5.min.js"></script>
+  <title>Jajim-style sketch</title>
+  <style>html,body{margin:0;height:100%;background:#f3f3ef}</style>
+</head>
+<body>
+<script>
+let SEED = 12345;
+function rand(){ SEED = (1664525 * SEED + 1013904223) % 4294967296; return SEED / 4294967296; }
+function setup(){ createCanvas(900, 900); noLoop(); pixelDensity(2); rectMode(CORNER); }
+function draw(){
+  background(246);
+  const pal = [[30,30,30],[220,80,60],[20,120,180],[240,190,80],[210,210,210]];
+  const blocks = [{x:0,y:0,w:width,h:height, depth:0}];
+  const OUT = [];
+  while(blocks.length){
+    const b = blocks.pop();
+    if(b.w<140 || b.h<140 || b.depth>3 || rand()<0.20){ OUT.push(b); }
+    else{
+      const splitVert = rand()<0.5;
+      if(splitVert){
+        const cut = floor(map(rand(),0,1,b.w*0.35,b.w*0.65));
+        blocks.push({x:b.x, y:b.y, w:cut,     h:b.h, depth:b.depth+1});
+        blocks.push({x:b.x+cut, y:b.y, w:b.w-cut, h:b.h, depth:b.depth+1});
+      }else{
+        const cut = floor(map(rand(),0,1,b.h*0.35,b.h*0.65));
+        blocks.push({x:b.x, y:b.y, w:b.w, h:cut,     depth:b.depth+1});
+        blocks.push({x:b.x, y:b.y+cut, w:b.w, h:b.h-cut, depth:b.depth+1});
+      }
+    }
+  }
+  OUT.forEach((b,i)=>{
+    push(); translate(b.x, b.y);
+    const m = min(b.w,b.h);
+    noStroke(); fill(252,252,248); rect(0,0,b.w,b.h);
+    const style = rand();
+    if(style<0.15){
+      fill(...pal[floor(rand()*pal.length)]);
+      rect(0,0,b.w,b.h);
+    }else{
+      const rot = rand()<0.5 ? 0 : HALF_PI;
+      rotate(rot);
+      const W = rot===0 ? b.w : b.h;
+      const H = rot===0 ? b.h : b.w;
+      const n = floor(map(rand(),0,1,6,40));
+      const pad = m*0.02;
+      for(let k=0;k<n;k++){
+        const thick = map(noise(k*0.11, SEED*0.001),0,1,2, m*0.06);
+        const y = map(k,0,n, pad, H-pad-thick);
+        const c = pal[floor(rand()*pal.length)];
+        fill(...c); noStroke(); rect(pad, y, W-2*pad, thick);
+      }
+    }
+    pop();
+  });
+  noFill(); stroke(0,20); rect(6,6,width-12,height-12);
+}
+</script>
+</body>
+</html>
