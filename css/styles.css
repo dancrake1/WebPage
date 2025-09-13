@@ -1,0 +1,493 @@
+:root{
+  /* Outer stays the color you like */
+  --outer-bg: #ede6d6;
+
+  /* Warmer, lighter paper base (less grey) */
+  --paper: #faeed9;  /* try #f8edd6 or #f9ecd7 for tiny shifts */
+
+  /* Blob style variables - reuse the exact style you like */
+  --blob-color: rgba(224,31,45,0.98);
+  --blob-hue-opacity: 0.40;
+  --blob-density-opacity: 0.60;
+  --blob-burn-opacity: 0.18;
+  --blob-grain-opacity: 0.24;
+  --blob-grain2-opacity: 0.12;
+
+  /* Text overlay variables - darker red to compensate for normal blend mode */
+  --text-overlay-color: rgba(180,25,35,1);
+}
+
+@font-face {
+  font-family: 'Futura Bold';
+  src: url('../fonts/Futura Bold/Futura Bold.otf') format('opentype');
+  font-weight: bold;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CMM';
+  src: url('../fonts/CMM Coda/CMMCoda-MonoSans.woff2') format('woff2');
+  font-display: swap;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Courier Prime',monospace;
+  background:var(--outer-bg);
+  color:#111;
+  overflow-x:hidden;
+  line-height:1.7;
+  position:relative;
+}
+
+/* Generative Grid Background Canvas */
+#generative-grid-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Index */
+.index-section{
+  min-height:100vh;
+  padding:5rem;
+  display:flex;
+  align-items:center;
+  position:relative;
+  z-index:10;
+  background:transparent;
+}
+
+/* Hero image with blob support */
+.hero-image-blob {
+  position:absolute; top:21%; right:6%;
+  width:500px; height:600px;
+  border-radius:6px; opacity:.9; z-index:1;
+  overflow:hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  mix-blend-mode: normal;
+  transition: filter .25s ease, box-shadow .25s ease, mix-blend-mode .25s ease, transform .25s ease;
+}
+.hero-image-blob img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(.96) contrast(.96); }
+/* No hover effects for hero image */
+/* Allow bleeding hero blobs to overflow */
+.hero-image-blob.has-spot-bleed {
+  overflow: visible;
+}
+
+/* Grid Toggle Controls */
+.grid-toggle-container {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Courier Prime', monospace;
+}
+
+.toggle-label {
+  font-size: 0.9rem;
+  color: #2a2a2a;
+  margin-right: 0.25rem;
+}
+
+.toggle-btn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #2a2a2a;
+  background: transparent;
+  color: #2a2a2a;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.toggle-btn:hover {
+  background: #f0f0f0;
+}
+
+.toggle-btn.active {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.index-container{max-width:800px;width:100%;position:relative;z-index:2}
+.site-header{font-size:1.1rem;margin-bottom:3rem;color:#2a2a2a}
+.index-list{list-style:none;font-size:1.3rem;line-height:1.5;letter-spacing:.02em;color:#111}
+.index-list li{margin-bottom:.8rem}
+.index-list a{text-decoration:none;color:inherit}
+
+/* Journal wrapper */
+.journal-wrapper{background:var(--outer-bg);padding:4rem 0}
+
+/* BOOK: match reference – lighter, warmer, with visible grain */
+.journal-content{
+  width:95%;
+  margin:0 auto;
+  position:relative;
+
+  /* Base tone */
+  background-color:var(--paper);
+
+  /* Textures + warm tint layer.
+     Order matters: tint first (solid), then fibers, then paper grain. */
+  background-image:
+    linear-gradient(rgba(214,168,111,0.10), rgba(214,168,111,0.10)), /* warm tint */
+    url('https://www.transparenttextures.com/patterns/paper-fibers.png'),  /* fibers */
+    url('https://www.transparenttextures.com/patterns/paper.png');        /* grain */
+  background-repeat: repeat, repeat, repeat;
+  background-size: auto, auto, auto;
+
+  /* Make the tint actually warm the textures */
+  background-blend-mode: multiply, normal, normal;
+
+  /* Gentle elevation (reduce if you want it flatter) */
+  box-shadow:0 2px 12px rgba(0,0,0,.10);
+  z-index:1;
+}
+
+/* Subtle inner vignette + extra fiber pass (so it's grainy but not grey) */
+.journal-content::before{
+  content:'';
+  position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(120% 120% at 50% 50%, rgba(0,0,0,.035) 0%, rgba(0,0,0,.02) 55%, rgba(0,0,0,.045) 100%),
+    url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+  mix-blend-mode:multiply;
+  opacity:.55; /* lower if still too dark; raise to .65 if you want more grain */
+}
+
+
+/* Spreads */
+.book-spread{
+  position:relative;
+  width:100%;
+  height:100vh;
+  min-height:1400px;
+  display:flex;
+  background:transparent;
+  overflow:hidden;
+}
+
+/* Spreads */
+.book-spread {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 1400px;
+  display: flex;
+  background: transparent; /* paper is on journal-content */
+  overflow: hidden;
+}
+
+/* Center Spine (as before) */
+.center-spine {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  transform: translateX(-50%);
+  z-index: 50; /* Lower than blob overlays */
+  background: linear-gradient(to right,
+    rgba(0,0,0,0.09) 0%,
+    rgba(0,0,0,0.05) 20%,
+    rgba(0,0,0,0.03) 50%,
+    rgba(0,0,0,0.05) 80%,
+    rgba(0,0,0,0.09) 100%);
+}
+
+.page-left, .page-right {
+  width: 50%;
+  height: 100%;
+  position: relative;
+  padding: 60px;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  z-index: 2;
+}
+.page-left  { transform: perspective(3000px) rotateY(0.5deg);  transform-origin: right center;  padding-right: 64px; }
+.page-right { transform: perspective(3000px) rotateY(-0.5deg); transform-origin: left  center;  padding-left:  64px; }
+
+/* Gentle page shadows at the spine */
+.page-left::before, .page-right::before{
+  content:'';
+  position:absolute; top:0; bottom:0; width:20px; z-index:50; pointer-events:none;
+}
+.page-left::before  { right:0;  background: linear-gradient(to left,  rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.05) 50%, transparent 100%); }
+.page-right::before { left:0;   background: linear-gradient(to right, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.05) 50%, transparent 100%); }
+
+.book-element { position: absolute; z-index: 10; }
+
+/* Monospace copy to match inspiration */
+.lorem-block {
+  font-family: 'Courier Prime', monospace;
+  font-size: 13px;
+  font-weight: var(--font-weight, 500);
+  line-height: var(--line-height, 1.55);
+  color: #2a2a2a;
+  text-align: var(--text-align, justify);
+  text-indent: var(--text-indent, 0);
+  padding-left: var(--padding-left, 0);
+  padding-right: var(--padding-right, 0);
+  column-count: var(--columns, 2);
+  column-gap: var(--column-gap, 30px);
+  column-width: var(--column-width, auto);
+  opacity: 0.9;
+}
+.lorem-block.single-column{ column-count:1; }
+
+/* Text alignment utility classes */
+.text-left { --text-align: left; }
+.text-right { --text-align: right; }
+.text-center { --text-align: center; }
+.text-justify { --text-align: justify; }
+
+/* Text indentation utility classes */
+.indent-sm { --text-indent: 1em; }
+.indent-md { --text-indent: 2em; }
+.indent-lg { --text-indent: 3em; }
+.indent-custom { --text-indent: var(--custom-indent); }
+
+/* Padding utility classes */
+.pad-left-sm { --padding-left: 1em; }
+.pad-left-md { --padding-left: 2em; }
+.pad-left-lg { --padding-left: 3em; }
+.pad-right-sm { --padding-right: 1em; }
+.pad-right-md { --padding-right: 2em; }
+.pad-right-lg { --padding-right: 3em; }
+
+/* Standard text block - single column, larger font */
+.text-block {
+  font-family: 'Courier Prime', monospace;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #1a1a1a;
+  text-align: var(--text-align, left);
+  text-indent: var(--text-indent, 0);
+  padding-left: var(--padding-left, 0);
+  padding-right: var(--padding-right, 0);
+  opacity: 0.85;
+}
+
+.bold-interruption,
+.entry-title,
+.book-notes,
+.section-number,
+.metadata-stamp,
+.attribution {
+  font-family: 'Courier Prime', monospace;
+  letter-spacing: 0.01em;
+}
+.bold-interruption { font-size: 3.5rem; font-weight: 400; line-height: .95; color: #1a1a1a; z-index:70; }
+.section-number   { font-size: 1rem;  opacity: .6; color:#2a2a2a; }
+.entry-title      { font-size: 1.5rem; font-weight: 600; color:#2a2a2a; }
+.book-notes       { font-size: 1.1rem; line-height:1.3; opacity:.85; }
+.metadata-stamp   { font-size: 1.05rem; color:#1a1a1a; }
+.attribution      { font-size: .85rem; color:#2a2a2a; opacity:.7; }
+.black-block      { background: rgba(0,0,0,0.05); }
+
+/* Images – blend into paper, lift on hover */
+.book-image {
+  overflow: hidden;
+  cursor: zoom-in;
+  position: absolute;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  mix-blend-mode: multiply;              /* printed look */
+  transition: filter .25s ease, box-shadow .25s ease, mix-blend-mode .25s ease, transform .25s ease;
+  background: transparent;
+}
+/* Allow bleeding images to overflow */
+.book-image.has-spot-bleed {
+  overflow: visible;
+}
+/* When an image hosts a colored spot, avoid double-multiplying only on hover */
+.book-image.has-spot:hover { mix-blend-mode: normal; }
+.book-image img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(.96) contrast(.96); }
+.book-image:hover {
+  filter: brightness(1) contrast(1);
+  mix-blend-mode: normal;                /* rise from page */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+.book-image.spine-adjacent { box-shadow: 0 4px 15px rgba(0,0,0,0.12); }
+.book-image.spine-spanning { box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
+
+/* Lightbox (unchanged) */
+.lightbox {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(251, 248, 243, 0.95);
+  z-index: 1000;
+  padding: 2rem;
+  cursor: zoom-out;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}
+.lightbox.active { display:flex; align-items:center; justify-content:center; opacity:1; }
+.lightbox-content { width:95vw; height:95vh; transform:scale(.8); transition:transform .4s cubic-bezier(.25,.46,.45,.94); }
+.lightbox.active .lightbox-content { transform:scale(1); }
+.lightbox-content img { width:100%; height:100%; object-fit:contain; }
+.lightbox-close { position:absolute; top:20px; right:40px; color:#1a1a1a; font-size:40px; cursor:pointer; }
+
+
+/* Container on each photo that will host the spot */
+.book-image { position: absolute; } /* you already have this */
+.book-image .image-spot {
+position: absolute;
+inset: 0;
+pointer-events: none;
+isolation: isolate;           /* keep blends local to this image */
+}
+
+/* Contained vs. bleed */
+.book-image .image-spot--contained svg { overflow: hidden; }
+.book-image .image-spot--bleed {
+  overflow: visible;
+  position: absolute;
+  inset: -50px; /* Extend beyond image boundaries */
+  pointer-events: none;
+  z-index: 101; /* Above center spine */
+}
+.book-image .image-spot--bleed svg { overflow: visible; }
+
+/* Ensure blob overlays render above spine effects */
+.book-image .image-spot {
+  z-index: 60; /* Above center spine which is now z-index 50 */
+}
+
+/* Size/placement of the SVG over the image (tweak the translate if needed) */
+.book-image .image-spot svg {
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+}
+
+/* Two-layer recipe matching the reference (stronger background interaction) */
+.image-spot .hue-layer     { mix-blend-mode: color;      opacity: 0.40; }
+.image-spot .density-layer { mix-blend-mode: overlay;    opacity: 0.60; }
+.image-spot .burn-layer    { mix-blend-mode: color-burn; opacity: 0.18; }
+
+/* Add some paper-like grain inside the spot (very subtle) */
+.image-spot .grain { mix-blend-mode: multiply; opacity: 0.24; }
+.image-spot .grain2 { mix-blend-mode: multiply; opacity: 0.12; }
+
+/* Optional: if you ever have a global blend on .book-image, neutralize it here */
+.book-image .image-spot { mix-blend-mode: unset; }
+
+/* Clipper that matches the journal boundary. Place inside .journal-content */
+.title-clip {
+position: absolute;
+inset: 0;                /* fills the book */
+overflow: hidden;        /* trims the title at book edges */
+pointer-events: none;
+z-index: 69;             /* below images with z>69, above page bg */
+}
+
+/* Display title: sharper grotesk, tighter rows */
+.display-title {
+position: absolute;
+z-index: 70;
+pointer-events: none;
+
+/* Updated font stack */
+/* font-family: 'Oswald', 'Bebas Neue', 'Barlow Condensed', sans-serif; */
+font-family: 'Futura Bold', sans-serif;
+font-weight: bold;
+/* font-family: 'CMM', sans-serif; */
+font-weight: 1000;                /* Black weight */
+font-stretch: condensed;         /* Make it more condensed */
+font-size: clamp(3rem, 9vw, 10rem);
+line-height: 0.9;              /* Even tighter */
+letter-spacing: -0.025em;        /* Tighter spacing like the image */
+
+color: rgb(255, 74, 58, 0.85);
+mix-blend-mode: multiply;
+filter: url(#textGrain);
+}
+
+/* Per-line control (for the stair-step indents) */
+.display-title .line{
+display: block;
+transform: translateX(var(--indent,0ch));
+}
+.display-title .line + .line { margin-top: var(--row-gap); }
+
+/* Optional: a hairline stroke to keep edges crisp on pale areas */
+.display-title.crisp {
+-webkit-text-stroke: 0.02em rgba(0,0,0,0.06);
+        text-stroke: 0.02em rgba(0,0,0,0.06);
+}
+
+/* 1) Ball indent: the float that text wraps around */
+.ball-copy{
+--diameter: 44ch;              /* overall ball size (in ch to match mono) */
+--indent-side: left;           /* put it on 'left' or 'right' */
+--seam-width: 1.2ch;           /* thickness of the "white" line */
+--seam-soften: 10px;           /* blur/softness of edges */
+--seam-curve: 0.65;            /* 0..1: how "open" the parabola feels */
+width: 400px;                  /* paragraph width in pixels for consistency */
+line-height: 2;             /* tighten rows */
+font-family: "Courier Prime", monospace;
+font-size: 12px;
+color: #2a2a2a;
+}
+
+/* invisible float that creates the true round indent */
+.ball-copy::before{
+content:"";
+float: var(--indent-side);
+width: var(--diameter);
+height: var(--diameter);
+shape-outside: circle(50% at 50% 50%);   /* circular cutout */
+/* keep it invisible */
+shape-margin: 0;
+}
+
+/* the paragraph itself */
+.ball-copy p{
+text-align: left;
+margin: 0;
+}
+
+/* 2) Seam "eraser" that matches your paper background so it feels natural */
+.ball-seam {
+position: absolute;
+inset: 0;
+pointer-events: none;
+/* Mimic your journal paper so the erased line looks printed-out */
+background-color: var(--paper);
+background-image:
+    linear-gradient(rgba(214,168,111,0.10), rgba(214,168,111,0.10)),
+    url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
+    url('https://www.transparenttextures.com/patterns/paper.png');
+background-blend-mode: multiply, normal, normal;
+/* We'll clip this with an SVG path via mask */
+-webkit-mask: var(--seam-mask);
+        mask: var(--seam-mask);
+}
+
+/* helpful utility if you want the indent on the right for a mirrored layout */
+.ball-copy.right { --indent-side: right; }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .hero-image { width: 200px; height: 300px; right: 5%; top: 15%; opacity: .2; }
+  .index-list { font-size: 1.1rem; }
+  .book-spread { flex-direction: column; height: auto; }
+  .page-left, .page-right { width: 100%; padding: 30px; min-height: 100vh; transform: none; }
+  .center-spine { display: none; }
+}

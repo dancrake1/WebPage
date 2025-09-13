@@ -2,17 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <title>Jajim-style partitioning</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- p5.js from the official CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/[email protected]/lib/p5.min.js"></script>
-  <title>Jajim-style sketch</title>
-  <style>html,body{margin:0;height:100%;background:#f3f3ef}</style>
+  <!-- p5.js via CDN (you can replace with a local p5.min.js file if needed) -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.3/lib/p5.min.js"></script>
+  <style>html,body{margin:0;height:100%;background:#f3f3ef;font-family:system-ui,Arial}</style>
 </head>
 <body>
 <script>
+/* JAJIM-like partitioning: deterministic via seed */
 let SEED = 12345;
 function rand(){ SEED = (1664525 * SEED + 1013904223) % 4294967296; return SEED / 4294967296; }
-function setup(){ createCanvas(900, 900); noLoop(); pixelDensity(2); rectMode(CORNER); }
+
+function setup(){
+  createCanvas(900, 900);
+  noLoop();
+  pixelDensity(2);
+  rectMode(CORNER);
+}
+
 function draw(){
   background(246);
   const pal = [[30,30,30],[220,80,60],[20,120,180],[240,190,80],[210,210,210]];
@@ -34,8 +42,10 @@ function draw(){
       }
     }
   }
-  OUT.forEach((b,i)=>{
-    push(); translate(b.x, b.y);
+
+  OUT.forEach((b)=>{
+    push();
+    translate(b.x, b.y);
     const m = min(b.w,b.h);
     noStroke(); fill(252,252,248); rect(0,0,b.w,b.h);
     const style = rand();
@@ -58,6 +68,7 @@ function draw(){
     }
     pop();
   });
+
   noFill(); stroke(0,20); rect(6,6,width-12,height-12);
 }
 </script>

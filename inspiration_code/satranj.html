@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Satranj-style motifs on a board</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.3/lib/p5.min.js"></script>
+  <style>html,body{margin:0;height:100%;background:#f3f3ef}</style>
+</head>
+<body>
+<script>
+let SEED2 = 98765;
+function r2(){ SEED2 = (1103515245*SEED2 + 12345) % 0x7fffffff; return (SEED2 & 0x7fffffff)/0x7fffffff; }
+function choice(arr){ return arr[floor(r2()*arr.length)] }
+
+function satranjPalette(){
+  const families = [
+    [[25,25,28],[230,230,225],[190,165,120],[165,70,60]],
+    [[18,21,26],[220,210,200],[80,120,160],[230,160,60]],
+    [[28,28,30],[236,236,236],[140,160,140],[80,80,140]]
+  ];
+  return choice(families);
+}
+
+function setup(){ createCanvas(900,900); noLoop(); }
+function draw(){
+  background(246);
+  const pal = satranjPalette();
+  const N = floor(map(r2(),0,1,6,12));
+  const margin = 40;
+  const cell = (width-2*margin)/N;
+
+  const opening = choice(["diag","cross","bands","none"]);
+
+  for(let j=0;j<N;j++){
+    for(let i=0;i<N;i++){
+      const x = margin + i*cell;
+      const y = margin + j*cell;
+      const idx = (i+j)%2;
+      const base = pal[idx===0?0:1];
+      noStroke(); fill(...base); rect(x,y,cell,cell);
+
+      push(); translate(x+cell/2,y+cell/2);
+      const motif = pickMotif(i,j,N,opening);
+      drawMotif(motif, cell*0.9, pal);
+      pop();
+    }
+  }
+  noFill(); stroke(0,30); strokeWeight(2); rect(margin,margin,cell*N,cell*N);
+}
+
+function pickMotif(i,j,N,opening){
+  const onDiag = (i===j)||(i+j===N-1);
+  if(opening==="diag" && onDiag && r2()<0.9) return "ring";
+  if(opening==="cross" && (i==floor(N/2) || j==floor(N/2)) && r2()<0.8) return "bars";
+  if(opening==="bands" && (j%3===0) && r2()<0.8) return "bricks";
+  const motifs = ["dot","ring","bars","bricks","grid"];
+  return choice(motifs);
+}
+
+function drawMotif(name, s, pal){
+  const acc = pal[2], acc2 = pal[3];
+  if(name==="dot"){
+    noStroke(); fill(...acc); circle(0,0,s*0.22);
+  }else if(name==="ring"){
+    noFill(); stroke(...acc2); strokeWeight(s*0.06); circle(0,0,s*0.5);
+  }else if(name==="bars"){
+    noStroke(); fill(...acc);
+    const n = 5;
+    for(let k=0;k<n;k++){
+      const w = s*0.06 * (1 + 0.5*sin(k));
+      rect(-s/2 + k*(s/n), -s/2, w, s);
+    }
+  }else if(name==="bricks"){
+    noStroke(); fill(...acc);
+    const rows = 4, cols = 6;
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<cols;c++){
+        const ox = (r%2)* (s/(cols*2));
+        rect(-s/2 + ox + c*(s/cols), -s/2 + r*(s/rows), s/(cols*1.8), s/(rows*1.8));
+      }
+    }
+  }else if(name==="grid"){
+    stroke(...acc); noFill(); strokeWeight(s*0.04);
+    const n = 3;
+    for(let k=-n;k<=n;k++){
+      line(-s/2, k*s/(2*n+2), s/2, k*s/(2*n+2));
+      line(k*s/(2*n+2), -s/2, k*s/(2*n+2), s/2);
+    }
+  }
+}
+</script>
+</body>
+</html>

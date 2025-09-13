@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Maqam/Handachak-style connective modules</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.3/lib/p5.min.js"></script>
+  <style>html,body{margin:0;height:100%;background:#f3f3ef}</style>
+</head>
+<body>
+<script>
+let SEED3 = 24680;
+function r3(){ SEED3 = (SEED3*48271) % 0x7fffffff; return SEED3/0x7fffffff; }
+
+function setup(){ createCanvas(900,900); noLoop(); }
+function draw(){
+  background(248);
+  strokeCap(SQUARE);
+  const N = 12;                    // grid size
+  const m = 40;                    // margin
+  const cell = (width-2*m)/N;
+  const pal = [[24,24,26],[230,230,226],[60,120,160],[200,150,80]];
+
+  noStroke(); fill(252,252,248); rect(m,m,cell*N,cell*N);
+
+  // Assign a module type & ports to each cell
+  const T = [];
+  for(let j=0;j<N;j++){
+    T[j]=[];
+    for(let i=0;i<N;i++){
+      const t = pickType(i,j,N);
+      const ports = makePorts(t);
+      T[j][i] = {t,ports};
+    }
+  }
+
+  // Background motifs
+  for(let j=0;j<N;j++){
+    for(let i=0;i<N;i++){
+      const x = m + i*cell, y = m + j*cell;
+      push(); translate(x,y);
+      drawTileBG(T[j][i].t, cell, pal);
+      pop();
+    }
+  }
+
+  // Connections on top so lines run across tiles
+  stroke(...pal[2]); strokeWeight(cell*0.10); noFill();
+  for(let j=0;j<N;j++){
+    for(let i=0;i<N;i++){
+      const x = m + i*cell, y = m + j*cell;
+      const me = T[j][i].ports;
+      if(me.E && i<N-1 && T[j][i+1].ports.W){
+        line(x+cell*0.5, y+cell*0.5, x+cell*1.5, y+cell*0.5);
+      }
+      if(me.S && j<N-1 && T[j+1][i].ports.N){
+        line(x+cell*0.5, y+cell*0.5, x+cell*0.5, y+cell*1.5);
+      }
+    }
+  }
+  noFill(); stroke(0,25); rect(m,m,cell*N,cell*N);
+}
+
+function pickType(i,j,N){
+  if(j%4===0 && r3()<0.7) return "band";
+  if(i==floor(N/2) && r3()<0.7) return "pillar";
+  return r3()<0.5? "plain":"grid";
+}
+function makePorts(t){
+  if(t==="band")   return {N:0,E:1,S:0,W:1};
+  if(t==="pillar") return {N:1,E:0,S:1,W:0};
+  if(t==="grid")   return {N:1,E:1,S:1,W:1};
+  return {N:0,E:0,S:0,W:0};
+}
+function drawTileBG(t, s, pal){
+  if(t==="plain"){ noStroke(); fill(...pal[1]); rect(0,0,s,s); }
+  else if(t==="band"){
+    noStroke(); fill(...pal[1]); rect(0,0,s,s);
+    fill(...pal[3]); rect(0,s*0.40,s,s*0.20);
+  }else if(t==="pillar"){
+    noStroke(); fill(...pal[1]); rect(0,0,s,s);
+    fill(...pal[3]); rect(s*0.40,0,s*0.20,s);
+  }else if(t==="grid"){
+    noStroke(); fill(...pal[1]); rect(0,0,s,s);
+    stroke(...pal[0]); strokeWeight(1);
+    for(let k=1;k<5;k++){ line(k*s/5,0,k*s/5,s); line(0,k*s/5,s,k*s/5); }
+  }
+}
+</script>
+</body>
+</html>
