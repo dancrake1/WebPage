@@ -128,6 +128,18 @@ body{
 .index-list li{margin-bottom:.8rem}
 .index-list a{text-decoration:none;color:inherit}
 
+/* Blend index text subtly with background */
+.index-section .site-header,
+.index-section .index-list {
+  mix-blend-mode: multiply;
+  color: #111;
+}
+
+/* Blend section headers with paper */
+.section-number {
+  mix-blend-mode: multiply;
+}
+
 /* Journal wrapper */
 .journal-wrapper{background:var(--outer-bg);padding:4rem 0}
 

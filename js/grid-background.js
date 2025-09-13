@@ -23,8 +23,11 @@ class GenerativeGrid {
     this.fillIndex = 0;
     this.isAnimating = false;
 
-    // Hero safe area
+    // Hero and index safe areas
     this.heroSafeArea = {
+      x: 0, y: 0, width: 0, height: 0
+    };
+    this.indexSafeArea = {
       x: 0, y: 0, width: 0, height: 0
     };
 
@@ -51,16 +54,24 @@ class GenerativeGrid {
   }
 
   generatePalette() {
-    // Palette matching the reference image dots + journal red + olive green
     const palette = [
-      '#e85d5d', // Coral/salmon red (from reference dots)
-      '#a8d65a', // Bright lime green (from reference)
-      '#ffd65a', // Bright yellow (from reference)
-      '#ff9a5a', // Orange (from reference)
-      '#f7b5c4', // Soft pink (from reference)
+      // '#e85d5d', // Coral/salmon red
+      // '#a8d65a', // Bright lime green
+      // '#ffd65a', // Bright yellow
+      // '#ff9a5a', // Orange
+      '#f7b5c4', // Soft pink
       '#d4756a', // Journal red (softened)
-      '#8ea67c'  // Olive green (as requested)
+      '#8ea67c',  // Olive green
+      '#2a2a2a', // dark grey-black
     ];
+
+    // Reduced palette: 2 blacks, journal red, olive
+    // const palette = [
+    //   '#000000', // black
+    //   '#2a2a2a', // dark grey-black
+    //   '#d4756a', // journal red
+    //   '#8ea67c'  // olive green
+    // ];
 
     return palette;
   }
@@ -68,6 +79,7 @@ class GenerativeGrid {
   init() {
     this.setupCanvas();
     this.calculateHeroSafeArea();
+    this.calculateIndexSafeArea();
     this.generateGrid();
     this.generateHierarchicalBlocks();
     this.drawInitialGrid();
@@ -146,6 +158,17 @@ class GenerativeGrid {
       width: 500,
       height: 600
     };
+  }
+
+  calculateIndexSafeArea() {
+    // Measure the index container to avoid pure black under text
+    const el = document.querySelector('.index-container');
+    if (!el) {
+      this.indexSafeArea = { x: 0, y: 0, width: 0, height: 0 };
+      return;
+    }
+    const r = el.getBoundingClientRect();
+    this.indexSafeArea = { x: r.left, y: r.top, width: r.width, height: r.height };
   }
 
   generateGrid() {
@@ -521,7 +544,18 @@ class GenerativeGrid {
   }
 
   fillBlock(cell) {
-    this.ctx.fillStyle = cell.color;
+    // Avoid pure black under the index text for legibility
+    let fillColor = cell.color;
+    const cx = cell.x + cell.width / 2;
+    const cy = cell.y + cell.height / 2;
+    const inIndex = (
+      cx >= this.indexSafeArea.x && cx <= this.indexSafeArea.x + this.indexSafeArea.width &&
+      cy >= this.indexSafeArea.y && cy <= this.indexSafeArea.y + this.indexSafeArea.height
+    );
+    if (inIndex && fillColor === '#000000') {
+      fillColor = '#2a2a2a';
+    }
+    this.ctx.fillStyle = fillColor;
 
     // Full opacity for all blocks
     this.ctx.globalAlpha = 1;
@@ -573,6 +607,7 @@ class GenerativeGrid {
     // Only recompose on significant resize, not new seed
     this.setupCanvas();
     this.calculateHeroSafeArea();
+    this.calculateIndexSafeArea();
     this.generateGrid();
     this.generateHierarchicalBlocks();
     this.drawInitialGrid();
