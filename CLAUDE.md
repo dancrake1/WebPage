@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a photography portfolio website built as a single HTML file with embedded CSS and JavaScript. It presents images in an interactive journal/book layout with a spine-based design that simulates the appearance of an open book.
+This is a photography portfolio website built with a modular architecture. The main HTML file references external CSS and JavaScript files. It presents images in an interactive journal/book layout with a spine-based design that simulates the appearance of an open book, enhanced with a generative grid background system.
 
 ## File Handling Guidelines
 
@@ -19,17 +19,22 @@ This is a photography portfolio website built as a single HTML file with embedde
 
 ## Architecture
 
-This is a single-page application built with vanilla HTML, CSS, and JavaScript:
+This is a single-page application built with vanilla HTML, CSS, and JavaScript using a modular file structure:
 
-### Main File
-- **cargo_journal_site.html**: Complete photography portfolio website with embedded styles and scripts
+### Main Files
+- **experimental-book-journal.html**: Main HTML structure and content
+- **css/styles.css**: All styling extracted from HTML
+- **js/main.js**: Main initialization coordinator that handles DOMContentLoaded and coordinates other modules
+- **js/blob-effects.js**: Image effects module (spine blending, lightbox, smooth scroll, blob generation)
+- **js/grid-background.js**: Generative grid background system with toggle controls
 
 ### Key Features
 - **Responsive journal/book layout** with simulated spine effects
+- **Generative grid background** - Canvas-based progressive color blocks system with Y/N toggle
 - **Image lightbox functionality** for full-screen viewing
 - **Smooth scroll navigation** between portfolio sections
 - **Automatic spine blending effects** for images near the center spine
-- **Subtle parallax scrolling** effects
+- **Blob effects** - SVG-based organic shapes overlaid on images
 - **Mobile-responsive design** that adapts the book layout for smaller screens
 
 ### Design Structure
@@ -54,14 +59,29 @@ This is a single-page application built with vanilla HTML, CSS, and JavaScript:
 - **Image Hover Effects**: Subtle grayscale/contrast adjustments
 - **Smooth Transitions**: CSS transitions for all interactive elements
 
-## JavaScript Functionality
+## JavaScript Functionality (Modular)
 
-### Core Features
+The JavaScript is organized into separate modules:
+
+### js/main.js - Initialization Coordinator
+- Handles DOMContentLoaded events
+- Coordinates initialization of all other modules
+- Manages window resize events for responsive functionality
+
+### js/blob-effects.js - Image Effects Module
 - **Spine Blending System**: Automatically detects images near the center spine and applies 3D rotation effects
 - **Lightbox Gallery**: Click-to-enlarge functionality for all images
 - **Smooth Navigation**: Anchor-based scrolling between portfolio sections
-- **Parallax Effects**: Subtle movement effects on scroll
+- **Blob Generation**: SVG-based organic shapes with deterministic randomization
+- **Ball Seam Effects**: Tennis ball text masking effects
 - **Intersection Observer**: Fade-in animations for page elements
+
+### js/grid-background.js - Generative Grid Background
+- **Canvas-based Rendering**: High-performance grid system with device pixel ratio scaling
+- **Progressive Fill Animation**: Matrix-style methodical filling of grid cells
+- **Geometric Structure Generation**: Hierarchical partitioning algorithms
+- **Color Palette System**: 6-color palette matching reference image
+- **Toggle Controls**: Y/N buttons to enable/disable grid background
 
 ### Image Positioning System
 The site uses a percentage-based positioning system:
@@ -74,8 +94,8 @@ The site uses a percentage-based positioning system:
 ## Dependencies
 
 - **No external JavaScript libraries** - uses vanilla JS only
-- **Google Fonts**: Inter, Amatic SC, Zilla Slab, Cabinet Grotesk
-- **No build process** - single HTML file deployment
+- **Google Fonts**: Courier Prime, Oswald, League Spartan, Inter
+- **No build process** - modular files served statically
 
 ## Content Organization
 
@@ -91,12 +111,20 @@ Images are organized by photography series:
 - All animations use CSS transitions for smooth performance
 - Image paths are relative to the HTML file location
 - The design is optimized for desktop viewing but includes mobile adaptations
+- Modular architecture allows for easier maintenance and development
+- Canvas-based background system provides high-performance animations
 - No server-side processing required - can be deployed as static files
 
 ## Important Notes
 
 - This is a static website requiring no backend infrastructure
-- All interactivity is handled client-side with vanilla JavaScript
+- All interactivity is handled client-side with vanilla JavaScript in modular files
 - The book spine effect is the central design element - images are positioned relative to a 50% center line
+- Generative grid background can be toggled on/off with Y/N controls
 - Mobile version switches from side-by-side book layout to single column
 - Images should be properly optimized for web before adding to avoid slow loading times
+- When editing functionality, respect the modular structure:
+  - Visual effects and interactions → `js/blob-effects.js`
+  - Grid background system → `js/grid-background.js`
+  - Coordination and initialization → `js/main.js`
+  - All styling → `css/styles.css`
