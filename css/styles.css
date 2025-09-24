@@ -249,7 +249,7 @@ body{
 /* Monospace copy to match inspiration */
 .lorem-block {
   font-family: 'Courier Prime', monospace;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: var(--font-weight, 500);
   line-height: var(--line-height, 1.55);
   color: #2a2a2a;
@@ -287,7 +287,7 @@ body{
 /* Standard text block - single column, larger font */
 .text-block {
   font-family: 'Courier Prime', monospace;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   line-height: 1.6;
   color: #1a1a1a;
@@ -305,7 +305,7 @@ body{
 .metadata-stamp,
 .attribution {
   font-family: 'Courier Prime', monospace;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.05em;
 }
 .bold-interruption { font-size: 3.5rem; font-weight: 400; line-height: .95; color: #1a1a1a; z-index:70; }
 .section-number   { font-size: 0.8rem;  opacity: .6; color:#2a2a2a; transition: color 0.3s ease; }
