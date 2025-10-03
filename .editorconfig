@@ -1,0 +1,16 @@
+# EditorConfig helps maintain consistent formatting
+root = true
+
+[*]
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{html,css,js}]
+indent_style = space
+indent_size = 2
+
+# Don't auto-format these files
+[experimental-book-journal.html]
+insert_final_newline = false
+trim_trailing_whitespace = false

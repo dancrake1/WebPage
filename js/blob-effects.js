@@ -97,7 +97,12 @@ function initSmoothScroll() {
       e.preventDefault();
       const target = document.querySelector(this.getAttribute('href'));
       if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
       }
     });
   });
