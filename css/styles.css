@@ -92,13 +92,76 @@ body{
   overflow: visible;
 }
 
+/* Main Navigation */
+.main-navigation {
+  position: absolute;
+  top: 15%;
+  right:22%;
+  z-index: 20;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-btn {
+  font-family: 'CMM', monospace;
+  font-size: 15px;
+  color: #000;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  transition: opacity 0.2s ease;
+}
+
+.nav-btn:hover {
+  opacity: 0.7;
+}
+
+/* Grid icon animation - simple square that draws from right of button */
+#nav-grid::after {
+  content: '';
+  position: absolute;
+  left: calc(100% + 15px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  border: 1px solid #000;
+  transition: opacity 0.3s ease;
+}
+
+#nav-grid.active::after {
+  opacity: 1;
+  animation: drawSquare 0.8s ease-out forwards;
+}
+
+@keyframes drawSquare {
+  0% {
+    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+  }
+  25% {
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  }
+  50% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  75% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
 /* Grid Toggle Controls */
 .grid-toggle-container {
   position: absolute;
   top: 2rem;
   right: 2rem;
   z-index: 20;
-  display: flex;
+  display: none;
   align-items: center;
   gap: 0.5rem;
   font-family: 'Courier Prime', monospace;
@@ -262,7 +325,6 @@ body{
   column-count: var(--columns, 2);
   column-gap: var(--column-gap, 30px);
   column-width: var(--column-width, auto);
-  opacity: 0.9;
 }
 .lorem-block.single-column{ column-count:1; }
 
@@ -297,15 +359,17 @@ body{
   text-indent: var(--text-indent, 0);
   padding-left: var(--padding-left, 0);
   padding-right: var(--padding-right, 0);
-  opacity: 0.85;
 }
 
 .bold-interruption,
 .entry-title,
 .book-notes,
-.metadata-stamp,
-.attribution {
+.metadata-stamp {
   font-family: 'Courier Prime', monospace;
+  letter-spacing: 0.05em;
+}
+.attribution {
+  font-family: 'CMM', monospace;
   letter-spacing: 0.05em;
 }
 .bold-interruption { font-size: 3.5rem; font-weight: 400; line-height: .95; color: #1a1a1a; z-index:70; }
@@ -316,22 +380,22 @@ body{
   font-weight: 400;
   font-stretch: 85%;
   letter-spacing: -0.02em;
-  opacity: 0.8;
+  opacity: var(--section-number-opacity, 0.6);
   color: #2a2a2a;
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
   transition: color 0.3s ease, opacity 0.3s ease;
   transform: scaleY(1.12);
   transform-origin: center;
+  z-index: 70;
 }
 .section-number.white {
   color: white;
-  opacity: 0.8;
   mix-blend-mode: normal;
 }
 .entry-title      { font-size: 1.5rem; font-weight: 600; color:#2a2a2a; }
-.book-notes       { font-size: 1.1rem; line-height:1.3; opacity:.85; }
+.book-notes       { font-size: 1.1rem; line-height:1.3; }
 .metadata-stamp   { font-size: 1.05rem; color:#1a1a1a; }
-.attribution      { font-size: .85rem; color:#2a2a2a; opacity:.7; }
+.attribution      { font-size: .85rem; color:#2a2a2a; }
 .black-block      { background: rgba(0,0,0,0.05); }
 
 /* Images – blend into paper, lift on hover */
@@ -360,22 +424,254 @@ body{
 .book-image.spine-adjacent { box-shadow: 0 4px 15px rgba(0,0,0,0.12); }
 .book-image.spine-spanning { box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
 
-/* Lightbox (unchanged) */
+/* Carousel Lightbox Gallery with Thumbnail Strips */
 .lightbox {
   display: none;
-  position: fixed; inset: 0;
-  background: rgba(251, 248, 243, 0.95);
+  position: fixed;
+  inset: 0;
+  background: rgba(251, 248, 243, 0.98);
   z-index: 1000;
-  padding: 2rem;
-  cursor: zoom-out;
   opacity: 0;
   transition: opacity 0.4s ease-out;
+  overflow: hidden;
 }
-.lightbox.active { display:flex; align-items:center; justify-content:center; opacity:1; }
-.lightbox-content { width:95vw; height:95vh; transform:scale(.8); transition:transform .4s cubic-bezier(.25,.46,.45,.94); }
-.lightbox.active .lightbox-content { transform:scale(1); }
-.lightbox-content img { width:100%; height:100%; object-fit:contain; }
-.lightbox-close { position:absolute; top:20px; right:40px; color:#1a1a1a; font-size:40px; cursor:pointer; }
+.lightbox.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+}
+
+/* Lightbox content container */
+.lightbox-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+  position: relative;
+}
+
+/* Gallery container - all images always present */
+.gallery-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Left border strip */
+.gallery-container::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 20vh;
+  width: 8px;
+  background: rgba(251, 248, 243, 0.98);
+  pointer-events: none;
+  z-index: 1100;
+}
+
+/* Right border strip */
+.gallery-container::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 20vh;
+  width: 8px;
+  background: rgba(251, 248, 243, 0.98);
+  pointer-events: none;
+  z-index: 1100;
+}
+
+/* All gallery thumbnails */
+.gallery-thumb {
+  position: absolute;
+  width: 73px;
+  height: 73px;
+  overflow: hidden;
+  background: transparent;
+  border: none;
+  transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Past images - stack on left, most recent at top, with 8px margin and clipped bottom */
+.gallery-thumb.past {
+  left: 8px;
+  top: calc(10vh + (var(--position, 0) * 73px));
+  width: 73px;
+  height: 73px;
+  z-index: calc(100 - var(--position, 0));
+}
+
+/* Future images - stack on right, next at top, with 8px margin and clipped bottom */
+.gallery-thumb.future {
+  right: 8px;
+  top: calc(10vh + (var(--position, 0) * 73px));
+  width: 73px;
+  height: 73px;
+  z-index: calc(100 - var(--position, 0));
+}
+
+/* Current image - big in center, no border */
+.gallery-thumb.current {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 80vh;
+  border: none;
+  box-shadow: none;
+  z-index: 1200;
+  background: transparent;
+}
+
+.gallery-thumb.current img {
+  object-fit: contain;
+}
+
+/* Center carousel area */
+.carousel-center {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+}
+
+/* Main image - full size, no cropping */
+.carousel-main-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* No cropping, show full image */
+  display: block;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+/* Placeholder for smooth morphing */
+.thumbnail-placeholder {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+/* Shrink animations - image moves to thumbnail strip */
+.carousel-main-image.shrink-to-left {
+  animation: shrinkToLeft 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+}
+
+.carousel-main-image.shrink-to-right {
+  animation: shrinkToRight 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+}
+
+/* Grow animations - image grows from thumbnail strip */
+.carousel-main-image.grow-from-left {
+  animation: growFromLeft 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+}
+
+.carousel-main-image.grow-from-right {
+  animation: growFromRight 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+}
+
+/* Animations: when going NEXT, shrink to LEFT (past). When going PREV, shrink to RIGHT (future) */
+
+/* Going NEXT: current image moves to top of LEFT strip (becomes past) */
+/* Uses CSS variables --translate-x, --translate-y, --target-scale calculated dynamically */
+@keyframes shrinkToLeft {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--translate-x, calc(-50vw + 30px)), var(--translate-y, calc(-40vh + 15vh + 28px))) scale(var(--target-scale, 0.07));
+    opacity: 1;
+  }
+}
+
+/* Going PREV: current image moves to top of RIGHT strip (becomes future) */
+@keyframes shrinkToRight {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--translate-x, calc(50vw - 30px)), var(--translate-y, calc(-40vh + 15vh + 28px))) scale(var(--target-scale, 0.07));
+    opacity: 1;
+  }
+}
+
+/* Going PREV: previous image grows from top of LEFT strip (was past) */
+@keyframes growFromLeft {
+  0% {
+    transform: translate(var(--translate-x, calc(-50vw + 30px)), var(--translate-y, calc(-40vh + 15vh + 28px))) scale(var(--target-scale, 0.07));
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Going NEXT: next image grows from top of RIGHT strip (was future) */
+@keyframes growFromRight {
+  0% {
+    transform: translate(var(--translate-x, calc(50vw - 30px)), var(--translate-y, calc(-40vh + 15vh + 28px))) scale(var(--target-scale, 0.07));
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Click zones for navigation - completely invisible */
+.carousel-nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  cursor: pointer;
+  z-index: 500; /* Below current image (1000) but above thumbnails */
+  background: transparent;
+}
+
+.carousel-nav-prev {
+  left: 0;
+}
+
+.carousel-nav-next {
+  right: 0;
+}
+
+/* Close button */
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  color: #1a1a1a;
+  font-size: 40px;
+  cursor: pointer;
+  z-index: 1001;
+  transition: transform 0.2s ease;
+}
+
+.lightbox-close:hover {
+  transform: scale(1.1);
+}
 
 
 /* Container on each photo that will host the spot */

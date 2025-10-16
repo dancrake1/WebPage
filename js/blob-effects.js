@@ -121,25 +121,7 @@ function initSmoothScroll() {
   });
 }
 
-// Lightbox functionality
-function initLightbox() {
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = lightbox.querySelector('img');
-
-  document.querySelectorAll('.book-image').forEach(image => {
-    image.addEventListener('click', function() {
-      const imgSrc = this.getAttribute('data-img') || this.querySelector('img').src;
-      lightboxImg.src = imgSrc;
-      lightbox.style.display = 'flex';
-      requestAnimationFrame(() => lightbox.classList.add('active'));
-    });
-  });
-
-  lightbox.addEventListener('click', function() {
-    this.classList.remove('active');
-    setTimeout(() => { if (!this.classList.contains('active')) this.style.display = 'none'; }, 400);
-  });
-}
+// Lightbox functionality has been moved to js/lightbox.js
 
 // Fade-in animations
 function initFadeInAnimations() {
@@ -387,7 +369,6 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     applySpineBlending,
     initSmoothScroll,
-    initLightbox,
     initFadeInAnimations,
     initializeBlobs,
     initBallSeam

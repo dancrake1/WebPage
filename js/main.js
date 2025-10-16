@@ -16,4 +16,63 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize grid background from grid-background.js
   if (typeof initGridToggle === 'function') initGridToggle();
   if (typeof initGenerativeGrid === 'function') initGenerativeGrid();
+
+  // Initialize main navigation
+  initMainNavigation();
 });
+
+function initMainNavigation() {
+  const journalBtn = document.getElementById('nav-journal');
+  const albumBtn = document.getElementById('nav-album');
+  const gridBtn = document.getElementById('nav-grid');
+  const canvas = document.getElementById('generative-grid-bg');
+
+  // Journal - scroll to first spread
+  journalBtn.addEventListener('click', () => {
+    const firstSpread = document.getElementById('spread-1');
+    if (firstSpread) {
+      firstSpread.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  // Album - open first image in lightbox
+  albumBtn.addEventListener('click', () => {
+    const firstImage = document.querySelector('.book-image');
+    if (firstImage) {
+      firstImage.click();
+    }
+  });
+
+  // Grid - toggle grid background with animation
+  let gridActive = false;
+  gridBtn.addEventListener('click', () => {
+    gridActive = !gridActive;
+
+    if (gridActive) {
+      // Restart square animation by removing and re-adding class
+      gridBtn.classList.remove('active');
+      void gridBtn.offsetWidth; // Force reflow
+      gridBtn.classList.add('active');
+
+      // Show and start full grid background animation
+      canvas.style.display = 'block';
+      if (typeof GenerativeGrid !== 'undefined') {
+        if (!window.generativeGridInstance) {
+          window.generativeGridInstance = new GenerativeGrid(canvas);
+        } else {
+          // Restart animation if instance exists
+          window.generativeGridInstance.isAnimating = true;
+          window.generativeGridInstance.fillIndex = 0;
+        }
+      }
+    } else {
+      gridBtn.classList.remove('active');
+      canvas.style.display = 'none';
+      // Stop grid animation
+      if (window.generativeGridInstance) {
+        window.generativeGridInstance.isAnimating = false;
+        window.generativeGridInstance = null;
+      }
+    }
+  });
+}

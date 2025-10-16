@@ -33,6 +33,11 @@
 
   <!-- Index Section -->
   <section class="index-section">
+    <nav class="main-navigation">
+      <button class="nav-btn" id="nav-journal">Journal</button>
+      <button class="nav-btn" id="nav-album">Album</button>
+      <button class="nav-btn" id="nav-grid">Grid</button>
+    </nav>
     <div class="grid-toggle-container">
       <span class="toggle-label">Grid:</span>
       <button class="toggle-btn" data-toggle="Y">Y</button>
@@ -61,7 +66,7 @@
         <!-- SPREAD 1 -->
         <div class="book-spread" id="spread-1">
             <div class="center-spine"></div>
-            <span class="section-number book-element" style="top: 20px; left: 40px;">01</span>
+            <span class="section-number book-element" style="top: 30px; left: 50px;">01</span>
 
             <div class="book-image book-element" style="top:0%; left:0%; width:50%; height:100%;" data-img="images/severn_sisters/hills.jpg">
             <img src="images/severn_sisters/hills.jpg" alt="Hills landscape">
@@ -91,7 +96,7 @@
                 <span class="line" style="--indent: 0.5ch">Sis</span>
                 <span class="line" style="--indent: 1.2ch">ters</span>
             </div>
-            <div class="lorem-block book-element" style="top: 785px; left: 900px; width: 35%; opacity: 0.4; column-gap: 30px;">
+            <div class="lorem-block book-element" style="top: 785px; left: 900px; width: 35%; column-gap: 30px;">
                 the usual january walk taken post the over-endulgance of christmas and attempts to reach a month sober - this day was the day it ended.
             </div>
             <span class="attribution book-element" style="top: 325px; left: 830px;">The Annual Sobriety Stroll ©late jan 2025</span>
@@ -172,11 +177,11 @@
                 <span class="line" style="--indent: 0.5ch">Ka</span>
             </div>
 
-            <div class="lorem-block book-element" style="top: 345px; left: 340px; width: 23%; height: 400px; opacity: 0.3">
+            <div class="lorem-block book-element" style="top: 345px; left: 340px; width: 23%; height: 400px;">
                 on a winters night in the usual early hours of the morning with uni friends, a conversation was had. surprisingly, flights to sri lanka were booked the next morning.
             </div>
             
-            <div class="lorem-block book-element" style="top: 2550px; left: 480px; width: 18%; height: 400px; opacity: 0.3;">
+            <div class="lorem-block book-element" style="top: 2550px; left: 480px; width: 18%; height: 400px;">
                 we spent five days - an intented two - in hiriketya, a small surf town on the south coast. it was a trip of contrasts - the lush green countryside and tea plantations, the chaotic, noisy towns and cities.
             </div>
 
@@ -259,7 +264,7 @@
             <!-- the seam lives above the text and “erases” along a smooth curve -->
             <div class="ball-seam"></div>
             </div>
-            <div class="text-block book-element" style="top: 1350px; left: 55px; width: 20%; height: 400px; opacity: 0.3;">
+            <div class="text-block book-element" style="top: 1350px; left: 55px; width: 20%; height: 400px;">
                 some text about ricky winning wimbledon and we all went to wimbledon to see it.
             </div>
         </div>
@@ -354,13 +359,13 @@
                 <span class="line" style="--indent: 1ch">York</span>
                 <span class="line" style="--indent: 0.5ch">City</span>
             </div>
-            <div class="text-block text-justify book-element" style="top: 770px; right: 60px; width: 40%; height: 60px; opacity: 0.4; column-gap: 20px;">
+            <div class="text-block text-justify book-element" style="top: 770px; right: 60px; width: 40%; height: 60px; column-gap: 20px;">
                 a trip that had been prommised for as long as i could remember. in february of 2022, despite our now expired stand-by privaledges, 5 hour plane delay and lost tickets for the comedy club in SoHo that night, we were finally on our way to new york.
             </div>
-            <div class="lorem-block book-element" style="top: 2300px; left: 850px; width: 45%; height: 120px; opacity: 0.4; column-gap: 35px;">
+            <div class="lorem-block book-element" style="top: 2300px; left: 850px; width: 45%; height: 120px; column-gap: 35px;">
                 on a sunday morning we decided that a day together, avoiding the usual slightly chaotic logistics of a 6 person onterage, would be a good idea. we got the metro to brooklyn, explored round the bridge and then headed to williamsburg. we went to some vintage shops, had an explore, drank beer and played pool - this was my favorite day.
             </div>
-            <div class="text-block book-element" style="top: 2800px; left: 270px; width: 20%; height: 120px; opacity: 0.4; column-gap: 60px;">
+            <div class="text-block book-element" style="top: 2800px; left: 270px; width: 20%; height: 120px; column-gap: 60px;">
                 a pickle shop is not defined by the quality of its sandwich but the quantity of its pickles        
             </div>       
         </div>
@@ -456,13 +461,14 @@
   <div class="lightbox" id="lightbox">
     <span class="lightbox-close">&times;</span>
     <div class="lightbox-content">
-      <img src="" alt="Full view">
+      <!-- Carousel structure will be created by lightbox.js -->
     </div>
   </div>
 
 
   <script src="js/blob-effects.js"></script>
   <script src="js/grid-background.js"></script>
+  <script src="js/lightbox.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
