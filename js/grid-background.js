@@ -626,11 +626,13 @@ class GenerativeGrid {
 
 // Grid toggle functionality
 let generativeGridInstance = null;
-let gridEnabled = true;
+let gridEnabled = false;
 
 function initGridToggle() {
   const toggleButtons = document.querySelectorAll('.toggle-btn');
   const canvas = document.getElementById('generative-grid-bg');
+
+  if (!canvas) return;
 
   toggleButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -659,6 +661,14 @@ function initGridToggle() {
       }
     });
   });
+
+  // Ensure UI reflects default disabled state on load
+  toggleButtons.forEach(button => {
+    const shouldBeActive = button.getAttribute('data-toggle') === (gridEnabled ? 'Y' : 'N');
+    button.classList.toggle('active', shouldBeActive);
+  });
+
+  canvas.style.display = gridEnabled ? 'block' : 'none';
 }
 
 // Initialize the generative grid

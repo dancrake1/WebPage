@@ -2,11 +2,24 @@
 function applySpineBlending() {
   document.querySelectorAll('.book-spread').forEach(spread => {
     spread.querySelectorAll('.book-image').forEach(image => {
-      const leftStyle = image.style.left || '0%';
-      const leftPercent = parseFloat(leftStyle.replace('%', ''));
+      // Handle both left and right positioning
+      let leftPercent, rightPercent;
       const widthStyle = image.style.width || '20%';
       const widthPercent = parseFloat(widthStyle.replace('%', ''));
-      const rightPercent = leftPercent + widthPercent;
+
+      if (image.style.left) {
+        // Left positioned
+        leftPercent = parseFloat(image.style.left.replace('%', ''));
+        rightPercent = leftPercent + widthPercent;
+      } else if (image.style.right) {
+        // Right positioned - convert to left positioning
+        const rightPos = parseFloat(image.style.right.replace('%', ''));
+        rightPercent = 100 - rightPos;
+        leftPercent = rightPercent - widthPercent;
+      } else {
+        // No positioning, skip
+        return;
+      }
 
       const spineZoneLeft = 48;
       const spineZoneRight = 52;
@@ -131,10 +144,18 @@ function initLightbox() {
 // Fade-in animations
 function initFadeInAnimations() {
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => { if (entry.isIntersecting) entry.target.style.opacity = '1'; });
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const target = entry.target;
+      const baseOpacity = target.dataset.baseOpacity || '';
+      target.style.opacity = baseOpacity;
+      observer.unobserve(target);
+    });
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.book-element').forEach(element => {
+    const computedOpacity = window.getComputedStyle(element).opacity;
+    element.dataset.baseOpacity = computedOpacity;
     element.style.opacity = '0';
     element.style.transition = 'opacity 0.8s ease-out';
     observer.observe(element);

@@ -11,11 +11,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800;900&display=swap" rel="stylesheet">
   <link href='https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap'rel="stylesheet">
+  <link rel="stylesheet" href="https://webfonts.fontstand.com/WF-096691-ce014c2dec3f5308fca45aa2f8096250.css" type="text/css"/>
   <link rel="stylesheet" href="css/styles.css">
 
  </head>
  <body>
-  <canvas id="generative-grid-bg"></canvas>
+  <canvas id="generative-grid-bg" style="display:none;"></canvas>
   <!-- SVG Filters for text grain effect -->
   <svg width="0" height="0" style="position: absolute;">
     <defs>
@@ -34,8 +35,8 @@
   <section class="index-section">
     <div class="grid-toggle-container">
       <span class="toggle-label">Grid:</span>
-      <button class="toggle-btn active" data-toggle="Y">Y</button>
-      <button class="toggle-btn" data-toggle="N">N</button>
+      <button class="toggle-btn" data-toggle="Y">Y</button>
+      <button class="toggle-btn active" data-toggle="N">N</button>
     </div>
     <div class="hero-image-blob book-image" 
          data-img="images/IMG_6354.JPG"
@@ -57,7 +58,7 @@
   <!-- Journal -->
   <div class="journal-wrapper">
     <div class="journal-content">
-      <!-- SPREAD 1 -->
+        <!-- SPREAD 1 -->
         <div class="book-spread" id="spread-1">
             <div class="center-spine"></div>
             <span class="section-number book-element" style="top: 20px; left: 40px;">01</span>
@@ -90,13 +91,13 @@
                 <span class="line" style="--indent: 0.5ch">Sis</span>
                 <span class="line" style="--indent: 1.2ch">ters</span>
             </div>
-            <div class="lorem-block book-element" style="top: 785px; left: 700px; width: 35%; opacity: 0.4; column-gap: 30px;">
+            <div class="lorem-block book-element" style="top: 785px; left: 900px; width: 35%; opacity: 0.4; column-gap: 30px;">
                 the usual january walk taken post the over-endulgance of christmas and attempts to reach a month sober - this day was the day it ended.
             </div>
-            <span class="attribution book-element" style="top: 250px; left: 680px;">The Annual Sobriety Stroll ©late jan 2025</span>
-            </div>
+            <span class="attribution book-element" style="top: 325px; left: 830px;">The Annual Sobriety Stroll ©late jan 2025</span>
+        </div>
 
-      <!-- SPREAD 2 -->
+        <!-- SPREAD 2 -->
         <div class="book-spread" id="spread-2" style="min-height: 3465px;">
             <div class="center-spine"></div>
 
@@ -121,9 +122,9 @@
             <img src="images/srilanka/train_blur.JPG" alt="Train Blur">
             </div>
             <!-- multiple versions softens of image blob -->
-            <div class="book-image book-element" style="top: 42%; left: 14%; width: 18%; height: 11%;" data-img="images/srilanka/woman.JPG">
+            <!-- <div class="book-image book-element" style="top: 42%; left: 14%; width: 18%; height: 11%;" data-img="images/srilanka/woman.JPG">
             <img src="images/srilanka/woman.JPG" alt="Woman">
-            </div>
+            </div> -->
             <div class="book-image book-element" style="top: 42%; left: 14%; width: 18%; height: 11%;" 
                 data-img="images/srilanka/woman.JPG"
                 data-blob="size:2,seed:45,rotation:-6,x:750,y:860, bleed:y">
@@ -171,11 +172,11 @@
                 <span class="line" style="--indent: 0.5ch">Ka</span>
             </div>
 
-            <div class="lorem-block book-element" style="top: 320px; left: 300px; width: 23%; height: 400px; opacity: 0.3">
+            <div class="lorem-block book-element" style="top: 345px; left: 340px; width: 23%; height: 400px; opacity: 0.3">
                 on a winters night in the usual early hours of the morning with uni friends, a conversation was had. surprisingly, flights to sri lanka were booked the next morning.
             </div>
             
-            <div class="lorem-block book-element" style="top: 2500px; left: 380px; width: 18%; height: 400px; opacity: 0.3;">
+            <div class="lorem-block book-element" style="top: 2550px; left: 480px; width: 18%; height: 400px; opacity: 0.3;">
                 we spent five days - an intented two - in hiriketya, a small surf town on the south coast. it was a trip of contrasts - the lush green countryside and tea plantations, the chaotic, noisy towns and cities.
             </div>
 
@@ -184,217 +185,271 @@
             </div> -->
         </div>
 
-      <!-- SPREAD 3 -->
-      <div class="book-spread" id="spread-3" style="min-height: 2800px;">
-        <div class="center-spine"></div>
+        <!-- SPREAD 3 -->
+        <div class="book-spread" id="spread-3" style="min-height: 2800px;">
+            <div class="center-spine"></div>
 
-        <span class="section-number book-element" style="top: 180px; left: 40px;">03</span>
+            <span class="section-number book-element" style="top: 180px; left: 40px;">03</span>
 
-        <div class="book-image book-element" style="top: 5%; left: 0%; width: 50%; height: 35%;" data-img="images/wimbledon/241DCA62-6E63-4354-98FB-4E981518D43F_1_201_a.jpeg">
-            <img src="images/wimbledon/241DCA62-6E63-4354-98FB-4E981518D43F_1_201_a.jpeg" alt="court1">
-        </div>
-        <div class="book-image book-element" style="top: 42%; left: 52%; width: 43%; height: 13%;" data-img="images/wimbledon/IMG_6048.JPG">
-            <img src="images/wimbledon/IMG_6048.JPG" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 42%; left: 30%; width: 20%; height: 13%;"
-            data-img="images/wimbledon/IMG_6039.JPG"
-            data-blob="shape:square,size:1.5,seed:42,rotation:90,x:850,y:600,bleed:y">
-            <img src="images/wimbledon/IMG_6039.JPG" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 57%; left: 2%; width: 23%; height: 16%;" data-img="images/wimbledon/IMG_6038.JPG">
-            <img src="images/wimbledon/IMG_6038.JPG" alt="court1-2">
-        </div>
+            <div class="book-image book-element" style="top: 5%; left: 0%; width: 50%; height: 35%;" data-img="images/wimbledon/241DCA62-6E63-4354-98FB-4E981518D43F_1_201_a.jpeg">
+                <img src="images/wimbledon/241DCA62-6E63-4354-98FB-4E981518D43F_1_201_a.jpeg" alt="court1">
+            </div>
+            <div class="book-image book-element" style="top: 42%; left: 52%; width: 43%; height: 13%;" data-img="images/wimbledon/IMG_6048.JPG">
+                <img src="images/wimbledon/IMG_6048.JPG" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 42%; left: 30%; width: 20%; height: 13%;"
+                data-img="images/wimbledon/IMG_6039.JPG"
+                data-blob="shape:square,size:1.5,seed:42,rotation:90,x:850,y:600,bleed:y">
+                <img src="images/wimbledon/IMG_6039.JPG" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 57%; left: 2%; width: 23%; height: 16%;" data-img="images/wimbledon/IMG_6038.JPG">
+                <img src="images/wimbledon/IMG_6038.JPG" alt="court1-2">
+            </div>
 
 
-        <div class="book-image book-element" style="top: 57%; left: 55%; width: 10%; height: 6%;" data-img="images/wimbledon/88C92D5E-87DC-413F-9744-4ED355222587_1_201_a.jpeg">
-            <img src="images/wimbledon/88C92D5E-87DC-413F-9744-4ED355222587_1_201_a.jpeg" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 64%; left: 55%; width: 10%; height: 6%;" data-img="images/wimbledon/241F7BD9-885B-4783-BCB4-FA56C6696DD1_1_105_c.jpeg">
-            <img src="images/wimbledon/241F7BD9-885B-4783-BCB4-FA56C6696DD1_1_105_c.jpeg" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 71%; left: 55%; width: 10%; height: 6%;" data-img="images/wimbledon/F6028214-BE46-4FEF-8B9E-7360EE5F62DA_1_105_c.jpeg">
-            <img src="images/wimbledon/F6028214-BE46-4FEF-8B9E-7360EE5F62DA_1_105_c.jpeg" alt="court1-2">
-        </div>
+            <div class="book-image book-element" style="top: 57%; left: 55%; width: 10%; height: 6%;" data-img="images/wimbledon/88C92D5E-87DC-413F-9744-4ED355222587_1_201_a.jpeg">
+                <img src="images/wimbledon/88C92D5E-87DC-413F-9744-4ED355222587_1_201_a.jpeg" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 64%; left: 55%; width: 10%; height: 6%;" data-img="images/wimbledon/241F7BD9-885B-4783-BCB4-FA56C6696DD1_1_105_c.jpeg">
+                <img src="images/wimbledon/241F7BD9-885B-4783-BCB4-FA56C6696DD1_1_105_c.jpeg" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 71%; left: 55%; width: 10%; height: 6%;" data-img="images/wimbledon/F6028214-BE46-4FEF-8B9E-7360EE5F62DA_1_105_c.jpeg">
+                <img src="images/wimbledon/F6028214-BE46-4FEF-8B9E-7360EE5F62DA_1_105_c.jpeg" alt="court1-2">
+            </div>
 
-        <div class="book-image book-element" style="top: 75%; left:6%; width: 21%; height: 12%;" data-img="images/wimbledon/IMG_6024.JPG">
-            <img src="images/wimbledon/IMG_6024.JPG" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 85%; left:25%; width: 21%; height: 12%;" data-img="images/wimbledon/IMG_6023.JPG">
-            <img src="images/wimbledon/IMG_6023.JPG" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 90%; left:4%; width: 16%; height: 9%;"
-             data-img="images/wimbledon/IMG_6019.JPG"
-             data-blob="shape:square,size:1.5,seed:42,rotation:90,x:850,y:800,bleed:y">
-            <img src="images/wimbledon/IMG_6019.JPG" alt="court1-2">
-        </div>
+            <div class="book-image book-element" style="top: 75%; left:6%; width: 21%; height: 12%;" data-img="images/wimbledon/IMG_6024.JPG">
+                <img src="images/wimbledon/IMG_6024.JPG" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 85%; left:25%; width: 21%; height: 12%;" data-img="images/wimbledon/IMG_6023.JPG">
+                <img src="images/wimbledon/IMG_6023.JPG" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 90%; left:4%; width: 16%; height: 9%;"
+                data-img="images/wimbledon/IMG_6019.JPG"
+                data-blob="shape:square,size:1.5,seed:42,rotation:90,x:850,y:800,bleed:y">
+                <img src="images/wimbledon/IMG_6019.JPG" alt="court1-2">
+            </div>
 
-        <div class="book-image book-element" style="top: 79%; left:70%; width: 22%; height: 18%;"
-            data-img="images/wimbledon/IMG_6026.JPG"
-            data-blob="shape:square, size:1.5,seed:45,rotation:90,x:150,y:220, bleed:y">
-            <img src="images/wimbledon/IMG_6026.JPG" alt="court1-2">
-        </div>
+            <div class="book-image book-element" style="top: 79%; left:70%; width: 22%; height: 18%;"
+                data-img="images/wimbledon/IMG_6026.JPG"
+                data-blob="shape:square, size:1.5,seed:45,rotation:90,x:150,y:220, bleed:y">
+                <img src="images/wimbledon/IMG_6026.JPG" alt="court1-2">
+            </div>
 
-        <!-- Text -->
+            <!-- Text -->
 
-        <div class="display-title narrow crisp book-element"
-        style="top: 5%; right: 14%; width: 25%;">
-            <span class="line" style="--indent: 0ch">Wim</span>
-            <span class="line" style="--indent: 1ch">bledon</span>
-            <span class="line" style="--indent: 0.5ch"></span>
-        </div>
-        <!-- WIMBLEDON TEXT BLOCK -->
-        <div class="ball-copy book-element" style="top: 18%; right: 8%;">
-        <p>
-            tennis is a sport demanding precision and split-second timing as players
-            track the bright yellow ball flying across the net with incredible speed
-            while maintaining perfect form and concentration throughout each intense
-            rally where every serve and return requires flawless execution and mental
-            fortitude as competitors push their physical limits while reading their
-            opponent's strategy and anticipating every bounce and spin that could
-            determine the outcome of crucial points in this beautiful game of angles
-            and athleticism that has captivated audiences worldwide with its
-            combination of power grace and tactical brilliance on every court
-        </p>
-        <!-- the seam lives above the text and “erases” along a smooth curve -->
-        <div class="ball-seam"></div>
-        </div>
-        <div class="text-block book-element" style="top: 1350px; left: 55px; width: 20%; height: 400px; opacity: 0.3;">
-            some text about ricky winning wimbledon and we all went to wimbledon to see it.
-        </div>
-    </div>
-    <div class="book-spread" id="spread-4" style="min-height: 3800px;">
-        <div class="center-spine"></div>
-
-        <span class="section-number white book-element" style="top: 140px; right: 40px; color: white;">04</span>
-
-        <div class="book-image book-element" style="top: 3%; left:50%; width: 50%; height: 15%;"
-            data-img="images/nyc/56D60611-82BD-4114-9D9B-40CD0E3470B9.jpeg">
-            <img src="images/nyc/56D60611-82BD-4114-9D9B-40CD0E3470B9.jpeg" alt="court1-2">
-        </div>
-        <!-- <div class="book-image book-element" style="top: 14%; left:0%; width: 22%; height: 6%;"
-            data-img="images/nyc/IMG_1950.JPG">
-            <img src="images/nyc/IMG_1950.JPG" alt="court1-2">
-        </div> -->
-        <div class="book-image book-element" style="top: 23%; left:10%; width: 40%; height: 7.89%;" data-img="images/nyc/IMG_1920.JPG">
-            <img src="images/nyc/IMG_1920.JPG" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 32%; left:10%; width: 40%; height: 7.89%;" 
-            data-img="images/nyc/IMG_1923.JPG"
-            data-blob="shape:square,size:2.8,seed:42,rotation:90,x:650,y:500,bleed:y">
-            <img src="images/nyc/IMG_1923.JPG" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 41%; left:10%; width: 40%; height: 7.89%;" data-img="images/nyc/IMG_1945.JPG">
-            <img src="images/nyc/IMG_1945.JPG" alt="court1-2">
+            <div class="display-title narrow crisp book-element"
+            style="top: 5%; right: 14%; width: 25%;">
+                <span class="line" style="--indent: 0ch">Wim</span>
+                <span class="line" style="--indent: 1ch">bledon</span>
+                <span class="line" style="--indent: 0.5ch"></span>
+            </div>
+            <!-- WIMBLEDON TEXT BLOCK -->
+            <div class="ball-copy book-element" style="top: 18%; right: 8%;">
+            <p>
+                tennis is a sport demanding precision and split-second timing as players
+                track the bright yellow ball flying across the net with incredible speed
+                while maintaining perfect form and concentration throughout each intense
+                rally where every serve and return requires flawless execution and mental
+                fortitude as competitors push their physical limits while reading their
+                opponent's strategy and anticipating every bounce and spin that could
+                determine the outcome of crucial points in this beautiful game of angles
+                and athleticism that has captivated audiences worldwide with its
+                combination of power grace and tactical brilliance on every court
+            </p>
+            <!-- the seam lives above the text and “erases” along a smooth curve -->
+            <div class="ball-seam"></div>
+            </div>
+            <div class="text-block book-element" style="top: 1350px; left: 55px; width: 20%; height: 400px; opacity: 0.3;">
+                some text about ricky winning wimbledon and we all went to wimbledon to see it.
+            </div>
         </div>
 
-        <div class="book-image book-element" style="top: 25%; left:62%; width: 30%; height: 21.32%;" 
-            data-img="images/nyc/IMG_1926.JPG"
-            data-blob="size:2.8,seed:22,rotation:90,x:650,y:500,bleed:n">
-            <img src="images/nyc/IMG_1926.JPG" alt="court1-2">
+        <!-- SPREAD 4 -->
+        <div class="book-spread" id="spread-4" style="min-height: 3800px;">
+            <div class="center-spine"></div>
+
+            <span class="section-number white book-element" style="top: 140px; right: 40px; color: white;">04</span>
+
+            <div class="book-image book-element" style="top: 3%; left:50%; width: 50%; height: 15%;"
+                data-img="images/nyc/56D60611-82BD-4114-9D9B-40CD0E3470B9.jpeg">
+                <img src="images/nyc/56D60611-82BD-4114-9D9B-40CD0E3470B9.jpeg" alt="court1-2">
+            </div>
+            <!-- <div class="book-image book-element" style="top: 14%; left:0%; width: 22%; height: 6%;"
+                data-img="images/nyc/IMG_1950.JPG">
+                <img src="images/nyc/IMG_1950.JPG" alt="court1-2">
+            </div> -->
+            <div class="book-image book-element" style="top: 25.5%; left:8%; width: 36%; height: 6.5%;" data-img="images/nyc/IMG_1920.JPG">
+                <img src="images/nyc/IMG_1920.JPG" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 32.5%; left:8%; width: 36%; height: 6.5%;" 
+                data-img="images/nyc/IMG_1923.JPG">
+                <!-- data-blob="shape:square,size:2.8,seed:42,rotation:90,x:650,y:500,bleed:y"> -->
+                <img src="images/nyc/IMG_1923.JPG" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 39.5%; left:8%; width: 36%; height: 6.5%;" data-img="images/nyc/IMG_1945.JPG">
+                <img src="images/nyc/IMG_1945.JPG" alt="court1-2">
+            </div>
+
+            <div class="book-image book-element" style="top: 25%; left:62%; width: 30%; height: 21.32%;" 
+                data-img="images/nyc/IMG_1926.JPG"
+                data-blob="size:2.8,seed:22,rotation:90,x:650,y:500,bleed:n">
+                <img src="images/nyc/IMG_1926.JPG" alt="court1-2">
+            </div>
+            
+            <div class="book-image book-element" style="top: 52%; left:75%; width: 25%; height: 6.32%;" data-img="images/nyc/jamie/56CCE684-A708-47D7-A467-9BA17E37F2FD.jpeg">
+                <img src="images/nyc/jamie/56CCE684-A708-47D7-A467-9BA17E37F2FD.jpeg" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 52%; left:50%; width: 25%; height: 6.32%;" data-img="images/nyc/jamie/7C27F060-F794-49CF-AC2A-FBB62A2CF31C.jpeg">
+                <img src="images/nyc/jamie/7C27F060-F794-49CF-AC2A-FBB62A2CF31C.jpeg" alt="court1-2">
+            </div>
+
+            <div class="book-image book-element" style="top: 57%; left:5%; width: 10%; height: 3.95%;" data-img="images/nyc/5789E867-66B8-4D56-B552-C84E911B6699.jpeg">
+                <img src="images/nyc/5789E867-66B8-4D56-B552-C84E911B6699.jpeg" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 57%; left:18%; width: 10%; height: 3.16%;" data-img="images/nyc/994F8930-27B7-4B2D-88A7-0175F1C58DC0.jpeg">
+                <img src="images/nyc/994F8930-27B7-4B2D-88A7-0175F1C58DC0.jpeg" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 62%; left:22%; width: 25%; height: 6.32%;" data-img="images/nyc/CEF3B6CC-8351-4216-93D3-DB485BDD85F7.jpeg">
+                <img src="images/nyc/CEF3B6CC-8351-4216-93D3-DB485BDD85F7.jpeg" alt="court1-2">
+            </div>
+
+            <div class="book-image book-element" style="top: 66%; left:78%; width: 20%; height: 11.84%;" data-img="images/nyc/jamie/3F6A3AA2-9E16-48EB-A13D-215E0A6B0890.jpeg">
+                <img src="images/nyc/jamie/3F6A3AA2-9E16-48EB-A13D-215E0A6B0890.jpeg" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 73%; left:63%; width: 12%; height: 5.53%;" data-img="images/nyc/jamie/15116121-DF50-4FD7-B00A-930BAD4CB5F0_1_201_a.jpeg">
+                <img src="images/nyc/jamie/15116121-DF50-4FD7-B00A-930BAD4CB5F0_1_201_a.jpeg" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 68%; left:52%; width: 20%; height: 3.95%;" data-img="images/nyc/jamie/FF209432-11EB-4FBD-B03E-7F9C7D04B107.jpeg">
+                <img src="images/nyc/jamie/FF209432-11EB-4FBD-B03E-7F9C7D04B107.jpeg" alt="court1-2">
+            </div>
+
+            <div class="book-image book-element" style="top: 78%; left:4%; width: 23%; height: 14.21%;"
+                data-img="images/nyc/C8546B3A-0268-42F4-A425-665F55DBF869.jpeg"
+                data-blob="size:1,seed:9,rotation:90,x:690,y:680,bleed:n">
+                <img src="images/nyc/C8546B3A-0268-42F4-A425-665F55DBF869.jpeg" alt="court1-2">
+            </div>
+
+            <div class="book-image book-element" style="top: 82%; left:52%; width: 35%; height: 6.32%;" data-img="images/nyc/C6996D52-0ADB-4464-8AD1-5A2C12C1D282.jpeg">
+                <img src="images/nyc/C6996D52-0ADB-4464-8AD1-5A2C12C1D282.jpeg" alt="court1-2">
+            </div>
+
+            <div class="book-image book-element" style="top: 91%; left:60%; width: 16%; height: 7.89%;" data-img="images/nyc/D4388D63-7A29-434D-A637-5B4A69E1CA8E.jpeg">
+                <img src="images/nyc/D4388D63-7A29-434D-A637-5B4A69E1CA8E.jpeg" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 77%; left:36%; width: 10%; height: 7.89%;"
+                data-img="images/nyc/2081DA48-2286-45D1-9552-86F4D216816E.jpeg">
+                <img src="images/nyc/2081DA48-2286-45D1-9552-86F4D216816E.jpeg" alt="court1-2">
+            </div>
+            <div class="book-image book-element" style="top: 88%; left:31%; width: 10%; height: 7.89%;"
+                data-img="images/nyc/FBA03E96-81CA-459B-A492-EAB6510A586B.jpeg"
+                data-blob="shape:square,size:2.5,seed:9,rotation:90,x:700,y:780,bleed:y">
+                <img src="images/nyc/FBA03E96-81CA-459B-A492-EAB6510A586B.jpeg" alt="court1-2">
+            </div>
+
+            <!-- Text -->
+
+            <div class="display-title narrow crisp book-element"
+            style="top: 6%; left: 5%; width: 25%;">
+                <span class="line" style="--indent: 0ch">New</span>
+                <span class="line" style="--indent: 1ch">York</span>
+                <span class="line" style="--indent: 0.5ch">City</span>
+            </div>
+            <div class="text-block text-justify book-element" style="top: 770px; right: 60px; width: 40%; height: 60px; opacity: 0.4; column-gap: 20px;">
+                a trip that had been prommised for as long as i could remember. in february of 2022, despite our now expired stand-by privaledges, 5 hour plane delay and lost tickets for the comedy club in SoHo that night, we were finally on our way to new york.
+            </div>
+            <div class="lorem-block book-element" style="top: 2300px; left: 850px; width: 45%; height: 120px; opacity: 0.4; column-gap: 35px;">
+                on a sunday morning we decided that a day together, avoiding the usual slightly chaotic logistics of a 6 person onterage, would be a good idea. we got the metro to brooklyn, explored round the bridge and then headed to williamsburg. we went to some vintage shops, had an explore, drank beer and played pool - this was my favorite day.
+            </div>
+            <div class="text-block book-element" style="top: 2800px; left: 270px; width: 20%; height: 120px; opacity: 0.4; column-gap: 60px;">
+                a pickle shop is not defined by the quality of its sandwich but the quantity of its pickles        
+            </div>       
         </div>
+    
+        <!-- SPREAD 5 -->
+        <!-- <div class="book-spread" id="spread-5" style="min-height: 3000px;">
+            <div class="center-spine"></div>
+            <span class="section-number white book-element" style="top: 90px; left: 40px; color: white;">04</span>
+            <div class="book-image book-element" style="top: 5%; right: 50%; width: 16%; height: 18%;" data-img="images/copenhagen/2BFD1087-FCDD-442A-924A-114343F8FA3F_1_201_a.jpeg">
+            <img src="images/copenhagen/2BFD1087-FCDD-442A-924A-114343F8FA3F_1_201_a.jpeg" alt="Portrait 1">
+            </div>
+            <div class="book-image book-element" style="top: 5%; right: 66.5%; width: 16%; height: 18%;" data-img="images/paris/IMG_1857.JPG">
+            <img src="images/paris/IMG_1857.JPG" alt="Portrait 2">
+            </div>
+            <div class="book-image book-element" style="top: 5%; right: 83%; width: 16.3%; height: 18%;" data-img="images/copenhagen/FA271BCC-7DCD-4BA5-9B0C-9309226550A9_1_105_c.jpeg">
+            <img src="images/copenhagen/FA271BCC-7DCD-4BA5-9B0C-9309226550A9_1_105_c.jpeg" alt="Portrait 3">
+            </div> -->
+
+            <!-- <div class="book-image book-element" style="top: 2%; right: 83%; width: 16.3%; height: 18%;" data-img="images/copenhagen/A08D7FC5-1287-4AE8-B095-4CA15964CB3C_1_201_a.jpeg">
+            <img src="images/copenhagen/A08D7FC5-1287-4AE8-B095-4CA15964CB3C_1_201_a.jpeg" alt="Portrait 3">
+            </div> overlay looks goood --> 
+
+            <!-- <div class="book-image book-element" style="top: 19%; right: 2%; width: 12%; height: 8%;" data-img="images/copenhagen/A08D7FC5-1287-4AE8-B095-4CA15964CB3C_1_201_a.jpeg">
+            <img src="images/copenhagen/A08D7FC5-1287-4AE8-B095-4CA15964CB3C_1_201_a.jpeg" alt="Portrait 3">
+            </div>
+            <div class="book-image book-element" style="top: 25%; left: 52%; width: 23%; height: 15%;" data-img="images/paris/4E05204A-75EF-41EB-953F-8CB81AD096EE.jpeg">
+            <img src="images/paris/4E05204A-75EF-41EB-953F-8CB81AD096EE.jpeg" alt="Portrait 3">
+            </div>
+            <div class="book-image book-element" style="top: 33%; left: 0%; width: 50%; height: 30%;" data-img="images/copenhagen/46BD35B5-2186-433E-81DC-87AA2F00C6D4_1_201_a.jpeg">
+            <img src="images/copenhagen/46BD35B5-2186-433E-81DC-87AA2F00C6D4_1_201_a.jpeg" alt="Portrait 3">
+            </div> -->
+            <!-- Text -->
+
+            <!-- <div class="display-title narrow crisp book-element"
+            style="top: 4%; right: 5%; width: 25%;">
+                <span class="line" style="--indent: 0.2ch">Paris</span>
+                <span class="line" style="--indent: 2.6ch">et</span>
+                <span class="line" style="--indent: -0.6ch">købe</span>
+                <span class="line" style="--indent: 0.5ch">nhavn</span>
+            </div> -->
+
         
-        <div class="book-image book-element" style="top: 52%; left:75%; width: 25%; height: 6.32%;" data-img="images/nyc/jamie/56CCE684-A708-47D7-A467-9BA17E37F2FD.jpeg">
-            <img src="images/nyc/jamie/56CCE684-A708-47D7-A467-9BA17E37F2FD.jpeg" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 52%; left:50%; width: 25%; height: 6.32%;" data-img="images/nyc/jamie/7C27F060-F794-49CF-AC2A-FBB62A2CF31C.jpeg">
-            <img src="images/nyc/jamie/7C27F060-F794-49CF-AC2A-FBB62A2CF31C.jpeg" alt="court1-2">
+        <!-- </div> -->
+
+        <!-- SPREAD 6 -->
+        <div class="book-spread" id="spread-6" style="min-height: 3000px;">
+            <div class="center-spine"></div>
+            <!-- <span class="section-number white book-element" style="top: 90px; left: 40px; color: white;">04</span> -->
+
+            <div class="book-image book-element" style="top: 2%; left: 5%; width: 12%; height: 10%;" data-img="images/greece/FBA34BFD-F49F-48DC-B862-051A91576FEA_1_201_a.jpeg">
+            <img src="images/greece/FBA34BFD-F49F-48DC-B862-051A91576FEA_1_201_a.jpeg" alt="Portrait 1">
+            </div>
+            <div class="book-image book-element" style="top: 2%; left: 19%; width: 12%; height: 10%;" data-img="images/greece/48975CCA-5BD7-4BF0-9C12-9C7D981FB99D_1_201_a.jpeg">
+            <img src="images/greece/48975CCA-5BD7-4BF0-9C12-9C7D981FB99D_1_201_a.jpeg" alt="Portrait 1">
+            </div>
+            <div class="book-image book-element" style="top: 13%; left: 24%; width: 26%; height: 7%;" data-img="images/greece/0F132C55-770D-401B-81F6-B1FC404E112D.jpeg">
+            <img src="images/greece/0F132C55-770D-401B-81F6-B1FC404E112D.jpeg" alt="Portrait 1">
+            </div>
+            <!-- <div class="book-image book-element" style="top: 20%; left: 24%; width: 26%; height: 7%;"
+                data-img="images/greece/0F132C55-770D-401B-81F6-B1FC404E112D.jpeg"
+                data-blob="shape:square,size:1.5,seed:42,rotation:90,x:850,y:600,bleed:y">
+            <img src="images/greece/0F132C55-770D-401B-81F6-B1FC404E112D.jpeg" alt="Portrait 1">
+            </div> -->
+
+            <div class="book-image book-element" style="top: 7%; right: 4%; width: 13%; height: 9%;"
+                data-img="images/greece/6C6BF29F-FBB7-4B2B-860A-ACD25BA78293_4_5005_c.jpeg"
+                data-blob="size:.8,seed:42,rotation:90,x:750,y:400,bleed:n">
+                <img src="images/greece/6C6BF29F-FBB7-4B2B-860A-ACD25BA78293_4_5005_c.jpeg" alt="Portrait 1">
+            </div>
+
+            <!-- Text -->
+
+            <!-- Faded title example with custom size and opacity -->
+            <div class="faded-title book-element" style="top: 0%; right: 2%; --title-size: 7rem; --title-opacity: 0.5;">
+                <span class="line" style="--indent: 0ch">greece</span>
+            </div>
+
+            <!-- <div class="display-title narrow crisp book-element"
+            style="top: 1%; right: 5%; width: 25%;">
+                <span class="line" style="--indent: 0.2ch">G</span>
+                <span class="line" style="--indent: 2.6ch">et</span>
+                <span class="line" style="--indent: -0.6ch">købe</span>
+                <span class="line" style="--indent: 0.5ch">nhavn</span>
+            </div> -->
+
+
         </div>
 
-        <div class="book-image book-element" style="top: 57%; left:5%; width: 10%; height: 3.95%;" data-img="images/nyc/5789E867-66B8-4D56-B552-C84E911B6699.jpeg">
-            <img src="images/nyc/5789E867-66B8-4D56-B552-C84E911B6699.jpeg" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 57%; left:18%; width: 10%; height: 3.16%;" data-img="images/nyc/994F8930-27B7-4B2D-88A7-0175F1C58DC0.jpeg">
-            <img src="images/nyc/994F8930-27B7-4B2D-88A7-0175F1C58DC0.jpeg" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 62%; left:22%; width: 25%; height: 6.32%;" data-img="images/nyc/CEF3B6CC-8351-4216-93D3-DB485BDD85F7.jpeg">
-            <img src="images/nyc/CEF3B6CC-8351-4216-93D3-DB485BDD85F7.jpeg" alt="court1-2">
-        </div>
 
-        <div class="book-image book-element" style="top: 66%; left:78%; width: 20%; height: 11.84%;" data-img="images/nyc/jamie/3F6A3AA2-9E16-48EB-A13D-215E0A6B0890.jpeg">
-            <img src="images/nyc/jamie/3F6A3AA2-9E16-48EB-A13D-215E0A6B0890.jpeg" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 73%; left:63%; width: 12%; height: 5.53%;" data-img="images/nyc/jamie/15116121-DF50-4FD7-B00A-930BAD4CB5F0_1_201_a.jpeg">
-            <img src="images/nyc/jamie/15116121-DF50-4FD7-B00A-930BAD4CB5F0_1_201_a.jpeg" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 68%; left:52%; width: 20%; height: 3.95%;" data-img="images/nyc/jamie/FF209432-11EB-4FBD-B03E-7F9C7D04B107.jpeg">
-            <img src="images/nyc/jamie/FF209432-11EB-4FBD-B03E-7F9C7D04B107.jpeg" alt="court1-2">
-        </div>
-
-        <div class="book-image book-element" style="top: 78%; left:4%; width: 23%; height: 14.21%;"
-            data-img="images/nyc/C8546B3A-0268-42F4-A425-665F55DBF869.jpeg"
-            data-blob="size:1,seed:9,rotation:90,x:690,y:680,bleed:n">
-            <img src="images/nyc/C8546B3A-0268-42F4-A425-665F55DBF869.jpeg" alt="court1-2">
-        </div>
-
-        <div class="book-image book-element" style="top: 82%; left:52%; width: 35%; height: 6.32%;" data-img="images/nyc/C6996D52-0ADB-4464-8AD1-5A2C12C1D282.jpeg">
-            <img src="images/nyc/C6996D52-0ADB-4464-8AD1-5A2C12C1D282.jpeg" alt="court1-2">
-        </div>
-
-        <div class="book-image book-element" style="top: 91%; left:60%; width: 16%; height: 7.89%;" data-img="images/nyc/D4388D63-7A29-434D-A637-5B4A69E1CA8E.jpeg">
-            <img src="images/nyc/D4388D63-7A29-434D-A637-5B4A69E1CA8E.jpeg" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 77%; left:36%; width: 10%; height: 7.89%;"
-            data-img="images/nyc/2081DA48-2286-45D1-9552-86F4D216816E.jpeg">
-            <img src="images/nyc/2081DA48-2286-45D1-9552-86F4D216816E.jpeg" alt="court1-2">
-        </div>
-        <div class="book-image book-element" style="top: 88%; left:31%; width: 10%; height: 7.89%;"
-            data-img="images/nyc/FBA03E96-81CA-459B-A492-EAB6510A586B.jpeg"
-            data-blob="shape:square,size:2.5,seed:9,rotation:90,x:700,y:780,bleed:y">
-            <img src="images/nyc/FBA03E96-81CA-459B-A492-EAB6510A586B.jpeg" alt="court1-2">
-        </div>
-
-        <!-- Text -->
-
-        <div class="display-title narrow crisp book-element"
-        style="top: 6%; left: 5%; width: 25%;">
-            <span class="line" style="--indent: 0ch">New</span>
-            <span class="line" style="--indent: 1ch">York</span>
-            <span class="line" style="--indent: 0.5ch">City</span>
-        </div>
-        <div class="text-block text-justify book-element" style="top: 770px; right: 60px; width: 40%; height: 60px; opacity: 0.4; column-gap: 20px;">
-            a trip that had been prommised for as long as i could remember. in february of 2022, despite our now expired stand-by privaledges, 5 hour plane delay and lost tickets for the comedy club in SoHo that night, we were finally on our way to new york.
-        </div>
-        <div class="lorem-block book-element" style="top: 2300px; left: 655px; width: 45%; height: 120px; opacity: 0.4; column-gap: 35px;">
-            on a sunday morning we decided that a day together, avoiding the usual slightly chaotic logistics of a 6 person onterage, would be a good idea. we got the metro to brooklyn, explored round the bridge and then headed to williamsburg. we went to some vintage shops, had an explore, drank beer and played pool - this was my favorite day.
-        </div>
-        <div class="text-block book-element" style="top: 2800px; left: 250px; width: 20%; height: 120px; opacity: 0.4; column-gap: 60px;">
-            a pickle shop is not defined by the quality of its sandwich but the quantity of its pickles        
-        </div>       
-    </div>
-    <div class="book-spread" id="spread-5" style="min-height: 3000px;">
-        <div class="center-spine"></div>
-        <span class="section-number white book-element" style="top: 90px; left: 40px; color: white;">04</span>
-        <div class="book-image book-element" style="top: 2%; right: 50%; width: 16%; height: 18%;" data-img="images/copenhagen/2BFD1087-FCDD-442A-924A-114343F8FA3F_1_201_a.jpeg">
-        <img src="images/copenhagen/2BFD1087-FCDD-442A-924A-114343F8FA3F_1_201_a.jpeg" alt="Portrait 1">
-        </div>
-        <div class="book-image book-element" style="top: 2%; right: 66.5%; width: 16%; height: 18%;" data-img="images/paris/IMG_1857.JPG">
-        <img src="images/paris/IMG_1857.JPG" alt="Portrait 2">
-        </div>
-        <div class="book-image book-element" style="top: 2%; right: 83%; width: 16.3%; height: 18%;" data-img="images/copenhagen/FA271BCC-7DCD-4BA5-9B0C-9309226550A9_1_105_c.jpeg">
-        <img src="images/copenhagen/FA271BCC-7DCD-4BA5-9B0C-9309226550A9_1_105_c.jpeg" alt="Portrait 3">
-        </div>
-        <!-- <div class="book-image book-element" style="top: 2%; right: 83%; width: 16.3%; height: 18%;" data-img="images/copenhagen/A08D7FC5-1287-4AE8-B095-4CA15964CB3C_1_201_a.jpeg">
-        <img src="images/copenhagen/A08D7FC5-1287-4AE8-B095-4CA15964CB3C_1_201_a.jpeg" alt="Portrait 3">
-        </div> overlay looks goood --> 
-        <div class="book-image book-element" style="top: 16%; right: 2%; width: 12%; height: 8%;" data-img="images/copenhagen/A08D7FC5-1287-4AE8-B095-4CA15964CB3C_1_201_a.jpeg">
-        <img src="images/copenhagen/A08D7FC5-1287-4AE8-B095-4CA15964CB3C_1_201_a.jpeg" alt="Portrait 3">
-        </div>
-        <div class="book-image book-element" style="top: 22%; left: 52%; width: 23%; height: 15%;" data-img="images/paris/4E05204A-75EF-41EB-953F-8CB81AD096EE.jpeg">
-        <img src="images/paris/4E05204A-75EF-41EB-953F-8CB81AD096EE.jpeg" alt="Portrait 3">
-        </div>
-        <div class="book-image book-element" style="top: 30%; left: 0%; width: 50%; height: 30%;" data-img="images/copenhagen/46BD35B5-2186-433E-81DC-87AA2F00C6D4_1_201_a.jpeg">
-        <img src="images/copenhagen/46BD35B5-2186-433E-81DC-87AA2F00C6D4_1_201_a.jpeg" alt="Portrait 3">
-        </div>
-        <!-- Text -->
-
-        <div class="display-title narrow crisp book-element"
-        style="top: 1%; right: 5%; width: 25%;">
-            <span class="line" style="--indent: 0.2ch">Paris</span>
-            <span class="line" style="--indent: 2.6ch">et</span>
-            <span class="line" style="--indent: -0.6ch">købe</span>
-            <span class="line" style="--indent: 0.5ch">nhavn</span>
-        </div>
-    </div>
     </div>
 
 <!-- Lightbox -->
