@@ -103,19 +103,47 @@ function applySpineBlending() {
   });
 }
 
-// Smooth scroll
+// Smooth scroll with fade transition
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+      const targetId = this.getAttribute('href');
+      const target = document.querySelector(targetId);
 
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
+      if (target) {
+        // Find all sections that could be visible
+        const allSections = document.querySelectorAll('.book-spread, .index-section');
+        let currentSection = null;
+
+        // Find which section is currently most visible in viewport
+        allSections.forEach(section => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 2) {
+            currentSection = section;
+          }
         });
+
+        if (currentSection) {
+          // Fade out current
+          currentSection.classList.add('fade-out');
+
+          // Pre-fade target section
+          target.classList.add('fade-out');
+
+          setTimeout(() => {
+            target.scrollIntoView({ behavior: 'auto', block: 'start' });
+            currentSection.classList.remove('fade-out');
+
+            // Fade in target after scroll
+            requestAnimationFrame(() => {
+              target.classList.remove('fade-out');
+            });
+          }, 800);
+        } else {
+          // Fallback if no current section found
+          target.scrollIntoView({ behavior: 'auto', block: 'start' });
+        }
       }
     });
   });

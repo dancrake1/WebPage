@@ -40,7 +40,7 @@
 
 *{margin:0;padding:0;box-sizing:border-box}
 html{
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   scroll-padding-top: 0;
 }
 
@@ -73,6 +73,11 @@ body{
   position:relative;
   z-index:10;
   background:transparent;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.index-section.fade-out {
+  opacity: 0;
 }
 
 /* Hero image with blob support */
@@ -251,17 +256,6 @@ body{
 
 
 /* Spreads */
-.book-spread{
-  position:relative;
-  width:100%;
-  height:100vh;
-  min-height:1400px;
-  display:flex;
-  background:transparent;
-  overflow:hidden;
-}
-
-/* Spreads */
 .book-spread {
   position: relative;
   width: 100%;
@@ -270,6 +264,11 @@ body{
   display: flex;
   background: transparent; /* paper is on journal-content */
   overflow: hidden;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.book-spread.fade-out {
+  opacity: 0;
 }
 
 /* Center Spine (as before) */
@@ -499,7 +498,7 @@ body{
   overflow: hidden;
   background: transparent;
   border: none;
-  transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 .gallery-thumb img {
@@ -507,13 +506,14 @@ body{
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: object-fit 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: object-fit 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 /* Past images - stack on left, most recent at top, with 8px margin and clipped bottom */
 .gallery-thumb.past {
   left: 8px;
   top: calc(10vh + (var(--position, 0) * 73px));
+  transform: translate(0, 0);
   width: 73px;
   height: 73px;
   z-index: calc(100 - var(--position, 0));
@@ -522,8 +522,9 @@ body{
 
 /* Future images - stack on right, next at top, with 8px margin and clipped bottom */
 .gallery-thumb.future {
-  right: 8px;
+  left: calc(100% - 81px);
   top: calc(10vh + (var(--position, 0) * 73px));
+  transform: translate(0, 0);
   width: 73px;
   height: 73px;
   z-index: calc(100 - var(--position, 0));
@@ -542,6 +543,7 @@ body{
   z-index: 1200;
   background: transparent;
   max-height: none;
+  pointer-events: none;
 }
 
 .gallery-thumb.current img {
@@ -648,7 +650,7 @@ body{
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 30%;
+  width: 50%;
   cursor: pointer;
   z-index: 500; /* Below current image (1000) but above thumbnails */
   background: transparent;

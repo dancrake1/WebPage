@@ -27,11 +27,28 @@ function initMainNavigation() {
   const gridBtn = document.getElementById('nav-grid');
   const canvas = document.getElementById('generative-grid-bg');
 
-  // Journal - scroll to first spread
+  // Journal - fade transition to journal wrapper
   journalBtn.addEventListener('click', () => {
+    const indexSection = document.querySelector('.index-section');
+    const journalWrapper = document.querySelector('.journal-wrapper');
     const firstSpread = document.getElementById('spread-1');
-    if (firstSpread) {
-      firstSpread.scrollIntoView({ behavior: 'smooth' });
+
+    if (indexSection && journalWrapper && firstSpread) {
+      // Fade out current
+      indexSection.classList.add('fade-out');
+
+      // Add fade-out to target before scrolling
+      firstSpread.classList.add('fade-out');
+
+      setTimeout(() => {
+        window.scrollTo({ top: journalWrapper.offsetTop, behavior: 'auto' });
+        indexSection.classList.remove('fade-out');
+
+        // Fade in new section after scroll
+        requestAnimationFrame(() => {
+          firstSpread.classList.remove('fade-out');
+        });
+      }, 800);
     }
   });
 
