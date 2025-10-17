@@ -1,14 +1,12 @@
 // Main initialization - coordinates all modules
 document.addEventListener('DOMContentLoaded', function() {
-  // Initialize all functionality from blob-effects.js
+  // Initialize visual effects from visual-effects.js
   if (typeof applySpineBlending === 'function') {
     applySpineBlending();
     window.addEventListener('resize', () => {
       setTimeout(applySpineBlending, 100);
     });
   }
-  if (typeof initSmoothScroll === 'function') initSmoothScroll();
-  if (typeof initLightbox === 'function') initLightbox();
   if (typeof initFadeInAnimations === 'function') initFadeInAnimations();
   if (typeof initializeBlobs === 'function') initializeBlobs();
   if (typeof initBallSeam === 'function') initBallSeam();
@@ -17,8 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
   if (typeof initGridToggle === 'function') initGridToggle();
   if (typeof initGenerativeGrid === 'function') initGenerativeGrid();
 
-  // Initialize main navigation
+  // Initialize lightbox from lightbox.js
+  if (typeof initLightbox === 'function') initLightbox();
+
+  // Initialize navigation
   initMainNavigation();
+  initSmoothScroll();
 });
 
 function initMainNavigation() {
@@ -48,11 +50,30 @@ function initMainNavigation() {
     }
   });
 
-  // Album - open first image in lightbox
+  // Album - scroll to journal then open first journal image in lightbox
   albumBtn.addEventListener('click', () => {
-    const firstImage = document.querySelector('.book-image');
-    if (firstImage) {
-      firstImage.click();
+    const overlay = document.getElementById('pageTransition');
+    const journalWrapper = document.querySelector('.journal-wrapper');
+
+    if (overlay && journalWrapper) {
+      // Fade overlay in
+      overlay.classList.add('active');
+
+      // Scroll to journal while overlay is visible
+      setTimeout(() => {
+        window.scrollTo({ top: journalWrapper.offsetTop, behavior: 'auto' });
+
+        // Find first image inside journal and click it
+        const firstJournalImage = journalWrapper.querySelector('.book-image');
+        if (firstJournalImage) {
+          firstJournalImage.click();
+        }
+
+        // Fade overlay out (lightbox will be on top)
+        requestAnimationFrame(() => {
+          overlay.classList.remove('active');
+        });
+      }, 600);
     }
   });
 
@@ -87,5 +108,33 @@ function initMainNavigation() {
         window.generativeGridInstance = null;
       }
     }
+  });
+}
+
+// Smooth scroll with fade transition using full-page overlay
+function initSmoothScroll() {
+  const overlay = document.getElementById('pageTransition');
+
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const target = document.querySelector(targetId);
+
+      if (target) {
+        // Step 1: Fade overlay in (covers everything)
+        overlay.classList.add('active');
+
+        // Step 2: Scroll while overlay is visible (600ms fade duration)
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: 'auto', block: 'start' });
+
+          // Step 3: Fade overlay out immediately after scroll
+          requestAnimationFrame(() => {
+            overlay.classList.remove('active');
+          });
+        }, 600);
+      }
+    });
   });
 }

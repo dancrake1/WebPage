@@ -103,34 +103,7 @@ function applySpineBlending() {
   });
 }
 
-// Smooth scroll with fade transition using full-page overlay
-function initSmoothScroll() {
-  const overlay = document.getElementById('pageTransition');
-
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const targetId = this.getAttribute('href');
-      const target = document.querySelector(targetId);
-
-      if (target) {
-        // Step 1: Fade overlay in (covers everything)
-        overlay.classList.add('active');
-
-        // Step 2: Scroll while overlay is visible (600ms fade duration)
-        setTimeout(() => {
-          target.scrollIntoView({ behavior: 'auto', block: 'start' });
-
-          // Step 3: Fade overlay out immediately after scroll
-          requestAnimationFrame(() => {
-            overlay.classList.remove('active');
-          });
-        }, 600);
-      }
-    });
-  });
-}
-
+// Smooth scroll functionality has been moved to js/main.js
 // Lightbox functionality has been moved to js/lightbox.js
 
 // Fade-in animations
@@ -378,7 +351,6 @@ function initBallSeam(){
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     applySpineBlending,
-    initSmoothScroll,
     initFadeInAnimations,
     initializeBlobs,
     initBallSeam

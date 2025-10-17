@@ -448,21 +448,20 @@ body{
 
 /* Carousel Lightbox Gallery with Thumbnail Strips */
 .lightbox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: none;
   position: fixed;
   inset: 0;
   background: rgba(251, 248, 243, 0.98);
-  z-index: 10000;
+  z-index: 1000;
   opacity: 0;
-  pointer-events: none;
   transition: opacity 0.4s ease-out;
   overflow: hidden;
 }
 .lightbox.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 1;
-  pointer-events: auto;
 }
 
 /* Lightbox content container */
@@ -695,7 +694,7 @@ body{
   color: #1a1a1a;
   font-size: 40px;
   cursor: pointer;
-  z-index: 10001;
+  z-index: 1001;
   transition: transform 0.2s ease;
 }
 
