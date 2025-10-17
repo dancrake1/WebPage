@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Font Testing</title>
+  <style>
+    @font-face {
+      font-family: 'Basis Grotesque Pro';
+      src: url('fonts/BasisGrotesquePro-Medium.ttf') format('truetype');
+      font-weight: 500;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Basis Grotesque Pro';
+      src: url('fonts/BasisGrotesquePro-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Futura Bold';
+      src: url('fonts/Futura Bold/Futura Bold.otf') format('opentype');
+      font-weight: bold;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Futura Book';
+      src: url('fonts/FuturaCyrillicBook.ttf') format('truetype');
+      font-weight: 400;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'CMM';
+      src: url('fonts/CMM Coda/CMMCoda-MonoSans.woff2') format('woff2');
+      font-display: swap;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      padding: 4rem;
+      background: #f5f5f5;
+      font-family: system-ui, sans-serif;
+    }
+
+    .test-section {
+      background: white;
+      padding: 3rem;
+      margin-bottom: 3rem;
+      border: 1px solid #ddd;
+    }
+
+    .controls {
+      background: #f9f9f9;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid #e0e0e0;
+    }
+
+    .control-group {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    label {
+      min-width: 150px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      max-width: 400px;
+    }
+
+    .value-display {
+      min-width: 80px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+
+    .sample-text {
+      font-family: 'Basis Grotesque Pro', sans-serif;
+      user-select: text;
+      -webkit-user-select: text;
+      cursor: text;
+    }
+
+    .sample-text div {
+      outline: none;
+      padding: 2px;
+    }
+
+    .sample-text div:focus {
+      background: rgba(100, 150, 255, 0.05);
+    }
+
+    select {
+      padding: 0.5rem;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: white;
+    }
+
+    h2 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Medium Weight Test -->
+  <div class="test-section">
+    <h2 id="medium-title">Basis Grotesque Pro - Medium (500)</h2>
+
+    <div class="controls">
+      <div class="control-group">
+        <label>Font Family:</label>
+        <select id="medium-font">
+          <option value="Basis Grotesque Pro" selected>Basis Grotesque Pro</option>
+          <option value="Futura Bold">Futura Bold</option>
+          <option value="Futura Book">Futura Book</option>
+          <option value="CMM">CMM</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label>Font Size:</label>
+        <input type="range" id="medium-size" min="20" max="200" value="80" step="1">
+        <span class="value-display" id="medium-size-val">80px</span>
+      </div>
+      <div class="control-group">
+        <label>Font Weight:</label>
+        <input type="range" id="medium-weight" min="100" max="900" value="500" step="100">
+        <span class="value-display" id="medium-weight-val">500</span>
+      </div>
+      <div class="control-group">
+        <label>Letter Spacing:</label>
+        <input type="range" id="medium-spacing" min="-100" max="100" value="0" step="1">
+        <span class="value-display" id="medium-spacing-val">0.000em</span>
+      </div>
+      <div class="control-group">
+        <label>Line Height:</label>
+        <input type="range" id="medium-line" min="50" max="200" value="100" step="5">
+        <span class="value-display" id="medium-line-val">1.00</span>
+      </div>
+      <div class="control-group">
+        <label>Line 1 Indent:</label>
+        <input type="range" id="medium-indent-1" min="-5" max="10" value="0" step="0.5">
+        <span class="value-display" id="medium-indent-1-val">0ch</span>
+      </div>
+      <div class="control-group">
+        <label>Line 2 Indent:</label>
+        <input type="range" id="medium-indent-2" min="-5" max="10" value="0" step="0.5">
+        <span class="value-display" id="medium-indent-2-val">0ch</span>
+      </div>
+      <div class="control-group">
+        <label>Line 3 Indent:</label>
+        <input type="range" id="medium-indent-3" min="-5" max="10" value="0" step="0.5">
+        <span class="value-display" id="medium-indent-3-val">0ch</span>
+      </div>
+    </div>
+
+    <div class="sample-text" id="medium-sample" style="font-weight: 500;">
+      <div id="medium-line-1" contenteditable="true">Seven</div>
+      <div id="medium-line-2" contenteditable="true">Sisters</div>
+      <div id="medium-line-3" contenteditable="true">Photography</div>
+    </div>
+  </div>
+
+  <!-- Bold Weight Test -->
+  <div class="test-section">
+    <h2 id="bold-title">Basis Grotesque Pro - Bold (700)</h2>
+
+    <div class="controls">
+      <div class="control-group">
+        <label>Font Family:</label>
+        <select id="bold-font">
+          <option value="Basis Grotesque Pro" selected>Basis Grotesque Pro</option>
+          <option value="Futura Bold">Futura Bold</option>
+          <option value="Futura Book">Futura Book</option>
+          <option value="CMM">CMM</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label>Font Size:</label>
+        <input type="range" id="bold-size" min="20" max="200" value="80" step="1">
+        <span class="value-display" id="bold-size-val">80px</span>
+      </div>
+      <div class="control-group">
+        <label>Font Weight:</label>
+        <input type="range" id="bold-weight" min="100" max="900" value="700" step="100">
+        <span class="value-display" id="bold-weight-val">700</span>
+      </div>
+      <div class="control-group">
+        <label>Letter Spacing:</label>
+        <input type="range" id="bold-spacing" min="-100" max="100" value="-50" step="1">
+        <span class="value-display" id="bold-spacing-val">-0.050em</span>
+      </div>
+      <div class="control-group">
+        <label>Line Height:</label>
+        <input type="range" id="bold-line" min="50" max="200" value="90" step="5">
+        <span class="value-display" id="bold-line-val">0.90</span>
+      </div>
+      <div class="control-group">
+        <label>Line 1 Indent:</label>
+        <input type="range" id="bold-indent-1" min="-5" max="10" value="0" step="0.5">
+        <span class="value-display" id="bold-indent-1-val">0ch</span>
+      </div>
+      <div class="control-group">
+        <label>Line 2 Indent:</label>
+        <input type="range" id="bold-indent-2" min="-5" max="10" value="1" step="0.5">
+        <span class="value-display" id="bold-indent-2-val">1ch</span>
+      </div>
+      <div class="control-group">
+        <label>Line 3 Indent:</label>
+        <input type="range" id="bold-indent-3" min="-5" max="10" value="0.5" step="0.5">
+        <span class="value-display" id="bold-indent-3-val">0.5ch</span>
+      </div>
+    </div>
+
+    <div class="sample-text" id="bold-sample" style="font-weight: 700;">
+      <div id="bold-line-1" contenteditable="true">Wim</div>
+      <div id="bold-line-2" contenteditable="true">bledon</div>
+      <div id="bold-line-3" contenteditable="true">Tennis</div>
+    </div>
+  </div>
+
+  <script>
+    // Medium controls
+    const mediumFont = document.getElementById('medium-font');
+    const mediumSize = document.getElementById('medium-size');
+    const mediumWeight = document.getElementById('medium-weight');
+    const mediumSpacing = document.getElementById('medium-spacing');
+    const mediumLine = document.getElementById('medium-line');
+    const mediumIndent1 = document.getElementById('medium-indent-1');
+    const mediumIndent2 = document.getElementById('medium-indent-2');
+    const mediumIndent3 = document.getElementById('medium-indent-3');
+    const mediumSample = document.getElementById('medium-sample');
+
+    mediumFont.addEventListener('change', (e) => {
+      const val = e.target.value;
+      mediumSample.style.fontFamily = `'${val}', sans-serif`;
+      const weight = mediumWeight.value;
+      document.getElementById('medium-title').textContent = `${val} - Weight (${weight})`;
+    });
+
+    mediumSize.addEventListener('input', (e) => {
+      const val = e.target.value;
+      mediumSample.style.fontSize = val + 'px';
+      document.getElementById('medium-size-val').textContent = val + 'px';
+    });
+
+    mediumWeight.addEventListener('input', (e) => {
+      const val = e.target.value;
+      mediumSample.style.fontWeight = val;
+      document.getElementById('medium-weight-val').textContent = val;
+      const font = mediumFont.value;
+      document.getElementById('medium-title').textContent = `${font} - Weight (${val})`;
+    });
+
+    mediumSpacing.addEventListener('input', (e) => {
+      const val = (e.target.value / 1000);
+      mediumSample.style.letterSpacing = val + 'em';
+      document.getElementById('medium-spacing-val').textContent = val.toFixed(3) + 'em';
+    });
+
+    mediumLine.addEventListener('input', (e) => {
+      const val = (e.target.value / 100);
+      mediumSample.style.lineHeight = val;
+      document.getElementById('medium-line-val').textContent = val.toFixed(2);
+    });
+
+    mediumIndent1.addEventListener('input', (e) => {
+      const val = e.target.value;
+      document.getElementById('medium-line-1').style.textIndent = val + 'ch';
+      document.getElementById('medium-indent-1-val').textContent = val + 'ch';
+    });
+
+    mediumIndent2.addEventListener('input', (e) => {
+      const val = e.target.value;
+      document.getElementById('medium-line-2').style.textIndent = val + 'ch';
+      document.getElementById('medium-indent-2-val').textContent = val + 'ch';
+    });
+
+    mediumIndent3.addEventListener('input', (e) => {
+      const val = e.target.value;
+      document.getElementById('medium-line-3').style.textIndent = val + 'ch';
+      document.getElementById('medium-indent-3-val').textContent = val + 'ch';
+    });
+
+    // Bold controls
+    const boldFont = document.getElementById('bold-font');
+    const boldSize = document.getElementById('bold-size');
+    const boldWeight = document.getElementById('bold-weight');
+    const boldSpacing = document.getElementById('bold-spacing');
+    const boldLine = document.getElementById('bold-line');
+    const boldIndent1 = document.getElementById('bold-indent-1');
+    const boldIndent2 = document.getElementById('bold-indent-2');
+    const boldIndent3 = document.getElementById('bold-indent-3');
+    const boldSample = document.getElementById('bold-sample');
+
+    boldFont.addEventListener('change', (e) => {
+      const val = e.target.value;
+      boldSample.style.fontFamily = `'${val}', sans-serif`;
+      const weight = boldWeight.value;
+      document.getElementById('bold-title').textContent = `${val} - Weight (${weight})`;
+    });
+
+    boldSize.addEventListener('input', (e) => {
+      const val = e.target.value;
+      boldSample.style.fontSize = val + 'px';
+      document.getElementById('bold-size-val').textContent = val + 'px';
+    });
+
+    boldWeight.addEventListener('input', (e) => {
+      const val = e.target.value;
+      boldSample.style.fontWeight = val;
+      document.getElementById('bold-weight-val').textContent = val;
+      const font = boldFont.value;
+      document.getElementById('bold-title').textContent = `${font} - Weight (${val})`;
+    });
+
+    boldSpacing.addEventListener('input', (e) => {
+      const val = (e.target.value / 1000);
+      boldSample.style.letterSpacing = val + 'em';
+      document.getElementById('bold-spacing-val').textContent = val.toFixed(3) + 'em';
+    });
+
+    boldLine.addEventListener('input', (e) => {
+      const val = (e.target.value / 100);
+      boldSample.style.lineHeight = val;
+      document.getElementById('bold-line-val').textContent = val.toFixed(2);
+    });
+
+    boldIndent1.addEventListener('input', (e) => {
+      const val = e.target.value;
+      document.getElementById('bold-line-1').style.textIndent = val + 'ch';
+      document.getElementById('bold-indent-1-val').textContent = val + 'ch';
+    });
+
+    boldIndent2.addEventListener('input', (e) => {
+      const val = e.target.value;
+      document.getElementById('bold-line-2').style.textIndent = val + 'ch';
+      document.getElementById('bold-indent-2-val').textContent = val + 'ch';
+    });
+
+    boldIndent3.addEventListener('input', (e) => {
+      const val = e.target.value;
+      document.getElementById('bold-line-3').style.textIndent = val + 'ch';
+      document.getElementById('bold-indent-3-val').textContent = val + 'ch';
+    });
+
+    // Initialize bold defaults
+    boldSample.style.fontSize = '80px';
+    boldSample.style.fontWeight = '700';
+    boldSample.style.letterSpacing = '-0.05em';
+    boldSample.style.lineHeight = '0.9';
+    document.getElementById('bold-line-2').style.textIndent = '1ch';
+    document.getElementById('bold-line-3').style.textIndent = '0.5ch';
+  </script>
+
+</body>
+</html>

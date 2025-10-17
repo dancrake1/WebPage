@@ -38,6 +38,20 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Basis Grotesque Pro';
+  src: url('../fonts/BasisGrotesquePro-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Basis Grotesque Pro';
+  src: url('../fonts/BasisGrotesquePro-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
 *{margin:0;padding:0;box-sizing:border-box}
 html{
   scroll-behavior: auto;
@@ -434,20 +448,21 @@ body{
 
 /* Carousel Lightbox Gallery with Thumbnail Strips */
 .lightbox {
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
   inset: 0;
   background: rgba(251, 248, 243, 0.98);
-  z-index: 1000;
+  z-index: 10000;
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.4s ease-out;
   overflow: hidden;
 }
 .lightbox.active {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   opacity: 1;
+  pointer-events: auto;
 }
 
 /* Lightbox content container */
@@ -680,7 +695,7 @@ body{
   color: #1a1a1a;
   font-size: 40px;
   cursor: pointer;
-  z-index: 1001;
+  z-index: 10001;
   transition: transform 0.2s ease;
 }
 
@@ -749,16 +764,11 @@ position: absolute;
 z-index: 70;
 pointer-events: none;
 
-/* Updated font stack */
-/* font-family: 'Oswald', 'Bebas Neue', 'Barlow Condensed', sans-serif; */
-font-family: 'Futura Bold', sans-serif;
-font-weight: bold;
-/* font-family: 'CMM', sans-serif; */
-font-weight: 1000;                /* Black weight */
-font-stretch: condensed;         /* Make it more condensed */
+font-family: 'Basis Grotesque Pro', sans-serif;
+font-weight: 700;
 font-size: clamp(3rem, 9vw, 10rem);
-line-height: 0.9;              /* Even tighter */
-letter-spacing: -0.025em;        /* Tighter spacing like the image */
+line-height: 0.9;
+letter-spacing: -0.05em;
 
 color: rgb(255, 74, 58, 0.85);
 mix-blend-mode: multiply;
@@ -771,12 +781,11 @@ position: absolute;
 z-index: 70;
 pointer-events: none;
 
-font-family: 'Futura Bold', sans-serif;
-font-weight: var(--title-weight, bold);
-font-stretch: condensed;
+font-family: 'Basis Grotesque Pro', sans-serif;
+font-weight: 700;
 font-size: var(--title-size, clamp(3rem, 9vw, 10rem));  /* Adjustable via inline style */
 line-height: 0.9;
-letter-spacing: -0.025em;
+letter-spacing: -0.05em;
 
 color: rgba(255, 74, 58, var(--title-opacity, 0.85));  /* Same red as display-title, adjustable opacity */
 mix-blend-mode: multiply;           /* Blends deeply with paper texture */
@@ -788,6 +797,29 @@ background-clip: text;
 -webkit-background-clip: text;
 background-size: 200px 200px;
 }
+
+/* New title style: Medium weight, wider spacing, more breathing room */
+.display-title-alt {
+position: absolute;
+z-index: 70;
+pointer-events: none;
+
+font-family: 'Basis Grotesque Pro', sans-serif;
+font-weight: 500;
+font-size: clamp(3rem, 9vw, 10rem);
+line-height: 0.65;
+letter-spacing: 0.11em;
+
+color: rgb(255, 74, 58, 0.85);
+mix-blend-mode: multiply;
+filter: url(#textGrain);
+}
+
+.display-title-alt .line {
+display: block;
+transform: translateX(var(--indent,0ch));
+}
+.display-title-alt .line + .line { margin-top: var(--row-gap); }
 
 /* Per-line control (for the stair-step indents) */
 .display-title .line{
