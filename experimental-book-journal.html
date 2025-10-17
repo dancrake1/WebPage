@@ -16,6 +16,9 @@
 
  </head>
  <body>
+  <!-- Page transition overlay -->
+  <div class="page-transition-overlay" id="pageTransition"></div>
+
   <canvas id="generative-grid-bg" style="display:none;"></canvas>
   <!-- SVG Filters for text grain effect -->
   <svg width="0" height="0" style="position: absolute;">
@@ -439,17 +442,11 @@
             <!-- Text -->
 
             <!-- Faded title example with custom size and opacity -->
-            <div class="faded-title book-element" style="top: 0%; right: 2%; --title-size: 7rem; --title-opacity: 0.5;">
-                <span class="line" style="--indent: 0ch">greece</span>
+            <div class="display-title narrow crisp book-element"
+            style="top: 2%; right: 1%; width: 25%;">
+                <span class="line" style="--indent: 1ch">Ελλ</span>
+                <span class="line" style="--indent: 0ch">λάδα</span>
             </div>
-
-            <!-- <div class="display-title narrow crisp book-element"
-            style="top: 1%; right: 5%; width: 25%;">
-                <span class="line" style="--indent: 0.2ch">G</span>
-                <span class="line" style="--indent: 2.6ch">et</span>
-                <span class="line" style="--indent: -0.6ch">købe</span>
-                <span class="line" style="--indent: 0.5ch">nhavn</span>
-            </div> -->
 
 
         </div>

@@ -103,8 +103,10 @@ function applySpineBlending() {
   });
 }
 
-// Smooth scroll with fade transition
+// Smooth scroll with fade transition using full-page overlay
 function initSmoothScroll() {
+  const overlay = document.getElementById('pageTransition');
+
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
@@ -112,38 +114,18 @@ function initSmoothScroll() {
       const target = document.querySelector(targetId);
 
       if (target) {
-        // Find all sections that could be visible
-        const allSections = document.querySelectorAll('.book-spread, .index-section');
-        let currentSection = null;
+        // Step 1: Fade overlay in (covers everything)
+        overlay.classList.add('active');
 
-        // Find which section is currently most visible in viewport
-        allSections.forEach(section => {
-          const rect = section.getBoundingClientRect();
-          if (rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 2) {
-            currentSection = section;
-          }
-        });
-
-        if (currentSection) {
-          // Fade out current
-          currentSection.classList.add('fade-out');
-
-          // Pre-fade target section
-          target.classList.add('fade-out');
-
-          setTimeout(() => {
-            target.scrollIntoView({ behavior: 'auto', block: 'start' });
-            currentSection.classList.remove('fade-out');
-
-            // Fade in target after scroll
-            requestAnimationFrame(() => {
-              target.classList.remove('fade-out');
-            });
-          }, 800);
-        } else {
-          // Fallback if no current section found
+        // Step 2: Scroll while overlay is visible (600ms fade duration)
+        setTimeout(() => {
           target.scrollIntoView({ behavior: 'auto', block: 'start' });
-        }
+
+          // Step 3: Fade overlay out immediately after scroll
+          requestAnimationFrame(() => {
+            overlay.classList.remove('active');
+          });
+        }, 600);
       }
     });
   });

@@ -53,6 +53,24 @@ body{
   position:relative;
 }
 
+/* Page transition overlay */
+.page-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--outer-bg);
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.page-transition-overlay.active {
+  opacity: 1;
+}
+
 /* Generative Grid Background Canvas */
 #generative-grid-bg {
   position: fixed;
@@ -73,11 +91,6 @@ body{
   position:relative;
   z-index:10;
   background:transparent;
-  transition: opacity 0.8s ease-in-out;
-}
-
-.index-section.fade-out {
-  opacity: 0;
 }
 
 /* Hero image with blob support */
@@ -139,7 +152,7 @@ body{
 
 #nav-grid.active::after {
   opacity: 1;
-  animation: drawSquare 0.8s ease-out forwards;
+  animation: drawSquare 1.5s ease-out forwards;
 }
 
 @keyframes drawSquare {
@@ -264,11 +277,6 @@ body{
   display: flex;
   background: transparent; /* paper is on journal-content */
   overflow: hidden;
-  transition: opacity 0.8s ease-in-out;
-}
-
-.book-spread.fade-out {
-  opacity: 0;
 }
 
 /* Center Spine (as before) */

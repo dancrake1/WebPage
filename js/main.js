@@ -27,28 +27,24 @@ function initMainNavigation() {
   const gridBtn = document.getElementById('nav-grid');
   const canvas = document.getElementById('generative-grid-bg');
 
-  // Journal - fade transition to journal wrapper
+  // Journal - fade transition to journal wrapper using overlay
   journalBtn.addEventListener('click', () => {
-    const indexSection = document.querySelector('.index-section');
+    const overlay = document.getElementById('pageTransition');
     const journalWrapper = document.querySelector('.journal-wrapper');
-    const firstSpread = document.getElementById('spread-1');
 
-    if (indexSection && journalWrapper && firstSpread) {
-      // Fade out current
-      indexSection.classList.add('fade-out');
+    if (overlay && journalWrapper) {
+      // Step 1: Fade overlay in
+      overlay.classList.add('active');
 
-      // Add fade-out to target before scrolling
-      firstSpread.classList.add('fade-out');
-
+      // Step 2: Scroll while overlay is visible
       setTimeout(() => {
         window.scrollTo({ top: journalWrapper.offsetTop, behavior: 'auto' });
-        indexSection.classList.remove('fade-out');
 
-        // Fade in new section after scroll
+        // Step 3: Fade overlay out
         requestAnimationFrame(() => {
-          firstSpread.classList.remove('fade-out');
+          overlay.classList.remove('active');
         });
-      }, 800);
+      }, 600);
     }
   });
 
