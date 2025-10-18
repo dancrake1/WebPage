@@ -50,30 +50,13 @@ function initMainNavigation() {
     }
   });
 
-  // Album - scroll to journal then open first journal image in lightbox
+  // Album - open lightbox directly without scrolling
   albumBtn.addEventListener('click', () => {
-    const overlay = document.getElementById('pageTransition');
     const journalWrapper = document.querySelector('.journal-wrapper');
+    const firstJournalImage = journalWrapper?.querySelector('.book-image');
 
-    if (overlay && journalWrapper) {
-      // Fade overlay in
-      overlay.classList.add('active');
-
-      // Scroll to journal while overlay is visible
-      setTimeout(() => {
-        window.scrollTo({ top: journalWrapper.offsetTop, behavior: 'auto' });
-
-        // Find first image inside journal and click it
-        const firstJournalImage = journalWrapper.querySelector('.book-image');
-        if (firstJournalImage) {
-          firstJournalImage.click();
-        }
-
-        // Fade overlay out (lightbox will be on top)
-        requestAnimationFrame(() => {
-          overlay.classList.remove('active');
-        });
-      }, 600);
+    if (firstJournalImage) {
+      firstJournalImage.click();
     }
   });
 

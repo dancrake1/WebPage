@@ -110,6 +110,8 @@ function initLightbox() {
     setTimeout(() => {
       if (!lightbox.classList.contains('active')) {
         lightbox.style.display = 'none';
+        // Scroll back to index page
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }, 400);
   }
