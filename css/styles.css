@@ -39,6 +39,12 @@
 }
 
 @font-face {
+  font-family: 'CMM Proportional';
+  src: url('../fonts/CMM Coda/CMMCodaNormalizedUnlicensedTrial-Proportional.otf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Basis Grotesque Pro';
   src: url('../fonts/BasisGrotesquePro-Medium.ttf') format('truetype');
   font-weight: 500;
@@ -803,11 +809,11 @@ position: absolute;
 z-index: 70;
 pointer-events: none;
 
-font-family: 'Basis Grotesque Pro', sans-serif;
-font-weight: 500;
+font-family: 'CMM Proportional', sans-serif;
+font-weight: 400;
 font-size: clamp(3rem, 9vw, 10rem);
-line-height: 0.65;
-letter-spacing: 0.11em;
+line-height: 0.95;
+letter-spacing: 0.1em;
 
 color: rgb(255, 74, 58, 0.85);
 mix-blend-mode: multiply;
