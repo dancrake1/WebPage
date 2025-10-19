@@ -3,6 +3,7 @@
 let allImages = [];
 let currentIndex = 0;
 let isTransitioning = false;
+let openedFromIndex = false;
 
 function initLightbox() {
   const lightbox = document.getElementById('lightbox');
@@ -28,6 +29,8 @@ function initLightbox() {
     image.addEventListener('click', function(e) {
       e.stopPropagation();
       currentIndex = index;
+      // Check if we're at the top of the page (index section)
+      openedFromIndex = window.scrollY < 100;
       openLightbox();
     });
   });
@@ -110,8 +113,10 @@ function initLightbox() {
     setTimeout(() => {
       if (!lightbox.classList.contains('active')) {
         lightbox.style.display = 'none';
-        // Scroll back to index page
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Only scroll to index if lightbox was opened from index
+        if (openedFromIndex) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       }
     }, 400);
   }
