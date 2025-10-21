@@ -904,50 +904,11 @@ background-blend-mode: multiply, normal, normal;
 
 /* Mobile optimizations */
 @media (max-width: 768px) {
-  /* Remove all journal borders and padding */
-  .journal-wrapper {
-    padding: 0;
-  }
-
-  .journal-content {
-    width: 100%;
-  }
-
-  /* Hide center spine on mobile */
-  .center-spine { display: none; }
-
-  /* Remove page shadows */
-  .page-left::before, .page-right::before {
-    display: none;
-  }
-
-  /* Fix blob sizing - disable blob overflow on mobile */
-  .book-image .image-spot--bleed {
-    inset: 0;
-    overflow: hidden;
-  }
-
-  .book-image.has-spot-bleed {
-    overflow: hidden;
-  }
-
-  .hero-image-blob.has-spot-bleed {
-    overflow: hidden;
-  }
-
-  /* Fix blob colors - ensure normal blend mode on mobile */
-  .book-image {
-    mix-blend-mode: normal !important;
-  }
-
-  .book-image img {
-    filter: none !important;
-  }
 
   /* Index section - stack vertically */
   .index-section {
     flex-direction: column;
-    padding: 1rem;
+    padding: 9rem;
   }
 
   .hero-image-blob {
@@ -972,25 +933,26 @@ background-blend-mode: multiply, normal, normal;
 
   /* Smaller index text on mobile - override clamp */
   .site-header {
-    font-size: 0.7rem !important;
-    margin-bottom: 1rem !important;
+    font-size: 0.5rem !important;
+    margin-bottom: 0.8rem !important;
   }
 
   .index-list {
-    font-size: 0.9rem !important;
+    font-size: 0.65rem !important;
   }
 
   .index-list li {
-    margin-bottom: 0.4rem !important;
+    margin-bottom: 0.3rem !important;
   }
 
-  /* Position navigation above image, top-left aligned */
+  /* Position navigation above image, aligned with left edge of image */
   .main-navigation {
     position: relative;
     top: 0;
     left: 0;
     margin-bottom: 1rem;
     align-self: flex-start;
+    margin-left: 2vw; /* Aligns with left edge of hero image */
   }
 
   /* Smaller lightbox thumbnails */
