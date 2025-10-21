@@ -958,34 +958,38 @@ background-blend-mode: multiply, normal, normal;
     margin-left: 2vw; /* Aligns with left edge of hero image */
   }
 
-  /* Smaller lightbox thumbnails */
+  /* Lightbox thumbnails on mobile */
   .gallery-thumb {
-    width: 30px !important;
-    height: 30px !important;
+    width: 40px !important;
+    height: 40px !important;
   }
 
   .gallery-thumb.past {
-    left: 2px;
-    top: calc(5vh + (var(--position, 0) * 30px));
-    max-height: calc(90vh - 5vh - (var(--position, 0) * 30px));
+    left: 3px;
+    top: calc(10vh + (var(--position, 0) * 40px));
+    max-height: calc(80vh - 10vh - (var(--position, 0) * 40px));
+    clip-path: inset(0 0 0 0);
   }
 
   .gallery-thumb.future {
-    left: calc(100% - 32px);
-    top: calc(5vh + (var(--position, 0) * 30px));
-    max-height: calc(90vh - 5vh - (var(--position, 0) * 30px));
+    left: calc(100% - 43px);
+    top: calc(10vh + (var(--position, 0) * 40px));
+    max-height: calc(80vh - 10vh - (var(--position, 0) * 40px));
+    clip-path: inset(0 0 0 0);
   }
 
-  /* Full-size main image on mobile */
+  /* Slightly smaller main image on mobile */
   .gallery-thumb.current {
-    width: 95vw !important;
-    height: 90vh !important;
+    width: 85vw !important;
+    height: 80vh !important;
   }
 
-  /* Adjust border strips for smaller thumbnails */
+  /* Adjust border strips */
   .gallery-container::before,
   .gallery-container::after {
-    width: 2px;
-    bottom: 10vh;
+    width: 3px;
+    bottom: 20vh;
   }
+
+
 }
