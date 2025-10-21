@@ -221,7 +221,8 @@ function addBlobToImage(imageElement, options = {}) {
     rotation = Math.random() * 360,
     position = { x: Math.random() * 400 + 300, y: Math.random() * 400 + 300 },
     bleed = false,
-    shape = 'blob'
+    shape = 'blob',
+    style = 'red'  // 'red' or 'highlight'
   } = options;
 
   if (!imageElement.classList.contains('has-spot')) {
@@ -235,8 +236,16 @@ function addBlobToImage(imageElement, options = {}) {
   const shapePath = shape === 'square' ? generateSquarePath(size, imageElement) : generateBlobPath(size, seed);
   const uniqueId = `blob-${Math.floor(Math.random() * 10000)}`;
 
+  // Choose color based on style
+  const fillColor = style === 'highlight' ? 'var(--highlight-color)' : 'var(--blob-color)';
+  const grainFill = style === 'highlight' ? '#fff' : '#000';
+
   const spotDiv = document.createElement('div');
-  spotDiv.className = bleed ? 'image-spot image-spot--bleed' : 'image-spot image-spot--contained';
+  let spotClasses = bleed ? 'image-spot image-spot--bleed' : 'image-spot image-spot--contained';
+  if (style === 'highlight') {
+    spotClasses += ' highlight';
+  }
+  spotDiv.className = spotClasses;
   spotDiv.innerHTML = `
     <svg viewBox="0 0 1000 1000" aria-hidden="true">
       <defs>
@@ -260,9 +269,9 @@ function addBlobToImage(imageElement, options = {}) {
           <feGaussianBlur stdDeviation="0.9" />
         </filter>
         <radialGradient id="roundFade-${uniqueId}" cx="50%" cy="50%" r="65%">
-          <stop offset="0%" stop-color="var(--blob-color)" stop-opacity="0.45"/>
-          <stop offset="70%" stop-color="var(--blob-color)" stop-opacity="0.22"/>
-          <stop offset="100%" stop-color="var(--blob-color)" stop-opacity="0.00"/>
+          <stop offset="0%" stop-color="${fillColor}" stop-opacity="0.45"/>
+          <stop offset="70%" stop-color="${fillColor}" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="${fillColor}" stop-opacity="0.00"/>
         </radialGradient>
         <path id="shapePath-${uniqueId}" d="${shapePath}"/>
         <clipPath id="shapeClip-${uniqueId}">
@@ -270,12 +279,12 @@ function addBlobToImage(imageElement, options = {}) {
         </clipPath>
       </defs>
       <g transform="translate(${position.x - 500}, ${position.y - 500}) rotate(${rotation} 500 500)">
-        <use href="#shapePath-${uniqueId}" class="hue-layer" fill="var(--blob-color)" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-hue-opacity)" />
+        <use href="#shapePath-${uniqueId}" class="hue-layer" fill="${fillColor}" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-hue-opacity)" />
         <use href="#shapePath-${uniqueId}" class="density-layer" fill="url(#roundFade-${uniqueId})" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-density-opacity)" />
-        <use href="#shapePath-${uniqueId}" class="burn-layer" fill="var(--blob-color)" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-burn-opacity)" />
+        <use href="#shapePath-${uniqueId}" class="burn-layer" fill="${fillColor}" filter="url(#roughen-${uniqueId})" style="opacity: var(--blob-burn-opacity)" />
         <g clip-path="url(#shapeClip-${uniqueId})">
-          <use href="#shapePath-${uniqueId}" class="grain" fill="#000" filter="url(#grain-${uniqueId})" style="opacity: var(--blob-grain-opacity)" />
-          <use href="#shapePath-${uniqueId}" class="grain2" fill="#000" filter="url(#grainCoarse-${uniqueId})" style="opacity: var(--blob-grain2-opacity)" />
+          <use href="#shapePath-${uniqueId}" class="grain" fill="${grainFill}" filter="url(#grain-${uniqueId})" style="opacity: var(--blob-grain-opacity)" />
+          <use href="#shapePath-${uniqueId}" class="grain2" fill="${grainFill}" filter="url(#grainCoarse-${uniqueId})" style="opacity: var(--blob-grain2-opacity)" />
         </g>
       </g>
     </svg>
@@ -303,6 +312,7 @@ function initializeBlobs() {
           else if (key === 'rotation') params.rotation = parseFloat(value);
           else if (key === 'bleed') params.bleed = value === 'y' || value === 'yes' || value === 'true';
           else if (key === 'shape') params.shape = value;
+          else if (key === 'style') params.style = value;
           else if (key === 'x' || key === 'y') {
             if (!params.position) params.position = {};
             params.position[key] = parseFloat(value);

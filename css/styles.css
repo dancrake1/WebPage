@@ -5,13 +5,19 @@
   /* Warmer, lighter paper base (less grey) */
   --paper: #faeed9;  /* try #f8edd6 or #f9ecd7 for tiny shifts */
 
-  /* Blob style variables - reuse the exact style you like */
+  /* Red blob style variables */
   --blob-color: rgba(224,31,45,0.98);
   --blob-hue-opacity: 0.40;
   --blob-density-opacity: 0.60;
   --blob-burn-opacity: 0.18;
   --blob-grain-opacity: 0.24;
   --blob-grain2-opacity: 0.12;
+
+  /* White/highlight blob style variables */
+  --highlight-color: rgb(255, 255, 255);
+  --highlight-screen-opacity: 0.35;
+  --highlight-overlay-opacity: 0.25;
+  --highlight-grain-opacity: 0.08;
 
   /* Text overlay variables - darker red to compensate for normal blend mode */
   --text-overlay-color: rgba(180,25,35,1);
@@ -431,7 +437,7 @@ body{
   cursor: zoom-in;
   position: absolute;
   z-index: 2;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
   mix-blend-mode: multiply;              /* printed look */
   transition: filter .25s ease, box-shadow .25s ease, mix-blend-mode .25s ease, transform .25s ease;
   background: transparent;
@@ -741,14 +747,21 @@ width: 100%;
 height: 100%;
 }
 
-/* Two-layer recipe matching the reference (stronger background interaction) */
-.image-spot .hue-layer     { mix-blend-mode: color;      opacity: 0.40; }
-.image-spot .density-layer { mix-blend-mode: overlay;    opacity: 0.60; }
-.image-spot .burn-layer    { mix-blend-mode: color-burn; opacity: 0.18; }
+/* Red blob layers - original style */
+.image-spot .hue-layer     { mix-blend-mode: color;      opacity: var(--blob-hue-opacity); }
+.image-spot .density-layer { mix-blend-mode: overlay;    opacity: var(--blob-density-opacity); }
+.image-spot .burn-layer    { mix-blend-mode: color-burn; opacity: var(--blob-burn-opacity); }
 
 /* Add some paper-like grain inside the spot (very subtle) */
-.image-spot .grain { mix-blend-mode: multiply; opacity: 0.24; }
-.image-spot .grain2 { mix-blend-mode: multiply; opacity: 0.12; }
+.image-spot .grain { mix-blend-mode: multiply; opacity: var(--blob-grain-opacity); }
+.image-spot .grain2 { mix-blend-mode: multiply; opacity: var(--blob-grain2-opacity); }
+
+/* White/highlight blob style - brightens and lifts the image */
+.image-spot.highlight .hue-layer     { display: none; } /* No color shift for white */
+.image-spot.highlight .density-layer { mix-blend-mode: screen;  opacity: var(--highlight-screen-opacity); }
+.image-spot.highlight .burn-layer    { mix-blend-mode: overlay; opacity: var(--highlight-overlay-opacity); }
+.image-spot.highlight .grain         { mix-blend-mode: overlay; opacity: var(--highlight-grain-opacity); }
+.image-spot.highlight .grain2        { display: none; } /* Less grain for clean highlight */
 
 /* Optional: if you ever have a global blend on .book-image, neutralize it here */
 .book-image .image-spot { mix-blend-mode: unset; }
