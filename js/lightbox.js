@@ -4,6 +4,8 @@ let allImages = [];
 let currentIndex = 0;
 let isTransitioning = false;
 let openedFromIndex = false;
+let touchStartX = 0;
+let touchEndX = 0;
 
 function initLightbox() {
   const lightbox = document.getElementById('lightbox');
@@ -79,6 +81,33 @@ function initLightbox() {
       e.stopPropagation();
       closeLightbox();
     });
+  }
+
+  // Touch/swipe support for mobile
+  lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  lightbox.addEventListener('touchend', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+
+  function handleSwipe() {
+    const swipeThreshold = 50; // minimum distance for a swipe
+    const swipeDistance = touchEndX - touchStartX;
+
+    if (Math.abs(swipeDistance) < swipeThreshold) return;
+
+    if (swipeDistance > 0 && currentIndex > 0) {
+      // Swipe right - go to previous
+      navigate(currentIndex - 1);
+    } else if (swipeDistance < 0 && currentIndex < allImages.length - 1) {
+      // Swipe left - go to next
+      navigate(currentIndex + 1);
+    }
   }
 
   function openLightbox() {

@@ -902,42 +902,42 @@ background-blend-mode: multiply, normal, normal;
 /* helpful utility if you want the indent on the right for a mirrored layout */
 .ball-copy.right { --indent-side: right; }
 
-/* Mobile - disabled to test responsive scaling */
-/* @media (max-width: 768px) {
-  .hero-image-blob {
-    width: 200px;
-    aspect-ratio: 5/6;
-    right: 5%;
-    top: 15%;
-    opacity: .2;
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  /* Remove journal borders/shadows */
+  .journal-content {
+    box-shadow: none;
   }
-  .main-navigation {
-    top: 10%;
-    right: 5%;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .index-section { padding: 2rem; }
-  .index-list { font-size: 1.1rem; }
-  .book-spread {
-    flex-direction: column;
-    aspect-ratio: auto !important;
-    height: auto;
-  }
-  .page-left, .page-right {
-    width: 100%;
-    padding: 30px;
-    min-height: 50vh;
-    transform: none;
-  }
+
+  /* Hide center spine on mobile */
   .center-spine { display: none; }
 
-  .lorem-block,
-  .text-block,
-  .attribution {
-    font-size: 14px !important;
+  /* Remove page shadows */
+  .page-left::before, .page-right::before {
+    display: none;
   }
-  .section-number {
-    font-size: 32px !important;
+
+  /* Smaller lightbox thumbnails */
+  .gallery-thumb {
+    width: 50px !important;
+    height: 50px !important;
   }
-} */
+
+  .gallery-thumb.past {
+    left: 4px;
+    top: calc(10vh + (var(--position, 0) * 50px));
+    max-height: calc(80vh - 10vh - (var(--position, 0) * 50px));
+  }
+
+  .gallery-thumb.future {
+    left: calc(100% - 54px);
+    top: calc(10vh + (var(--position, 0) * 50px));
+    max-height: calc(80vh - 10vh - (var(--position, 0) * 50px));
+  }
+
+  /* Adjust border strips for smaller thumbnails */
+  .gallery-container::before,
+  .gallery-container::after {
+    width: 4px;
+  }
+}
