@@ -902,8 +902,8 @@ background-blend-mode: multiply, normal, normal;
 /* helpful utility if you want the indent on the right for a mirrored layout */
 .ball-copy.right { --indent-side: right; }
 
-/* Mobile */
-@media (max-width: 768px) {
+/* Mobile - disabled to test responsive scaling */
+/* @media (max-width: 768px) {
   .hero-image-blob {
     width: 200px;
     aspect-ratio: 5/6;
@@ -932,7 +932,6 @@ background-blend-mode: multiply, normal, normal;
   }
   .center-spine { display: none; }
 
-  /* Make text readable on mobile */
   .lorem-block,
   .text-block,
   .attribution {
@@ -941,4 +940,4 @@ background-blend-mode: multiply, normal, normal;
   .section-number {
     font-size: 32px !important;
   }
-}
+} */
