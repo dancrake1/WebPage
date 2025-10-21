@@ -904,9 +904,15 @@ background-blend-mode: multiply, normal, normal;
 
 /* Mobile optimizations */
 @media (max-width: 768px) {
-  /* Remove journal borders/shadows */
+  /* Remove all journal borders and padding */
+  .journal-wrapper {
+    padding: 0;
+  }
+
   .journal-content {
+    width: 100%;
     box-shadow: none;
+    border-radius: 0;
   }
 
   /* Hide center spine on mobile */
@@ -915,6 +921,65 @@ background-blend-mode: multiply, normal, normal;
   /* Remove page shadows */
   .page-left::before, .page-right::before {
     display: none;
+  }
+
+  /* Fix blob sizing - disable blob overflow on mobile */
+  .book-image .image-spot--bleed {
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .book-image.has-spot-bleed {
+    overflow: hidden;
+  }
+
+  .hero-image-blob.has-spot-bleed {
+    overflow: hidden;
+  }
+
+  /* Fix blob colors - ensure normal blend mode on mobile */
+  .book-image {
+    mix-blend-mode: normal !important;
+  }
+
+  .book-image img {
+    filter: none !important;
+  }
+
+  /* Index section - stack vertically */
+  .index-section {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .hero-image-blob {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin: 0 auto 2rem auto;
+    width: 80vw;
+    max-width: 300px;
+  }
+
+  .main-navigation {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-bottom: 1rem;
+  }
+
+  .index-container {
+    width: 100%;
+  }
+
+  /* Smaller index text on mobile */
+  .site-header {
+    font-size: 0.7rem;
+    margin-bottom: 1rem;
+  }
+
+  .index-list {
+    font-size: 0.9rem;
   }
 
   /* Smaller lightbox thumbnails */
