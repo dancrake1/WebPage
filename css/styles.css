@@ -958,25 +958,32 @@ background-blend-mode: multiply, normal, normal;
 
   /* Smaller lightbox thumbnails */
   .gallery-thumb {
-    width: 50px !important;
-    height: 50px !important;
+    width: 30px !important;
+    height: 30px !important;
   }
 
   .gallery-thumb.past {
-    left: 4px;
-    top: calc(10vh + (var(--position, 0) * 50px));
-    max-height: calc(80vh - 10vh - (var(--position, 0) * 50px));
+    left: 2px;
+    top: calc(5vh + (var(--position, 0) * 30px));
+    max-height: calc(90vh - 5vh - (var(--position, 0) * 30px));
   }
 
   .gallery-thumb.future {
-    left: calc(100% - 54px);
-    top: calc(10vh + (var(--position, 0) * 50px));
-    max-height: calc(80vh - 10vh - (var(--position, 0) * 50px));
+    left: calc(100% - 32px);
+    top: calc(5vh + (var(--position, 0) * 30px));
+    max-height: calc(90vh - 5vh - (var(--position, 0) * 30px));
+  }
+
+  /* Full-size main image on mobile */
+  .gallery-thumb.current {
+    width: 95vw !important;
+    height: 90vh !important;
   }
 
   /* Adjust border strips for smaller thumbnails */
   .gallery-container::before,
   .gallery-container::after {
-    width: 4px;
+    width: 2px;
+    bottom: 10vh;
   }
 }
