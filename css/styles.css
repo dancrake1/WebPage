@@ -902,8 +902,8 @@ background-blend-mode: multiply, normal, normal;
 /* helpful utility if you want the indent on the right for a mirrored layout */
 .ball-copy.right { --indent-side: right; }
 
-/* Mobile optimizations - using both max-width and orientation to catch all mobile devices */
-@media (max-width: 1600px), (orientation: portrait) {
+/* Mobile optimizations - high breakpoint to account for initial-scale=0.5 */
+@media (max-width: 1200px) {
 
   /* Index section - stack vertically */
   .index-section {
