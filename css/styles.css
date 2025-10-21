@@ -912,13 +912,13 @@ background-blend-mode: multiply, normal, normal;
   }
 
   .hero-image-blob {
-    position: relative;
-    top: 0;
-    right: 0;
-    margin: 0 0 2rem 0;
-    width: 90vw;
-    max-width: none;
-    align-self: flex-start;
+    position: relative !important;
+    top: 0 !important;
+    right: auto !important;
+    left: 0 !important;
+    margin: 0 auto 2rem auto !important;
+    width: calc(100% - 4vw) !important;
+    max-width: none !important;
   }
 
   .main-navigation {
@@ -936,10 +936,12 @@ background-blend-mode: multiply, normal, normal;
   .site-header {
     font-size: 0.5rem !important;
     margin-bottom: 0.8rem !important;
+    margin-left: 2vw;
   }
 
   .index-list {
     font-size: 0.65rem !important;
+    margin-left: 2vw;
   }
 
   .index-list li {
