@@ -911,8 +911,6 @@ background-blend-mode: multiply, normal, normal;
 
   .journal-content {
     width: 100%;
-    box-shadow: none;
-    border-radius: 0;
   }
 
   /* Hide center spine on mobile */
@@ -972,14 +970,27 @@ background-blend-mode: multiply, normal, normal;
     width: 100%;
   }
 
-  /* Smaller index text on mobile */
+  /* Smaller index text on mobile - override clamp */
   .site-header {
-    font-size: 0.7rem;
-    margin-bottom: 1rem;
+    font-size: 0.7rem !important;
+    margin-bottom: 1rem !important;
   }
 
   .index-list {
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
+  }
+
+  .index-list li {
+    margin-bottom: 0.4rem !important;
+  }
+
+  /* Position navigation above image, top-left aligned */
+  .main-navigation {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-bottom: 1rem;
+    align-self: flex-start;
   }
 
   /* Smaller lightbox thumbnails */
