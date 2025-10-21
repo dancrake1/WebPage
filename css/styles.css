@@ -903,7 +903,7 @@ background-blend-mode: multiply, normal, normal;
 .ball-copy.right { --indent-side: right; }
 
 /* Mobile optimizations */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
 
   /* Index section - stack vertically */
   .index-section {
