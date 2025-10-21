@@ -1,5 +1,8 @@
 // Main initialization - coordinates all modules
 document.addEventListener('DOMContentLoaded', function() {
+  // Automatically set aspect ratios for all spreads
+  setSpreadAspectRatios();
+
   // Initialize visual effects from visual-effects.js
   if (typeof applySpineBlending === 'function') {
     applySpineBlending();
@@ -22,6 +25,23 @@ document.addEventListener('DOMContentLoaded', function() {
   initMainNavigation();
   initSmoothScroll();
 });
+
+// Automatically set aspect ratios for all book spreads
+function setSpreadAspectRatios() {
+  const DESIGN_WIDTH = 1620; // Container width at design size
+  const DEFAULT_HEIGHT = 1400; // Default height if not specified
+
+  // Find all book spreads
+  const spreads = document.querySelectorAll('.book-spread');
+
+  spreads.forEach(spread => {
+    // Get height from data-height attribute or use default
+    const height = parseInt(spread.dataset.height) || DEFAULT_HEIGHT;
+
+    // Set aspect ratio
+    spread.style.aspectRatio = `${DESIGN_WIDTH}/${height}`;
+  });
+}
 
 function initMainNavigation() {
   const journalBtn = document.getElementById('nav-journal');

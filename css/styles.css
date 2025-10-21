@@ -289,43 +289,13 @@ body{
 }
 
 
-/* Spreads */
+/* Spreads - aspect ratios set automatically by JavaScript */
 .book-spread {
   position: relative;
   width: 100%;
   display: flex;
   background: transparent; /* paper is on journal-content */
   overflow: hidden;
-}
-
-/* Spread 1: default 1400px height */
-#spread-1 {
-  aspect-ratio: 1620/1400;
-}
-
-/* Spread 2: 3465px height */
-#spread-2 {
-  aspect-ratio: 1620/3465;
-}
-
-/* Spread 3: 2800px height */
-#spread-3 {
-  aspect-ratio: 1620/2800;
-}
-
-/* Spread 4: 3800px height */
-#spread-4 {
-  aspect-ratio: 1620/3800;
-}
-
-/* Spread 5: 3000px height */
-#spread-5 {
-  aspect-ratio: 1620/3000;
-}
-
-/* Spread 6: 3000px height */
-#spread-6 {
-  aspect-ratio: 1620/3000;
 }
 
 /* Center Spine (as before) */
